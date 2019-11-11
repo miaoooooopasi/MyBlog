@@ -18,7 +18,7 @@ public class SwaggerConfig {
     public Docket swaggerSpringMvcPlugin() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
-                .groupName("business-api")
+                //.groupName("business-api")
                 .select()
                 .paths(PathSelectors.any())
                 .apis(RequestHandlerSelectors.basePackage("com.leon.myblog.controller"))
@@ -31,11 +31,11 @@ public class SwaggerConfig {
      */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("系统 API")
-                .description("了解更多信息：http://www.baidu.com/")
-                .termsOfServiceUrl("http://blog.didispace.com/")
-                .license("License Version 1.0")
-                .contact("xx开发组")
+                .title("miaopasi的博客的api")
+                .description("博客首页：http://www.bonjours.cn/blog/")
+                //.termsOfServiceUrl("http://blog.didispace.com/")
+                //.license("License Version 1.0")
+                .contact("miaopasi")
                 .version("1.0")
                 .build();
     }

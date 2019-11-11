@@ -1,6 +1,10 @@
 package com.leon.myblog.enity;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class Category {
+
+    @ApiModelProperty(hidden = true)
     private Integer id;
 
     private String categoryname;

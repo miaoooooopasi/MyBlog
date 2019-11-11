@@ -2,8 +2,11 @@ package com.leon.myblog.controller;
 
 import com.leon.myblog.enity.Category;
 import com.leon.myblog.service.CategoryService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +26,8 @@ public class CategoryController {
      * author: leon
      * @return 1：成功  0：失败
      */
+    @ApiOperation("插入某一条分类信息")
+    @ApiImplicitParam(name = "id",  value = "插入ID", required = false, dataType = "Integer")
     @PostMapping("/insert")
     public int InsertCategory(@RequestParam("categoryname") String categoryname,@RequestParam("categoryimageid") Integer categoryimageid){
         Category category=new Category();
@@ -39,6 +44,8 @@ public class CategoryController {
      * author: leon
      * @return 1：成功  0：失败
      */
+    @ApiOperation("删除某一条分类信息")
+    @ApiImplicitParam(name = "id", value = "删除ID", required = true, dataType = "Integer")
     @DeleteMapping("/delete")
     public int DeleteCategoryById(@RequestParam("id") Integer id ){
         return categoryService.deleteCategory(id);
@@ -51,6 +58,7 @@ public class CategoryController {
      * author: leon
      * @return map
      */
+    @ApiOperation("获取所有分类信息")
     @GetMapping("/getAll")
     public List<Category> GetAllCategory(){
         //System.out.println(categoryService.getall().get(1));
@@ -67,6 +75,8 @@ public class CategoryController {
 
      * @return 1:成功 0：失败
      */
+    @ApiOperation("更新某一条分类信息")
+    @ApiImplicitParam(name = "id", value = "更新ID", required = true, dataType = "Integer")
     @PostMapping("update")
     public int update(@RequestParam("categoryname") String categoryname,@RequestParam("id") Integer id){
         Category category=categoryService.selectByID(id);
@@ -87,7 +97,8 @@ public class CategoryController {
 
      * @return
      */
-
+    @ApiOperation("获取某一条分类信息")
+    @ApiImplicitParam(name = "id", value = "分类ID", required = true, dataType = "Integer")
     @GetMapping("get")
     public Category select(@RequestParam("id") Integer id){
         return categoryService.selectByID(id);
