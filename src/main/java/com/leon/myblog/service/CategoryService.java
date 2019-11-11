@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CategoryService {
@@ -25,5 +24,14 @@ public class CategoryService {
 
     public List<Category> getall(){
         return categoryMapper.getallcategory();
+    }
+
+    public int updateBySelectInfo(Category category)
+    {
+        return categoryMapper.updateByPrimaryKey(category);
+    }
+
+    public Category selectByID(Integer id){
+        return categoryMapper.selectByPrimaryKey(id);
     }
 }

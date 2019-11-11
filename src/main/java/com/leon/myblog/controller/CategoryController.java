@@ -57,5 +57,40 @@ public class CategoryController {
         return categoryService.getall();
 
     }
+
+    /*
+     * description: 根据分类数据的ID修改该条分类数据信息
+     * version: 1.0
+     * date:   2019-11-11
+     * author: leon
+     * params:id,categoryname
+
+     * @return 1:成功 0：失败
+     */
+    @PostMapping("update")
+    public int update(@RequestParam("categoryname") String categoryname,@RequestParam("id") Integer id){
+        Category category=categoryService.selectByID(id);
+        if(category!=null)
+        {
+            category.setCategoryname(categoryname);
+        }
+
+        return categoryService.updateBySelectInfo(category);
+    }
+
+    /*
+     * description: 根据ID查询该ID分类数据
+     * version: 1.0
+     * date:   2019-11-11
+     * author: leon
+     * params:id
+
+     * @return
+     */
+
+    @GetMapping("get")
+    public Category select(@RequestParam("id") Integer id){
+        return categoryService.selectByID(id);
+    }
 }
 
