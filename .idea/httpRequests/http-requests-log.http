@@ -1,3 +1,99 @@
+GET http://localhost:8080/user/getPermisonById?id=2
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T103044.200.json
+
+###
+
+GET http://localhost:8080/user/getPermisonById?id=2
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T102910.200.json
+
+###
+
+GET http://localhost:8080/user/getPermisonById?id=2
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T102902.200.json
+
+###
+
+GET http://localhost:8080/user/getRoleById?id=2
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T102810.200.json
+
+###
+
+GET http://localhost:8080/user/getRoleById?id=2
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T102103.200.json
+
+###
+
+GET http://localhost:8080/user/getRoleById?id=1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T101921.200.json
+
+###
+
+GET http://localhost:8080/user/getRoleById?id=2
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T101913.200.json
+
+###
+
+GET http://localhost:8080/user/getRoleById?id=2
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T101612.200.json
+
+###
+
+GET http://localhost:8080/user/getRoleById?id=2
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T101522.200.json
+
+###
+
+GET http://localhost:8080/user/getRoleById?id=1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T101450.200.json
+
+###
+
+GET http://localhost:8080/user/getRoleById?id=1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T101254.200.json
+
+###
+
+GET http://localhost:8080/user/getPermisonById?id=1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-11-13T100910.200.json
+
+###
+
 GET http://localhost:8080/user/getRoleById?id=1
 Accept: */*
 Cache-Control: no-cache

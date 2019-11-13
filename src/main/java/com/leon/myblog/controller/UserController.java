@@ -4,6 +4,7 @@ package com.leon.myblog.controller;/*
  *@描述：
  */
 
+import com.leon.myblog.enity.RoleHasPermisionKey;
 import com.leon.myblog.enity.RoleHasUserKey;
 import com.leon.myblog.enity.User;
 import com.leon.myblog.service.UserService;
@@ -36,5 +37,12 @@ public class UserController {
     @GetMapping("/getRoleById")
     public List<RoleHasUserKey> getRoleById(@RequestParam("id") int id){
         return userService.getRoleByUserId(id);
+    }
+
+    @ApiOperation("根据角色ID查询对应的权限")
+    @ApiImplicitParam(name = "id", value = "角色id", required = true, dataType = "int")
+    @GetMapping("/getPermisonById")
+    public  List<RoleHasPermisionKey> getPermisonsById(@RequestParam("id") int id){
+        return userService.getPermisonsByUserId(id);
     }
 }

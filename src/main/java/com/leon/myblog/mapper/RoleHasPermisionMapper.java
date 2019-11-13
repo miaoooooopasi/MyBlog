@@ -1,6 +1,9 @@
 package com.leon.myblog.mapper;
 
 import com.leon.myblog.enity.RoleHasPermisionKey;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface RoleHasPermisionMapper {
     int deleteByPrimaryKey(RoleHasPermisionKey key);
@@ -8,4 +11,7 @@ public interface RoleHasPermisionMapper {
     int insert(RoleHasPermisionKey record);
 
     int insertSelective(RoleHasPermisionKey record);
+
+    @Select("select * from role_has_permision")
+    List<RoleHasPermisionKey> getPermisonsByRoleId(int id);
 }
