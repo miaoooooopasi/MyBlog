@@ -5,9 +5,10 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="permisonid" jdbcType="INTEGER" property="permisonid" />
     <result column="permisionname" jdbcType="VARCHAR" property="permisionname" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, permisonid, permisionname
+    id, permisonid, permisionname, url
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -20,10 +21,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.leon.myblog.enity.Permision">
-    insert into permision (id, permisonid, permisionname
-      )
-    values (#{id,jdbcType=INTEGER}, #{permisonid,jdbcType=INTEGER}, #{permisionname,jdbcType=VARCHAR}
-      )
+    insert into permision (id, permisonid, permisionname, 
+      url)
+    values (#{id,jdbcType=INTEGER}, #{permisonid,jdbcType=INTEGER}, #{permisionname,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.leon.myblog.enity.Permision">
     insert into permision
@@ -37,6 +38,9 @@
       <if test="permisionname != null">
         permisionname,
       </if>
+      <if test="url != null">
+        url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -47,6 +51,9 @@
       </if>
       <if test="permisionname != null">
         #{permisionname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -59,13 +66,17 @@
       <if test="permisionname != null">
         permisionname = #{permisionname,jdbcType=VARCHAR},
       </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.leon.myblog.enity.Permision">
     update permision
     set permisonid = #{permisonid,jdbcType=INTEGER},
-      permisionname = #{permisionname,jdbcType=VARCHAR}
+      permisionname = #{permisionname,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -11,6 +11,7 @@ spring:
     suffix: .html
     mode: LEGACYHTML5
     cache: false
+
   datasource:
     name: druidDataSource
     type: com.alibaba.druid.pool.DruidDataSource
@@ -38,4 +39,7 @@ spring:
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.leon.myblog.enity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 

@@ -4,12 +4,18 @@ package com.leon.myblog.controller;/*
  *@描述：
  */
 
+import com.leon.myblog.enity.RoleHasUserKey;
 import com.leon.myblog.enity.User;
 import com.leon.myblog.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -25,16 +31,10 @@ public class UserController {
         return userService.findByUserName(username);
     }
 
-    @PostMapping("/signup")
-    public int signuoUser(){
-        User user=new User();
-        user.setAvatarimgurl("cs");
-        user.setEmail("1429169422@qq.com");
-        user.setGender("man");
-        user.setPhone("15228390982");
-        user.setPwd("leon");
-        user.setUsername("leon");
-        user.setRoleid(1);
-        return userService.insertUser(user);
+    @ApiOperation("根据用户ID查询对应的角色")
+    @ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "int")
+    @GetMapping("/getRoleById")
+    public List<RoleHasUserKey> getRoleById(@RequestParam("id") int id){
+        return userService.getRoleByUserId(id);
     }
 }
