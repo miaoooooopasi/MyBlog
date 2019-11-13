@@ -4,8 +4,7 @@ import com.leon.myblog.enity.User;
 import com.leon.myblog.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 /**
  * @author ：leon
@@ -23,5 +22,9 @@ public class UserService {
 
     public User findByUserName(String username) {
         return userMapper.get(username);
+    }
+
+    public int insertUser(User user){
+        return userMapper.insert(user);
     }
 }

@@ -9,10 +9,7 @@ import com.leon.myblog.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -26,5 +23,18 @@ public class UserController {
     @GetMapping("get")
     public User select(@RequestParam("username") String username){
         return userService.findByUserName(username);
+    }
+
+    @PostMapping("/signup")
+    public int signuoUser(){
+        User user=new User();
+        user.setAvatarimgurl("cs");
+        user.setEmail("1429169422@qq.com");
+        user.setGender("man");
+        user.setPhone("15228390982");
+        user.setPwd("leon");
+        user.setUsername("leon");
+        user.setRoleid(1);
+        return userService.insertUser(user);
     }
 }
