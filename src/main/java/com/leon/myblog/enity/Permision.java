@@ -7,6 +7,8 @@ public class Permision {
 
     private String permisionname;
 
+    private String url;
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class Permision {
 
     public void setPermisionname(String permisionname) {
         this.permisionname = permisionname;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

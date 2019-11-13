@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * @author ：leon
- * @date ：Created in 2019-11-11 14:47
- * @description：${description}
+ * @ 作者 ：leon
+ * @ 日期 ：Created in 2019-11-11 14:47
+ * @ 描述：
  * @modified By：
- * @version: $version$
+ * @version: 1.0
  */
 @Service
 public class UserService {
