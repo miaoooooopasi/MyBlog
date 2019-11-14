@@ -1,16 +1,15 @@
 package com.leon.myblog.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.leon.myblog.enity.Category;
 import com.leon.myblog.service.CategoryService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/category")
@@ -60,9 +59,17 @@ public class CategoryController {
      */
     @ApiOperation("获取所有分类信息")
     @GetMapping("/getAll")
-    public List<Category> GetAllCategory(){
+    public PageInfo<Category> GetAllCategory(){
         //System.out.println(categoryService.getall().get(1));
-        return categoryService.getall();
+        PageHelper.startPage(1, 5);
+
+        List<Category> listKind  = categoryService.getall();//从数据库中查出所有数据
+        PageInfo<Category> pageInfo=new PageInfo(listKind,5);
+        //System.out.println("总共条数："+page.getTotal());
+        System.out.println(listKind);
+
+        //return categoryService.getall();
+        return pageInfo;
 
     }
 
