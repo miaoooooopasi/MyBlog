@@ -21,6 +21,7 @@ public class AdminController {
     public ModelAndView home(){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/admin/base.html");
+        // 母版
         return mv;
     }
 
