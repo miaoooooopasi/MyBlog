@@ -17,6 +17,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin")
 public class AdminController {
 
+    @GetMapping("/login")
+    public ModelAndView login(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/admin/login.html");
+        // 母版
+        return mv;
+    }
+
     @GetMapping("/home")
     public ModelAndView home(){
         ModelAndView mv = new ModelAndView();
@@ -24,5 +32,8 @@ public class AdminController {
         // 母版
         return mv;
     }
+
+
+
 
 }
