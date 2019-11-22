@@ -12,6 +12,6 @@ public interface RoleHasPermisionMapper {
 
     int insertSelective(RoleHasPermisionKey record);
 
-    @Select("select * from role_has_permision")
-    List<RoleHasPermisionKey> getPermisonsByRoleId(int id);
+    @Select("select * from role_has_permision where role_id=#{id}")
+    List<Integer> getPermisonsByRoleId(int id);
 }

@@ -15,5 +15,5 @@ public interface RoleHasUserMapper {
     int insertSelective(RoleHasUserKey record);
 
     @Select("select * from role_has_user where user_id=#{id}")
-    List<RoleHasUserKey> getRoleById(Integer id);
+    List<Integer> getRoleById(Integer id);
 }
