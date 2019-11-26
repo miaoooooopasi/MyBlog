@@ -23,7 +23,7 @@ public class UserController {
     private UserService userService;
 
 
-    @ApiOperation("更加用户名查询用户信息信息")
+    @ApiOperation("根据用户名查询用户信息信息")
     @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String")
     @RequiresPermissions("1010")
     @GetMapping("/get")
