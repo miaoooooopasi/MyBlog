@@ -1,13 +1,16 @@
 package com.leon.myblog.configs;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.util.ThreadContext;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import java.util.LinkedHashMap;
@@ -20,11 +23,12 @@ import java.util.Map;
  * @ modified By：
  * @ version: 1.0
  */
+
+@Configuration
 public class ShiroConfig {
 
 
-
-    @Bean(name="shiroFilter")
+    @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilterFactoryBean=new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
@@ -44,6 +48,7 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
+
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher(){
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
@@ -55,15 +60,18 @@ public class ShiroConfig {
     @Bean
     public CustomRealm customRealm() {
         CustomRealm customRealm = new CustomRealm();
-        customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        //customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return customRealm;
 
     }
 
     @Bean
-    public SecurityManager securityManager(){
-        DefaultSecurityManager defaultSecurityManager=new DefaultSecurityManager();
+    public DefaultWebSecurityManager securityManager(){
+        DefaultWebSecurityManager  defaultSecurityManager=new DefaultWebSecurityManager ();
         defaultSecurityManager.setRealm(customRealm());
+
+        //SecurityUtils.setSecurityManager(defaultSecurityManager);
+        ThreadContext.bind(defaultSecurityManager);
         return defaultSecurityManager;
     }
 
@@ -71,7 +79,7 @@ public class ShiroConfig {
 
 
     @Bean
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+    public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
     }
 
@@ -97,6 +105,13 @@ public class ShiroConfig {
         return authorizationAttributeSourceAdvisor;
     }
 
+    @Bean
+    public MethodInvokingFactoryBean methodInvokingFactoryBean() {
+        MethodInvokingFactoryBean bean = new MethodInvokingFactoryBean();
+        bean.setStaticMethod("org.apache.shiro.SecurityUtils.setSecurityManager");
+        bean.setArguments(securityManager());
+        return bean;
+    }
 
 
 }

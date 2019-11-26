@@ -2,7 +2,6 @@ package com.leon.myblog.configs;
 
 import com.leon.myblog.enity.User;
 import com.leon.myblog.service.UserService;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -23,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
-public class CustomRealm extends AuthorizingRealm {
+public class CustomRealm extends AuthorizingRealm{
 
     @Autowired
     private UserService userService;
@@ -65,15 +64,17 @@ public class CustomRealm extends AuthorizingRealm {
      */ 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        String username= (String) SecurityUtils.getSubject().getPrincipal();
-        User userInfo = userService.findByUserName(username);
+        String username= (String)authenticationToken.getPrincipal();
+        //System.out.println(username+"010");
+        User userInfo = userService.findByUserName("leon");
+       // System.out.println(userInfo+"123");
         if(userInfo == null)
         {
             return null;
         }
 
         SimpleAuthenticationInfo infos;
-        infos = new SimpleAuthenticationInfo(username,userInfo.getPwd(),userInfo.getUsername());
+        infos = new SimpleAuthenticationInfo(username,userInfo.getPwd(),getName());
 
 
         return infos;
