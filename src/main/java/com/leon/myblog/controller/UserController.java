@@ -9,11 +9,9 @@ import com.leon.myblog.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,4 +44,19 @@ public class UserController {
     public  List<Integer> getPermisonsById(@RequestParam("id") int id){
         return userService.getPermisonsByUserId(id);
     }
+
+    //@ApiOperation("插入用户")
+    //@ApiImplicitParam(name = "id", value = "角色id", required = true, dataType = "int")
+    @PostMapping("/addUser")
+    public int addUser(@RequestParam("username") String username,@RequestParam("password") String password){
+        User user=new User();
+        String newpwd = new SimpleHash("MD5", password).toHex();
+
+        user.setUsername(username);
+        user.setPwd(newpwd);
+        user.setRoleid(1);
+
+        return userService.insertUser(user);
+    }
+
 }

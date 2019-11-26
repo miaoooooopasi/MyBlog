@@ -66,7 +66,7 @@ public class CustomRealm extends AuthorizingRealm{
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username= (String)authenticationToken.getPrincipal();
         //System.out.println(username+"010");
-        User userInfo = userService.findByUserName("leon");
+        User userInfo = userService.findByUserName(username);
        // System.out.println(userInfo+"123");
         if(userInfo == null)
         {
