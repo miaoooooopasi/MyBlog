@@ -4,10 +4,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @ author ：leon
@@ -27,6 +25,7 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
         // 在认证提交前准备 token（令牌）
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        System.out.println("token:"+token);
 
         // 执行认证登陆
         try {
@@ -50,5 +49,12 @@ public class LoginController {
         }
     }
 
+    @GetMapping("/loginpage")
+    public ModelAndView loginpage(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/admin/login.html");
+        // 母版
+        return mv;
+    }
 
 }

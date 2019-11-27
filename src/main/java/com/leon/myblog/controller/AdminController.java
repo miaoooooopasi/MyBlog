@@ -21,7 +21,7 @@ public class AdminController {
     @GetMapping("/home")
     public ModelAndView home(){
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("/admin/base.html");
+        mv.setViewName("/adminStatics/base.html");
         // 母版
         return mv;
     }
