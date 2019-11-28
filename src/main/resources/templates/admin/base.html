@@ -9,11 +9,13 @@
   <title>miaoooooopasi博客后台管理</title>
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" th:href="@{/admin/plugins/fontawesome-free/css/all.min.css}" href="/static/admin/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/adminStatics/plugins/fontawesome-free/css/all.min.css}" href="/static/adminStatics/plugins/fontawesome-free/css/all.min.css">
   <!-- overlayScrollbars -->
-  <link rel="stylesheet"  th:href="@{/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}" href="/static/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet"  th:href="@{/adminStatics/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}" href="/static/adminStatics/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" th:href="@{/admin/dist/css/adminlte.min.css}" href="/static/admin/dist/css/adminlte.min.css">
+  <link rel="stylesheet" th:href="@{/adminStatics/dist/css/adminlte.min.css}" href="/static/adminStatics/dist/css/adminlte.min.css">
+  <!-- chinaMap -->
+  <link th:href="@{/css/jquery-jvectormap-2.0.3.css}" href="/static/css/jquery-jvectormap-2.0.3.css" rel="stylesheet">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -28,7 +30,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">主页</a>
+        <a href="/admin/home/" class="nav-link">主页</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">个人信息</a>
@@ -77,8 +79,8 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+    <a href="" class="brand-link">
+      <img src="/adminStatics/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">miaoooooopasi</span>
     </a>
@@ -88,9 +90,9 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="/adminStatics/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
-        <div class="info">
+        <div class="info" layout:fragment="userinfo">
           <a href="#" class="d-block">leon</a>
         </div>
       </div>
@@ -110,9 +112,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="/admin/addArticle/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>博文管理</p>
+                  <p>新增博文</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -249,28 +251,34 @@
 
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
-<script th:src="@{/admin/plugins/jquery/jquery.min.js}" src="/static/admin/plugins/jquery/jquery.min.js"></script>
+<script th:src="@{/adminStatics/plugins/jquery/jquery.min.js}" src="/static/adminStatics/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap -->
-<script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}" src="/static/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/adminStatics/plugins/bootstrap/js/bootstrap.bundle.min.js}" src="/static/adminStatics/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- overlayScrollbars -->
-<script th:src="@{/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}" src="/static/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script th:src="@{/adminStatics/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}" src="/static/adminStatics/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
-<script th:src="@{/admin/dist/js/adminlte.js}" src="/static/admin/dist/js/adminlte.js"></script>
+<script th:src="@{/adminStatics/dist/js/adminlte.js}" src="/static/adminStatics/dist/js/adminlte.js"></script>
 
 <!-- OPTIONAL SCRIPTS -->
-<script th:src="@{/admin/dist/js/demo.js}" src="/static/admin/dist/js/demo.js"></script>
+<script th:src="@{/adminStatics/dist/js/demo.js}" src="/static/adminStatics/dist/js/demo.js"></script>
 
 <!-- PAGE PLUGINS -->
 <!-- jQuery Mapael -->
-<script th:src="@{/admin/plugins/jquery-mousewheel/jquery.mousewheel.js}" src="/static/admin/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-<script th:src="@{/admin/plugins/raphael/raphael.min.js}" src="/static/admin/plugins/raphael/raphael.min.js"></script>
-<script th:src="@{/admin/plugins/jquery-mapael/jquery.mapael.min.js}" src="/static/admin/plugins/jquery-mapael/jquery.mapael.min.js"></script>
-<script th:src="@{/admin/plugins/jquery-mapael/maps/usa_states.min.js}" src="/static/admin/plugins/jquery-mapael/maps/usa_states.min.js"></script>
-<script th:src="@{/admin/dist/js/pages/dashboard2.js}" src="/static/admin/plugins/jquery-mapael/maps/cn.js"></script>
+<script th:src="@{/adminStatics/plugins/jquery-mousewheel/jquery.mousewheel.js}" src="/static/adminStatics/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+<script th:src="@{/adminStatics/plugins/raphael/raphael.min.js}" src="/static/adminStatics/plugins/raphael/raphael.min.js"></script>
+<script th:src="@{/adminStatics/plugins/jquery-mapael/jquery.mapael.min.js}" src="/static/adminStatics/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+<script th:src="@{/adminStatics/plugins/jquery-mapael/maps/usa_states.min.js}" src="/static/adminStatics/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+<script th:src="@{/adminStatics/dist/js/pages/dashboard2.js}" src="/static/adminStatics/plugins/jquery-mapael/maps/cn.js"></script>
 <!-- ChartJS -->
-<script th:src="@{/admin/plugins/chart.js/Chart.min.js}" src="/static/admin/plugins/chart.js/Chart.min.js"></script>
+<script th:src="@{/adminStatics/plugins/chart.js/Chart.min.js}" src="/static/adminStatics/plugins/chart.js/Chart.min.js"></script>
+
+<!--chinaMap-->
+<script th:src="@{/js/jquery-1.12.4.min.js}" src="/static/js/jquery-1.12.4.min.js"></script>
+<script th:src="@{/js/jquery-jvectormap-2.0.3.min.js}" src="/static/js/jquery-jvectormap-2.0.3.min.js"></script>
+<script th:src="@{/js/jquery-jvectormap-cn-mill.js}" src="/static/js/jquery-jvectormap-cn-mill.js"></script>
+<script th:src="@{/js/chinaMap.js}" src="/static/js/chinaMap.js"></script>
 
 <!-- PAGE SCRIPTS -->
-<script th:src="@{/admin/dist/js/pages/dashboard2.js}" src="/static/admin/dist/js/pages/dashboard2.js"></script>
+<script th:src="@{/adminStatics/dist/js/pages/dashboard2.js}" src="/static/adminStatics/dist/js/pages/dashboard2.js"></script>
 </body>
 </html>

@@ -8,29 +8,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" th:href="@{/admin/plugins/fontawesome-free/css/all.min.css}" href="/static/admin/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/adminStatics/plugins/fontawesome-free/css/all.min.css}" href="/static/adminStatics/plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet"  href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" th:href="@{/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css}" href="/static/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" th:href="@{/adminStatics/plugins/icheck-bootstrap/icheck-bootstrap.min.css}" href="/static/adminStatics/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" th:href="@{/admin/dist/css/adminlte.min.css}" href="/static/admin/dist/css/adminlte.min.css">
+  <link rel="stylesheet" th:href="@{/adminStatics/dist/css/adminlte.min.css}" href="/static/adminStatics/dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>管理员</b>登录</a>
+    <b>管理员</b>登录
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
 
       <pre>   </pre>
-      <form action="../../index3.html" method="post">
+      <form action="/login" method="post" enctype="application/x-www-form-urlencoded" >
         <div class="input-group mb-3">
-          <input type="" class="form-control" placeholder="用户">
+          <input type="text" id="username" name="username" class="form-control" placeholder="用户">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="密码">
+          <input type="password" id="password" name="password" class="form-control" placeholder="密码">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -68,11 +68,11 @@
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script th:src="@{/admin/plugins/jquery/jquery.min.js}" src="/static/admin/plugins/jquery/jquery.min.js"></script>
+<script th:src="@{/adminStatics/plugins/jquery/jquery.min.js}" src="/static/adminStatics/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}" src="/static/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/adminStatics/plugins/bootstrap/js/bootstrap.bundle.min.js}" src="/static/adminStatics/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script th:src="@{/admin/dist/js/adminlte.min.js}" src="/static/admin/dist/js/adminlte.min.js"></script>
+<script th:src="@{/adminStatics/dist/js/adminlte.min.js}" src="/static/adminStatics/dist/js/adminlte.min.js"></script>
 
 </body>
 </html>

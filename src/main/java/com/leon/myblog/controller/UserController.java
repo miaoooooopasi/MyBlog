@@ -45,7 +45,7 @@ public class UserController {
         return userService.getPermisonsByUserId(id);
     }
 
-    //@ApiOperation("插入用户")
+    //@ApiOperation("注册用户")
     //@ApiImplicitParam(name = "id", value = "角色id", required = true, dataType = "int")
     @PostMapping("/addUser")
     public int addUser(@RequestParam("username") String username,@RequestParam("password") String password){

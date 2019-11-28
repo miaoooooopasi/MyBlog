@@ -46,7 +46,10 @@ mybatis:
 
 
 
-
+shiro:
+  web:
+    enabled: true
+  loginUrl: /login
 
 
 
