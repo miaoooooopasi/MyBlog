@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" lang="en" layout:decorator="admin/base">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" th:href="@{/editor/css/style.css}" href="/static/editor/css/style.css" />
+        <link rel="stylesheet" th:href="@{/editor//css/editormd.css}" href="/static/editor/css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+        <script th:src="@{/editor/js/jquery.min.js}" src="/static/editor/js/jquery.min.js"></script>
+        <script th:src="@{/editor/js/editormd.min.js}" src="/static/editor/js/editormd.min.js"></script>
+
+        <script type="text/javascript">
+            var testEditor;
+
+            $(function() {
+                testEditor = editormd("test-editormd", {
+                    width   : "90%",
+                    height  : 640,
+                    syncScrolling : "single",
+                    path    : "/editor/lib/"
+                });
+            });
+        </script>
+    </head>
+    <body>
+
+        <div  layout:fragment="userinfo" >
+            <a href="#" class="d-block">
+                <p id="user-name-label" th:text="${user.username}"></p>
+            </a>
+        </div>
+
+        <div class="content-wrapper" layout:fragment="content" >
+            <div id="layout">
+                <header>
+                    <h1>Simple example</h1>
+                </header>
+                <div id="test-editormd">
+                    <textarea style="display:none;">
+				    </textarea>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
