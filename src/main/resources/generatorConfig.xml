@@ -4,9 +4,9 @@
 <generatorConfiguration>
     <!--导入属性配置 -->
     <properties resource="generator.properties"/>
-    <!-- 把路径换成自己的 -->
+    <!-- 把路径换成自己的 D:\javaee\repository\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar  D:\mavens\apache-maven-3.3.9\maven-repository\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar-->
     <classPathEntry
-            location="D:\mavens\apache-maven-3.3.9\maven-repository\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar" />
+            location="D:\javaee\repository\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar" />
     <context id="context1">
         <!-- 注释 -->
         <commentGenerator>

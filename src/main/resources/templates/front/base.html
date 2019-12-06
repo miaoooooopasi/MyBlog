@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Document</title>
+
+    <link rel="stylesheet" th:href="@{/front/layui/css/layui.css}" >
+    <link rel="stylesheet" th:href="@{/fornt/css/main.css}">
+
+</head>
+<body>
+<div class="header">
+    <div class="menu-btn">
+        <div class="menu"></div>
+    </div>
+    <h1 class="logo">
+        <a href="#">
+            <span>MYBLOG</span>
+            <img src="../res/img/logo.png">
+        </a>
+    </h1>
+    <div class="nav">
+        <a href="index.html" class="active">主页</a>
+        <a href="whisper.html">分类</a>
+        <a href="leacots.html">杂谈</a>
+        <a href="album.html">时间轴</a>
+        <a href="about.html">关于</a>
+    </div>
+    <ul class="layui-nav header-down-nav">
+        <li class="layui-nav-item"><a href="index.html" class="active">主页</a></li>
+        <li class="layui-nav-item"><a href="whisper.html">分类</a></li>
+        <li class="layui-nav-item"><a href="leacots.html">杂谈</a></li>
+        <li class="layui-nav-item"><a href="album.html">时间轴</a></li>
+        <li class="layui-nav-item"><a href="about.html">关于</a></li>
+    </ul>
+    <p class="welcome-text">
+        <span class="name">不积跬步无以至千里</span>~
+    </p>
+</div>
+
+
+<div class="content layui-container" layout:fragment="fornt_content">
+
+
+</div>
+
+
+</body>
+</html>

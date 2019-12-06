@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" lang="en" layout:decorator="front/base">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Document</title>
+
+    <link rel="stylesheet" th:href="@{/front/layui/css/layui.css}" >
+    <link rel="stylesheet" th:href="@{/fornt/css/main.css}" >
+
+</head>
+<body>
+
+
+
+<div class="content layui-container" layout:fragment="fornt_content">
+    <div class="layui-row">
+
+        <div class="layui-col-xs3">
+            <div class="grid-demo grid-demo-bg1">
+
+                <div><h3 class="card-title"> 推荐博文</h3>&nbsp</div>
+                <li></li>&nbsp
+                <div>
+
+                    <li class="layui-icon">&#xe66e;123456</li>&nbsp
+                    <li class="layui-icon">&#xe66e;1asdsad</li>&nbsp
+                    <li class="layui-icon">&#xe66e;1adasdsa</li>&nbsp
+                    <li class="layui-icon">&#xe66e;1asdsad</li>&nbsp
+                </div>
+            </div>
+
+            <div class="grid-demo grid-demo-bg1">
+
+            </div>
+        </div>
+
+        <div class="layui-col-xs9">
+            <div class="cont w1000">
+                <div class="title">
+        <span class="layui-breadcrumb" lay-separator="|    ">
+          <a href="javascript:;" class="active">Java</a>
+          <a href="javascript:;">Python</a>
+          <a href="javascript:;">其他</a>
+        </span>
+                </div>
+                <div class="list-item">
+                    <div class="item">
+                        <div class="layui-fluid">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm4 layui-col-md5">
+                                    <div class="img"><img src="../res/img/sy_img1.jpg" alt=""></div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm8 layui-col-md7">
+                                    <div class="item-cont">
+                                        <h3>空间立体效果图<button class="layui-btn layui-btn-danger new-icon">new</button></h3>
+                                        <h5>设计文章</h5>
+                                        <p>室内设计作为一门新兴的学科，尽管还只是近数十年的事氛，已存在</p>
+                                        <a href="details.html" class="go-icon"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="demo" style="text-align: center;"></div>
+</div>
+
+<script type="text/javascript" src="../res/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.config({
+        base: '../res/js/util/'
+    }).use(['element','laypage','jquery','menu'],function(){
+        element = layui.element,laypage = layui.laypage,$ = layui.$,menu = layui.menu;
+        laypage.render({
+            elem: 'demo'
+            ,count: 15 //数据总数，从服务端得到
+        });
+        menu.init();
+    })
+</script>
+</body>
+</html>

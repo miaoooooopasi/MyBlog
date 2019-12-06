@@ -1,6 +1,9 @@
 package com.leon.myblog.mapper;
 
 import com.leon.myblog.enity.Article;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface ArticleMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +19,7 @@ public interface ArticleMapper {
     int updateByPrimaryKeyWithBLOBs(Article record);
 
     int updateByPrimaryKey(Article record);
+
+    @Select("SELECT * FROM article")
+    List<Article> getAllArticle();
 }

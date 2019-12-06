@@ -1,15 +1,13 @@
 package com.leon.myblog.enity;
 
-import java.util.Date;
-
 public class Article {
     private Integer id;
 
     private String title;
 
-    private Date createtime;
+    private String createtime;
 
-    private Date modifytime;
+    private String modifytime;
 
     private Integer clicknums;
 
@@ -37,19 +35,19 @@ public class Article {
         this.title = title;
     }
 
-    public Date getCreatetime() {
+    public String getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(Date createtime) {
+    public void setCreatetime(String createtime) {
         this.createtime = createtime;
     }
 
-    public Date getModifytime() {
+    public String getModifytime() {
         return modifytime;
     }
 
-    public void setModifytime(Date modifytime) {
+    public void setModifytime(String modifytime) {
         this.modifytime = modifytime;
     }
 

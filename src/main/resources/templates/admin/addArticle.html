@@ -13,6 +13,7 @@
     <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     <script th:src="@{/editor/js/jquery.min.js}" src="/static/editor/js/jquery.min.js"></script>
     <script th:src="@{/editor/js/editormd.min.js}" src="/static/editor/js/editormd.min.js"></script>
+    <script th:src="@{/js/pushArticle.js}"></script>
     <script type="text/javascript">
         var testEditor;
 
@@ -53,36 +54,49 @@
         <div id="layout">
 
             <div class="form-group myrow">
+                <label for="name" style="height: 2em">编写博客</label>
+            </div>
+            <div class="form-group myrow">
                 <label for="name" style="height: 2em">标题：</label>
-                <input type="text" style="width:20%;height: 2em" class="form-control" placeholder="标题 ...">
+                <input type="text" id="title" name="title" style="width:20%;height: 2em" class="form-control" placeholder="标题 ...">
             </div>
 
             <div id="test-editormd">
-                    <textarea style="display:none;">
+                    <textarea id="content" name="content" style="display:none;">
 
 				    </textarea>
             </div>
 
-            <div class="form-group myrow">
-                <label for="name" style="height: 2em">日期：</label>
-                <input type="text" style="width:20%;height: 2em" class="form-control" placeholder="日期 ...">
+            <div class="form-group myrow ">
+                <label for="name" style="height: 2em" >日期：</label>
+                <input type="text" id="date" name="date" style="width:20%;height: 2em" class="form-control" placeholder="日期 ...">
             </div>
 
             <div class="form-group myrow">
                 <label for="name" style="height: 2em">封面：</label>
-                <input type="text" style="width:20%;height: 2em" class="form-control" placeholder="封面 ...">
+                <select class="form-control" style="width:20%;height: 2em"  id="image">
+
+                    <option th:each="u : ${img}">
+                        <p type="text" id="image" th:text="${u.imgname}"></p>
+                    </option>
+
+                </select>
             </div>
 
             <div class="form-group myrow">
                 <label for="name" style="height: 2em">分类：</label>
                 <select class="form-control" style="width:20%;height: 2em"  id="category">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
+
+                    <option th:each="u : ${category}">
+                        <p id="category" type="text" th:text="${u.categoryname}"></p>
+                    </option>
+
                 </select>
             </div>
 
+            <div >
+                <button type="button" onclick="pushArticle()" class="btn btn-dark" id="push">发布</button>
+            </div>
 
         </div>
     </div>

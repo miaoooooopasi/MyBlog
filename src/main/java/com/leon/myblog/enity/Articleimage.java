@@ -5,6 +5,8 @@ public class Articleimage {
 
     private String url;
 
+    private String imgname;
+
     public Integer getId() {
         return id;
     }
@@ -19,5 +21,13 @@ public class Articleimage {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getImgname() {
+        return imgname;
+    }
+
+    public void setImgname(String imgname) {
+        this.imgname = imgname;
     }
 }

@@ -34,4 +34,8 @@ public class CategoryService {
     public Category selectByID(Integer id){
         return categoryMapper.selectByPrimaryKey(id);
     }
+
+    public int getCategoryIdByCategoryname(String category){
+        return categoryMapper.getCategoryIdByCategoryname(category);
+    }
 }

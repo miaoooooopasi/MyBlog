@@ -20,4 +20,7 @@ public interface CategoryMapper {
 
     @Select("SELECT * FROM category")
     List<Category> getallcategory();
+
+    @Select("select id from category where categoryname=#{category}")
+    int getCategoryIdByCategoryname(String category);
 }

@@ -4,9 +4,10 @@
   <resultMap id="BaseResultMap" type="com.leon.myblog.enity.Articleimage">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="imgname" jdbcType="VARCHAR" property="imgname" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, url
+    id, url, imgname
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -19,8 +20,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.leon.myblog.enity.Articleimage">
-    insert into articleimage (id, url)
-    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR})
+    insert into articleimage (id, url, imgname
+      )
+    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{imgname,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.leon.myblog.enity.Articleimage">
     insert into articleimage
@@ -31,6 +34,9 @@
       <if test="url != null">
         url,
       </if>
+      <if test="imgname != null">
+        imgname,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -38,6 +44,9 @@
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="imgname != null">
+        #{imgname,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -47,12 +56,16 @@
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
       </if>
+      <if test="imgname != null">
+        imgname = #{imgname,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.leon.myblog.enity.Articleimage">
     update articleimage
-    set url = #{url,jdbcType=VARCHAR}
+    set url = #{url,jdbcType=VARCHAR},
+      imgname = #{imgname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

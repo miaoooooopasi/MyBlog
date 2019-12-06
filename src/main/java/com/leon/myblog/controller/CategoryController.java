@@ -1,7 +1,5 @@
 package com.leon.myblog.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.leon.myblog.enity.Category;
 import com.leon.myblog.service.CategoryService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -57,7 +55,7 @@ public class CategoryController {
      * author: leon
      * @return map
      */
-    @ApiOperation("获取所有分类信息")
+ /*   @ApiOperation("获取所有分类信息")
     @GetMapping("/getAll")
     public PageInfo<Category> GetAllCategory(){
         //System.out.println(categoryService.getall().get(1));
@@ -71,6 +69,11 @@ public class CategoryController {
         //return categoryService.getall();
         return pageInfo;
 
+    }*/
+
+    @GetMapping("/getAllCategory")
+    public List<Category> getAllCategory(){
+        return categoryService.getall();
     }
 
     /*
