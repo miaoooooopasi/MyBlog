@@ -7,8 +7,17 @@
     <title>Document</title>
 
     <link rel="stylesheet" th:href="@{/front/layui/css/layui.css}" >
-    <link rel="stylesheet" th:href="@{/fornt/css/main.css}">
+    <link rel="stylesheet" th:href="@{/front/css/main.css}">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
 
+    <style>
+        .col-center-block {
+            float: none;
+            display: block;
+            margin: 0 auto;
+            /* margin-left: auto; margin-right: auto; */
+        }
+    </style>
 </head>
 <body>
 <div class="header">
@@ -18,20 +27,22 @@
     <h1 class="logo">
         <a href="#">
             <span>MYBLOG</span>
-            <img src="../res/img/logo.png">
+            <img th:src="@{/front/img/logo.png}">
         </a>
     </h1>
     <div class="nav">
-        <a href="index.html" class="active">主页</a>
-        <a href="whisper.html">分类</a>
-        <a href="leacots.html">杂谈</a>
-        <a href="album.html">时间轴</a>
-        <a href="about.html">关于</a>
+        <a href="#"></a>
+        <a href="#"></a>
+        <a href="/front/home" class="active">主页</a>
+        <a href="/front/category">分类</a>
+        <a href="#">归档</a>
+        <a href="#">时间轴</a>
+        <a href="#">关于</a>
     </div>
     <ul class="layui-nav header-down-nav">
         <li class="layui-nav-item"><a href="index.html" class="active">主页</a></li>
         <li class="layui-nav-item"><a href="whisper.html">分类</a></li>
-        <li class="layui-nav-item"><a href="leacots.html">杂谈</a></li>
+        <li class="layui-nav-item"><a href="leacots.html">归档</a></li>
         <li class="layui-nav-item"><a href="album.html">时间轴</a></li>
         <li class="layui-nav-item"><a href="about.html">关于</a></li>
     </ul>

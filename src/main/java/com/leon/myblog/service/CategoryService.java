@@ -38,4 +38,6 @@ public class CategoryService {
     public int getCategoryIdByCategoryname(String category){
         return categoryMapper.getCategoryIdByCategoryname(category);
     }
+
+
 }

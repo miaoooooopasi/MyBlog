@@ -19,6 +19,25 @@ public class Article {
 
     private String content;
 
+
+    //手动添加一对一关系
+    private Articleimage articleimage;
+
+    public Articleimage getArticleimage() {
+        return articleimage;
+    }
+
+    public void setArticleimage(Articleimage articleimage) {
+        this.articleimage = articleimage;
+    }
+
+
+
+
+
+
+
+
     public Integer getId() {
         return id;
     }

@@ -38,4 +38,16 @@ public class ArticleService {
     public int updateArticle(Article article){
         return articleMapper.updateByPrimaryKeySelective(article);
     }
+
+    public List<Article> getAllArticleByCategoryid(int categoryid){
+        return articleMapper.getAllArticleByCategoryid(categoryid);
+    }
+
+    public List<Article> getTop5Article(){
+        return articleMapper.getTop5Article();
+    }
+
+    public int getCategoryidByArticleid(int id){
+        return articleMapper.getCategoryidByArticleid(id);
+    }
 }

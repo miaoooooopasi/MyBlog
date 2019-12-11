@@ -191,11 +191,21 @@
                         align: 'center',
                         footerFormatter: totalPriceFormatter
                     },{
-                        field: 'imageid',
+                        field: 'articleimage.id',
+                        title: '封面id',
+                        sortable: true,
+                        align: 'center',
+                        footerFormatter: totalPriceFormatter,
+
+                    },{
+                        field: 'articleimage.url',
                         title: '图片',
                         sortable: true,
                         align: 'center',
-                        footerFormatter: totalPriceFormatter
+                        footerFormatter: totalPriceFormatter,
+                        formatter: function (value, row, index) {
+                            return "<img style='width: 30px;height: 30px;' src='"+value+"' alt=''>"
+                        }
                     },{
                         field: 'categoryid',
                         title: '分类',

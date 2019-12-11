@@ -23,4 +23,7 @@ public interface ArticleimageMapper {
 
     @Select("select id from articleimage where imgname=#{image}")
     int getImageIdByImagename(String image);
+
+    @Select("select url from articleimage where id=#{id}")
+    String getUrlById(int id);
 }

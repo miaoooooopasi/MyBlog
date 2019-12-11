@@ -8,6 +8,9 @@
     <classPathEntry
             location="D:\javaee\repository\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar" />
     <context id="context1">
+
+
+
         <!-- 注释 -->
         <commentGenerator>
             <property name="suppressAllComments" value="true" /><!-- 是否取消注释 -->

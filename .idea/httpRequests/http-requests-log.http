@@ -1,3 +1,65 @@
+GET http://localhost:8080/front/test
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-11T033326.200.json
+
+###
+
+GET http://localhost:8080/front/test
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-11T033120.200.json
+
+###
+
+GET http://localhost:8080/front/test
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-11T032252.200.json
+
+###
+
+GET http://localhost:8080/front/test
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-11T032226.200.json
+
+###
+
+GET http://localhost:8080/front/test
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-11T031548.200.json
+
+###
+
+GET http://localhost:8080/front/test
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-11T025437.200.json
+
+###
+
+GET http://localhost:8080/front/test
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+GET http://localhost:8080/front/category?username=leon1&password=leon#1010
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-09T014233.200.html
+
+###
+
 GET http://localhost:8080/admin/listArticle?username=leon1&password=leon#1010
 Accept: */*
 Cache-Control: no-cache
@@ -325,66 +387,6 @@ Accept: */*
 Cache-Control: no-cache
 
 <> 2019-11-26T124238.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T124202.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T124121.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T112435.200.txt
-
-###
-
-POST http://localhost:8080/logon?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-###
-
-POST http://localhost:8080/logon?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T102557.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T101741.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T101715.200.txt
 
 ###
 

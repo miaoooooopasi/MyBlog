@@ -81,7 +81,7 @@ public class AdminController {
         mv.addObject("user",user);
         //mv.addObject("articleList",articleService.getAllArticle());
         mv.setViewName("/admin/manageArticle.html");
-        System.out.println("1111111");
+        //System.out.println("1111111");
         return mv;
     }
 

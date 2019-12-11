@@ -6,8 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Document</title>
 
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/front/layui/css/layui.css}" >
-    <link rel="stylesheet" th:href="@{/fornt/css/main.css}" >
+    <link rel="stylesheet" th:href="@{/front/css/main.css}" >
+    <script type="text/javascript" th:src="@{/front/layui/layuis.js}"></script>
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
 </head>
 <body>
@@ -20,14 +27,18 @@
         <div class="layui-col-xs3">
             <div class="grid-demo grid-demo-bg1">
 
-                <div><h3 class="card-title"> 推荐博文</h3>&nbsp</div>
+                <div><h4 class="card-title"> 推荐博文</h4>&nbsp</div>
                 <li></li>&nbsp
-                <div>
+                <div th:each="article:${top5Article}">
 
-                    <li class="layui-icon">&#xe66e;123456</li>&nbsp
-                    <li class="layui-icon">&#xe66e;1asdsad</li>&nbsp
-                    <li class="layui-icon">&#xe66e;1adasdsa</li>&nbsp
-                    <li class="layui-icon">&#xe66e;1asdsad</li>&nbsp
+                    <li class="layui-icon" >&#xe66e;
+                        <a     class="text-dark"
+                                th:href="@{'/front/detail?id='+${article.id}}"
+                                th:text="${article.title}">
+
+                        </a>
+                    </li>&nbsp
+
                 </div>
             </div>
 
@@ -38,52 +49,68 @@
 
         <div class="layui-col-xs9">
             <div class="cont w1000">
-                <div class="title">
-        <span class="layui-breadcrumb" lay-separator="|    ">
-          <a href="javascript:;" class="active">Java</a>
-          <a href="javascript:;">Python</a>
-          <a href="javascript:;">其他</a>
-        </span>
-                </div>
+
                 <div class="list-item">
-                    <div class="item">
+                    <div class="item" th:each="p:${pageInfo.list}">
                         <div class="layui-fluid">
-                            <div class="layui-row">
+                            <div class="layui-row" >
                                 <div class="layui-col-xs12 layui-col-sm4 layui-col-md5">
-                                    <div class="img"><img src="../res/img/sy_img1.jpg" alt=""></div>
+                                    <div class="img"><img  th:src="@{/front/img/sy_img1.jpg}"  alt=""></div>
                                 </div>
-                                <div class="layui-col-xs12 layui-col-sm8 layui-col-md7">
+                                <div  class="layui-col-xs12 layui-col-sm8 layui-col-md7">
+
                                     <div class="item-cont">
-                                        <h3>空间立体效果图<button class="layui-btn layui-btn-danger new-icon">new</button></h3>
-                                        <h5>设计文章</h5>
-                                        <p>室内设计作为一门新兴的学科，尽管还只是近数十年的事氛，已存在</p>
-                                        <a href="details.html" class="go-icon"></a>
+                                        <h3 th:text="${p.title}">空间立体效果图</h3>
+                                        <p th:text="${p.content}">室内设计作为一门新兴的学科，尽管内设计作为一门新兴的学科，尽内设计作为一门新兴的学科，尽内设计作为一门新兴的学科，尽还只是近数十年的事氛，已存在</p>
+                                        <a href="#" class="go-icon"></a>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
+
+        </div>
+    </div>
+    <!--分页处-->
+    <!-- 分页条信息 -->
+    <div style="text-align: center;">
+        <div class="">
+            <ul class="pagination">
+                <li th:if="${pageInfo.hasPreviousPage}">
+                    <a      class="page-link text-dark"
+                            th:href="@{'/front/home?pageNum='+${pageInfo.prePage}}"
+                            aria-label="Previous"> <i class="fa fa-angle-left"></i>&nbsp;上一页
+                    </a>
+                </li>
+
+                <th:block th:each="nav : ${pageInfo.navigatepageNums}">
+                    <li
+                            th:class=" ${nav==pageInfo.pageNum}?'active':' '"><a class="text-dark"
+                            th:href="@{'/front/home?pageNum='+${nav}}"
+                            th:text="${nav}"></a></li>
+                </th:block>
+
+                <th:block th:if="${pageInfo.hasNextPage}">
+                    <li>
+                        <a  class="page-link text-dark"
+                                th:href="@{'/front/home?pageNum='+${pageInfo.nextPage}}"
+                                aria-label="Next"> 下一页&nbsp;<i class="fa fa-angle-right"></i>
+                        </a>
+                    </li>
+                </th:block>
+
+
+            </ul>
         </div>
     </div>
 
-    <div id="demo" style="text-align: center;"></div>
 </div>
 
-<script type="text/javascript" src="../res/layui/layui.js"></script>
-<script type="text/javascript">
-    layui.config({
-        base: '../res/js/util/'
-    }).use(['element','laypage','jquery','menu'],function(){
-        element = layui.element,laypage = layui.laypage,$ = layui.$,menu = layui.menu;
-        laypage.render({
-            elem: 'demo'
-            ,count: 15 //数据总数，从服务端得到
-        });
-        menu.init();
-    })
-</script>
+
+
+
 </body>
 </html>
