@@ -1,3 +1,105 @@
+GET http://localhost:8080/actuator/env
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T024617.200.txt
+
+###
+
+GET http://localhost:8080/actuator/info
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T024611.200.txt
+
+###
+
+GET http://localhost:8080/actuator/info
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T024511.200.txt
+
+###
+
+GET http://localhost:8080/actuator/health
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T024458.503.txt
+
+###
+
+GET http://localhost:8080/actuator/health
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T024409.200.html
+
+###
+
+GET http://localhost:8080/actuator
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T024357.200.txt
+
+###
+
+GET http://localhost:8080/autoconfig
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T024110.404.json
+
+###
+
+GET http://localhost:8080/metrics
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T023912.404.json
+
+###
+
+GET http://localhost:8080/actuator
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T023904.200.html
+
+###
+
+GET http://localhost:8080/env
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T023751.404.json
+
+###
+
+GET http://localhost:8080/autoconfig
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T023655.404.json
+
+###
+
+GET http://localhost:8080/autoconfig
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-12-12T023413.200.html
+
+###
+
+GET http://localhost:8080/front/test
+Accept: */*
+Cache-Control: no-cache
+
+###
+
 GET http://localhost:8080/front/test
 Accept: */*
 Cache-Control: no-cache
@@ -285,108 +387,6 @@ Accept: */*
 Cache-Control: no-cache
 
 <> 2019-11-26T051954.200.txt
-
-###
-
-POST http://localhost:8080/user/addUser?username=test1&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T051817.200.json
-
-###
-
-POST http://localhost:8080/user/addUser?username=test1&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T051410.500.json
-
-###
-
-POST http://localhost:8080/user/addUser?username=test1&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T015152.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T125534.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#10101
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T125524.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T125454.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T125201.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T125132.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T124900.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T124555.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T124438.200.txt
-
-###
-
-POST http://localhost:8080/login?username=leon&password=leon#1010
-Accept: */*
-Cache-Control: no-cache
-
-<> 2019-11-26T124238.200.txt
 
 ###
 

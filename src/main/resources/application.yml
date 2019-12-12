@@ -12,6 +12,12 @@ spring:
     mode: LEGACYHTML5
     cache: false
 
+  mail:
+    host: smtp.qq.com
+    username: 1429169422@qq.com
+    password: tjsbulmayrlnjefg
+    default-encoding: UTF-8
+
   datasource:
     name: druidDataSource
     type: com.alibaba.druid.pool.DruidDataSource
@@ -52,4 +58,17 @@ shiro:
   loginUrl: /login
 
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  server:
+    port: 8080
+    servlet:
+      context-path: /
+    ssl:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always

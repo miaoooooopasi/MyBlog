@@ -1,13 +1,10 @@
 package com.leon.myblog.controller;
 
-import com.leon.myblog.enity.Article;
-import com.leon.myblog.service.TestService;
+import com.leon.myblog.service.SendMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author ：leon
@@ -22,10 +19,16 @@ import java.util.List;
 public class TestController {
 
     @Autowired
-    private TestService testService;
+    private SendMailService sendMailService;
 
     @GetMapping("/test")
-    public List<Article> test(){
-        return testService.test();
+    public void test(){
+
+        String to="1429169422@qq.com";
+        String subject="123";
+        String content="content";
+
+        sendMailService.sendSimpleMail(to, subject, content);
+
     }
 }
