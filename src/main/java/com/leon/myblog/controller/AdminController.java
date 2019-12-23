@@ -1,16 +1,22 @@
 package com.leon.myblog.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leon.myblog.enity.Article;
 import com.leon.myblog.enity.User;
 import com.leon.myblog.service.ArticleService;
 import com.leon.myblog.service.ArticleimageService;
 import com.leon.myblog.service.CategoryService;
 import com.leon.myblog.service.UserService;
+import com.leon.myblog.utils.QiniuUploadFileServiceImpl;
+import com.qiniu.http.Response;
+import com.qiniu.storage.model.DefaultPutRet;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +43,13 @@ public class AdminController {
 
     @Autowired
     private ArticleimageService articleimageService;
+
+    @Autowired
+    private QiniuUploadFileServiceImpl qiniuUploadFileService;
+
+    @Autowired
+    private ObjectMapper mapper;
+
 
     @GetMapping("/home")
     public ModelAndView home(){
@@ -138,6 +151,36 @@ public class AdminController {
         else {
             return 0;
         }
+    }
+
+
+
+    @PostMapping("/uploadImg")
+    public String uploadImg(@RequestParam("file") MultipartFile file){
+
+        try {
+            Response response = qiniuUploadFileService.uploadFile(file.getInputStream());
+            DefaultPutRet putRet = mapper.readValue(response.bodyString(), DefaultPutRet.class);
+            String filename = putRet.key;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "ok";
+
+    }
+
+
+    @GetMapping("/getUploadImg")
+    public ModelAndView dss(){
+        String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
+        ModelAndView mv = new ModelAndView();
+        User user=userService.findByUserName(currentUser);
+        mv.addObject("user",user);
+
+        mv.setViewName("/admin/uploadFile.html");
+        return mv;
     }
 
 }

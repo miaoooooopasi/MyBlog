@@ -1,10 +1,14 @@
 package com.leon.myblog.controller;
 
+import com.leon.myblog.enity.Category;
+import com.leon.myblog.service.CategoryService;
 import com.leon.myblog.service.SendMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author ：leon
@@ -21,6 +25,9 @@ public class TestController {
     @Autowired
     private SendMailService sendMailService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("/test")
     public void test(){
 
@@ -30,5 +37,10 @@ public class TestController {
 
         sendMailService.sendSimpleMail(to, subject, content);
 
+    }
+
+    @GetMapping("/tt")
+    public List<Category> tt(){
+        return  categoryService.getall();
     }
 }

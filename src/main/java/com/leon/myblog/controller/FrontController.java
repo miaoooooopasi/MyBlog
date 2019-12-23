@@ -15,13 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-/**
- * @author ：leon
- * @date ：Created in 2019-12-06 15:13
- * @description：${description}
- * @modified By：
- * @version: $version$
- */
 
 @RestController
 @RequestMapping("/front")
@@ -32,6 +25,9 @@ public class FrontController {
 
     @Autowired
     private ArticleService articleService;
+
+
+
 
     @GetMapping("/homes")
     public ModelAndView home(){
@@ -46,7 +42,9 @@ public class FrontController {
         Article article=articleService.getArticleById(id);
         ModelAndView mv=new ModelAndView();
         mv.addObject("article",article);
-
+        int categoryid=articleService.getCategoryidByArticleid(id);
+        Category category=categoryService.selectByID(categoryid);
+        mv.addObject("category",category);
         mv.setViewName("/front/detail.html");
         return mv;
     }
@@ -92,5 +90,7 @@ public class FrontController {
         return mv;
 
     }
+
+
 
 }
