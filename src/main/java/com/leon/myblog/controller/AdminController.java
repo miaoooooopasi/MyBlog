@@ -77,7 +77,7 @@ public class AdminController {
 
     @GetMapping("/listArticle")
     public Map<String, Object> getAllArticle(){
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         Map<String,Object> resultMap = new HashMap();
         resultMap.put("rows",articleService.getAllArticle());
         resultMap.put("total",articleService.getAllArticle().size());
@@ -92,10 +92,33 @@ public class AdminController {
         ModelAndView mv = new ModelAndView();
         User user=userService.findByUserName(currentUser);
         mv.addObject("user",user);
-        //mv.addObject("articleList",articleService.getAllArticle());
+
         mv.setViewName("/admin/manageArticle.html");
-        //System.out.println("1111111");
+
         return mv;
+    }
+
+
+    @GetMapping("/articleImageManager")
+    public ModelAndView getAllArticleImages(){
+        String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
+        ModelAndView mv = new ModelAndView();
+        User user=userService.findByUserName(currentUser);
+        mv.addObject("user",user);
+
+        mv.setViewName("/admin/manageArticleImage.html");
+
+        return mv;
+    }
+
+    @GetMapping("/listImageManager")
+    public Map<String, Object> getAllArticleImage(){
+        Map<String,Object> resultMap = new HashMap();
+        resultMap.put("rows",articleimageService.getAllImages());
+        resultMap.put("total",articleimageService.getAllImages().size());
+        resultMap.put("totalNotFiltered",resultMap.size());
+
+        return resultMap;
     }
 
     @GetMapping("/editeArticle/{id}")

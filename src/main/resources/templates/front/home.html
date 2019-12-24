@@ -55,13 +55,19 @@
                         <div class="layui-fluid">
                             <div class="layui-row" >
                                 <div class="layui-col-xs12 layui-col-sm4 layui-col-md5">
-                                    <div class="img"><img  th:src="@{/front/img/sy_img1.jpg}"  alt=""></div>
+                                    <div class="img"><img  th:src="@{${p.articleimage.url}}" height="195" width="280" alt=""></div>
                                 </div>
                                 <div  class="layui-col-xs12 layui-col-sm8 layui-col-md7">
 
                                     <div class="item-cont">
-                                        <h3 th:text="${p.title}">空间立体效果图</h3>
-                                        <p th:text="${p.content}">室内设计作为一门新兴的学科，尽管内设计作为一门新兴的学科，尽内设计作为一门新兴的学科，尽内设计作为一门新兴的学科，尽还只是近数十年的事氛，已存在</p>
+                                        <h3>
+                                        <a     class="text-dark"
+                                               th:href="@{'/front/detail?id='+${p.id}}"
+                                               th:text="${p.title}">
+
+                                        </a>
+                                        </h3>
+                                        <p th:text="${p.content}"></p>
                                         <a href="#" class="go-icon"></a>
                                     </div>
 
