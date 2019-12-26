@@ -22,33 +22,12 @@
 
 
 <div class="content layui-container" layout:fragment="fornt_content">
-    <div class="layui-row">
+    <div class="layui-row content whisper-content">
 
-        <div class="layui-col-xs3">
-            <div class="grid-demo grid-demo-bg1">
 
-                <div><h4 class="card-title"> 推荐博文</h4>&nbsp</div>
-                <li></li>&nbsp
-                <div th:each="article:${top5Article}">
 
-                    <li class="layui-icon" >&#xe66e;
-                        <a     class="text-dark"
-                                th:href="@{'/front/detail?id='+${article.id}}"
-                                th:text="${article.title}">
-
-                        </a>
-                    </li>&nbsp
-
-                </div>
-            </div>
-
-            <div class="grid-demo grid-demo-bg1">
-
-            </div>
-        </div>
-
-        <div class="layui-col-xs9">
-            <div class="cont w1000">
+        <div class="layui-col-xs12">
+            <div class="cont w-100">
 
                 <div class="list-item">
                     <div class="item" th:each="p:${pageInfo.list}">
@@ -61,11 +40,11 @@
 
                                     <div class="item-cont">
                                         <h3>
-                                        <a     class="text-dark"
-                                               th:href="@{'/front/detail?id='+${p.id}}"
-                                               th:text="${p.title}">
+                                            <a     class="text-dark"
+                                                   th:href="@{'/front/detail?id='+${p.id}}"
+                                                   th:text="${p.title}">
 
-                                        </a>
+                                            </a>
                                         </h3>
                                         <p th:text="${p.content}"></p>
                                         <a href="#" class="go-icon"></a>
@@ -83,21 +62,22 @@
     <!--分页处-->
     <!-- 分页条信息 -->
     <div style="text-align: center;">
-        <div class="">
+        <div class="" >
             <ul class="pagination">
-                <li th:if="${pageInfo.hasPreviousPage}">
+                <li th:if="${pageInfo.hasPreviousPage}" >
                     <a      class="page-link text-dark"
-                            th:href="@{'/front/home?pageNum='+${pageInfo.prePage}}"
+                            th:each="p:${pageInfo.list}"
+                            th:href="@{/front/categoryDetail(pageNum=${pageInfo.prePage},categoryid=${p.categoryid})}"
                             aria-label="Previous"> <i class="fa fa-angle-left"></i>&nbsp;上一页
                     </a>
                 </li>
 
                 <th:block th:each="nav : ${pageInfo.navigatepageNums}">
-                    <li
-                            th:class=" ${nav==pageInfo.pageNum}?'active':' '">
+                    <li th:class=" ${nav==pageInfo.pageNum}?'active':' '">
                         <a class="text-dark"
-                            th:href="@{'/front/home?pageNum='+${nav}}"
-                            th:text="${nav}">
+                           th:each="p:${pageInfo.list}"
+                           th:href="@{/front/categoryDetail(pageNum=${nav},categoryid=${p.categoryid})}"
+                           th:text="${nav}">
                         </a>
                     </li>
                 </th:block>
@@ -105,8 +85,9 @@
                 <th:block th:if="${pageInfo.hasNextPage}">
                     <li>
                         <a  class="page-link text-dark"
-                                th:href="@{'/front/home?pageNum='+${pageInfo.nextPage}}"
-                                aria-label="Next"> 下一页&nbsp;<i class="fa fa-angle-right"></i>
+                            th:each="p:${pageInfo.list}"
+                            th:href="@{/front/categoryDetail(pageNum=${pageInfo.nextPage},categoryid=${p.categoryid})}"
+                            aria-label="Next"> 下一页&nbsp;<i class="fa fa-angle-right"></i>
                         </a>
                     </li>
                 </th:block>

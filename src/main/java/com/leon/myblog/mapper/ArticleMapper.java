@@ -32,6 +32,11 @@ public interface ArticleMapper {
     List<Article> getAllArticle();
 
     @Select("SELECT * FROM article where categoryid=#{categoryid}")
+    @Results({
+            @Result(property = "articleimage",column = "imageid",
+                    one=@One(select = "com.leon.myblog.mapper.ArticleimageMapper.selectByPrimaryKey")
+            )
+    })
     List<Article> getAllArticleByCategoryid(Integer categoryid);
 
     @Select("select * from article order by clicknums limit 5")

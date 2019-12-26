@@ -62,7 +62,7 @@ public class FrontController {
 
     @GetMapping("/home")
     public ModelAndView home(@RequestParam(defaultValue = "1") Integer pageNum,
-                                         @RequestParam(defaultValue = "2") Integer pageSize){
+                                         @RequestParam(defaultValue = "4") Integer pageSize){
 
         //int categoryid=categoryService.getCategoryIdByCategoryname(category);
 
@@ -89,6 +89,23 @@ public class FrontController {
 
         return mv;
 
+    }
+
+    @GetMapping("/categoryDetail")
+    public ModelAndView getCategoryDetail(@RequestParam(defaultValue = "1") Integer pageNum,
+                                          @RequestParam(defaultValue = "3") Integer pageSize,
+                                          @RequestParam("categoryid") Integer categoryid){
+        ModelAndView mv = new ModelAndView();
+
+        //引入分页查询，使用PageHelper分页功能在查询之前传入当前页，然后多少记录
+        PageHelper.startPage(pageNum, pageSize);
+        List<Article> articles=articleService.getAllArticleByCategoryid(categoryid);
+        //使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
+        PageInfo pageInfo = new PageInfo<Article>(articles, pageSize);
+        System.out.println(pageInfo.getList());
+        mv.addObject("pageInfo",pageInfo);
+        mv.setViewName("/front/categoryDetail.html");
+        return mv;
     }
 
 
