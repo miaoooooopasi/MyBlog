@@ -11,6 +11,7 @@ import com.leon.myblog.utils.QiniuUploadFileServiceImpl;
 import com.qiniu.http.Response;
 import com.qiniu.storage.model.DefaultPutRet;
 import org.apache.shiro.SecurityUtils;
+import org.pegdown.PegDownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -139,9 +140,13 @@ public class AdminController {
                              @RequestParam("pushdate") String pushdate, @RequestParam("image") String image,
                              @RequestParam("category") String category,@RequestParam("id") int id){
 
+        PegDownProcessor  peg=new PegDownProcessor();
+        String new_content=peg.markdownToHtml(content);
+        System.out.println("123123:"+new_content);
+
         Article article=new Article();
         article.setTitle(title);
-        article.setContent(content);
+        article.setContent(new_content);
         article.setCreatetime(pushdate);
         article.setId(id);
         System.out.println(category+image);
@@ -157,9 +162,11 @@ public class AdminController {
                              @RequestParam("pushdate") String pushdate, @RequestParam("image") String image,
                              @RequestParam("category") String category){
 
+        PegDownProcessor  peg=new PegDownProcessor();
+        String new_content=peg.markdownToHtml(content);
         Article article=new Article();
         article.setTitle(title);
-        article.setContent(content);
+        article.setContent(new_content);
         article.setClicknums(0);
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
         ModelAndView mv = new ModelAndView();

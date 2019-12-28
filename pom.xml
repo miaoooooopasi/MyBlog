@@ -224,6 +224,14 @@
             <artifactId>pagehelper</artifactId>
             <version>5.1.4</version>
         </dependency>
+
+        <!-- markdown -->
+        <dependency>
+            <groupId>org.pegdown</groupId>
+            <artifactId>pegdown</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -4,8 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.leon.myblog.enity.Article;
 import com.leon.myblog.enity.Category;
+import com.leon.myblog.enity.Timeaxi;
 import com.leon.myblog.service.ArticleService;
 import com.leon.myblog.service.CategoryService;
+import com.leon.myblog.service.TimelineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,9 @@ public class FrontController {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private TimelineService timelineService;
 
 
 
@@ -60,7 +65,7 @@ public class FrontController {
 
     }
 
-    @GetMapping("/home")
+    @GetMapping(value={"","/homes"})
     public ModelAndView home(@RequestParam(defaultValue = "1") Integer pageNum,
                                          @RequestParam(defaultValue = "4") Integer pageSize){
 
@@ -108,6 +113,16 @@ public class FrontController {
         return mv;
     }
 
+    @GetMapping("/timeline")
+    public ModelAndView getTimeline(){
 
+        ModelAndView mv=new ModelAndView();
+
+        List<Timeaxi> timeaxis =timelineService.getAllTimeline();
+        mv.addObject("timeaxis",timeaxis);
+        mv.setViewName("/front/timeline.html");
+        return mv;
+
+    }
 
 }
