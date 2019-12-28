@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Document</title>
+    <title>博文详情</title>
 
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/front/layui/css/layui.css}" >
@@ -12,7 +12,6 @@
     <script type="text/javascript" th:src="@{/front/layui/layuis.js}"></script>
 
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-
 
 
 </head>
@@ -36,7 +35,7 @@
                                             <h3 th:text="${article.title}" ></h3>
                                             <p class="cont-info"><span class="data" th:text="${article.createtime}">2018/08/08</span><span class="types" th:text="${category.categoryname}">散文札记</span></p>
                                         </div>
-                                        <p th:text="${article.content}"></p>
+                                        <p th:utext="${article.content}" id="content"></p>
 
                                         <div class="btn-box">
                                             <button  class="layui-btn layui-btn-primary"><a th:href="@{'/front/detail?id='+${article.id-1}}">上一篇</a></button>
