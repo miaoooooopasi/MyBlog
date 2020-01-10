@@ -8,6 +8,7 @@ import com.leon.myblog.enity.Timeaxi;
 import com.leon.myblog.service.ArticleService;
 import com.leon.myblog.service.CategoryService;
 import com.leon.myblog.service.TimelineService;
+import org.pegdown.PegDownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,7 @@ public class FrontController {
     @GetMapping("/homes")
     public ModelAndView home(){
         ModelAndView mv =new ModelAndView();
-        mv.setViewName("/front/home.html");
+        mv.setViewName("front/home.html");
         return mv;
     }
 
@@ -45,12 +46,19 @@ public class FrontController {
     public ModelAndView detail(@RequestParam("id") Integer id)
     {
         Article article=articleService.getArticleById(id);
+
+        String content = article.getContent();
+
+        PegDownProcessor peg=new PegDownProcessor();
+        String new_content=peg.markdownToHtml(content);
+        article.setContent(new_content);
+
         ModelAndView mv=new ModelAndView();
         mv.addObject("article",article);
         int categoryid=articleService.getCategoryidByArticleid(id);
         Category category=categoryService.selectByID(categoryid);
         mv.addObject("category",category);
-        mv.setViewName("/front/detail.html");
+        mv.setViewName("front/detail.html");
         return mv;
     }
 
@@ -60,12 +68,12 @@ public class FrontController {
         ModelAndView mv=new ModelAndView();
         List<Category> categories=categoryService.getall();
         mv.addObject("category",categories);
-        mv.setViewName("/front/category.html");
+        mv.setViewName("front/category.html");
         return mv;
 
     }
 
-    @GetMapping(value={"","/homes"})
+    @GetMapping(value={"","/home"})
     public ModelAndView home(@RequestParam(defaultValue = "1") Integer pageNum,
                                          @RequestParam(defaultValue = "4") Integer pageSize){
 
@@ -90,7 +98,7 @@ public class FrontController {
         //是否是最后一页
         mv.addObject("isLastPage", pageInfo.isIsLastPage());
         mv.addObject("top5Article",top5Article);
-        mv.setViewName("/front/home.html");
+        mv.setViewName("front/home.html");
 
         return mv;
 
@@ -109,7 +117,7 @@ public class FrontController {
         PageInfo pageInfo = new PageInfo<Article>(articles, pageSize);
         System.out.println(pageInfo.getList());
         mv.addObject("pageInfo",pageInfo);
-        mv.setViewName("/front/categoryDetail.html");
+        mv.setViewName("front/categoryDetail.html");
         return mv;
     }
 
@@ -120,7 +128,7 @@ public class FrontController {
 
         List<Timeaxi> timeaxis =timelineService.getAllTimeline();
         mv.addObject("timeaxis",timeaxis);
-        mv.setViewName("/front/timeline.html");
+        mv.setViewName("front/timeline.html");
         return mv;
 
     }

@@ -11,7 +11,6 @@ import com.leon.myblog.utils.QiniuUploadFileServiceImpl;
 import com.qiniu.http.Response;
 import com.qiniu.storage.model.DefaultPutRet;
 import org.apache.shiro.SecurityUtils;
-import org.pegdown.PegDownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,7 +59,7 @@ public class AdminController {
         ModelAndView mv = new ModelAndView();
         User user=userService.findByUserName(currentUser);
         mv.addObject("user",user);
-        mv.setViewName("/admin/home.html");
+        mv.setViewName("admin/home.html");
         return mv;
     }
 
@@ -72,7 +71,7 @@ public class AdminController {
         mv.addObject("user",user);
         mv.addObject("category",categoryService.getall());
         mv.addObject("img",articleimageService.getAllImages());
-        mv.setViewName("/admin/addArticle.html");
+        mv.setViewName("admin/addArticle.html");
         return mv;
     }
 
@@ -94,7 +93,7 @@ public class AdminController {
         User user=userService.findByUserName(currentUser);
         mv.addObject("user",user);
 
-        mv.setViewName("/admin/manageArticle.html");
+        mv.setViewName("admin/manageArticle.html");
 
         return mv;
     }
@@ -107,7 +106,7 @@ public class AdminController {
         User user=userService.findByUserName(currentUser);
         mv.addObject("user",user);
 
-        mv.setViewName("/admin/manageArticleImage.html");
+        mv.setViewName("admin/manageArticleImage.html");
 
         return mv;
     }
@@ -131,7 +130,7 @@ public class AdminController {
         mv.addObject("articleDetail",articleService.getArticleById(id));
         mv.addObject("category",categoryService.getall());
         mv.addObject("img",articleimageService.getAllImages());
-        mv.setViewName("/admin/editeArticle.html");
+        mv.setViewName("admin/editeArticle.html");
         return mv;
     }
 
@@ -140,13 +139,9 @@ public class AdminController {
                              @RequestParam("pushdate") String pushdate, @RequestParam("image") String image,
                              @RequestParam("category") String category,@RequestParam("id") int id){
 
-        PegDownProcessor  peg=new PegDownProcessor();
-        String new_content=peg.markdownToHtml(content);
-        System.out.println("123123:"+new_content);
-
         Article article=new Article();
         article.setTitle(title);
-        article.setContent(new_content);
+        article.setContent(content);
         article.setCreatetime(pushdate);
         article.setId(id);
         System.out.println(category+image);
@@ -162,11 +157,12 @@ public class AdminController {
                              @RequestParam("pushdate") String pushdate, @RequestParam("image") String image,
                              @RequestParam("category") String category){
 
-        PegDownProcessor  peg=new PegDownProcessor();
-        String new_content=peg.markdownToHtml(content);
+        //PegDownProcessor  peg=new PegDownProcessor();
+        //String new_content=peg.markdownToHtml(content);
+
         Article article=new Article();
         article.setTitle(title);
-        article.setContent(new_content);
+        article.setContent(content);
         article.setClicknums(0);
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
         ModelAndView mv = new ModelAndView();
@@ -209,7 +205,7 @@ public class AdminController {
         User user=userService.findByUserName(currentUser);
         mv.addObject("user",user);
 
-        mv.setViewName("/admin/uploadFile.html");
+        mv.setViewName("admin/uploadFile.html");
         return mv;
     }
 
