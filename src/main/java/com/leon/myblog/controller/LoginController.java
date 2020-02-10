@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @ author ：leon
  * @ date ：Created in 2019-11-21 17:03
@@ -26,7 +29,10 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public ModelAndView login(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public Map<String,Object> login(@RequestParam("username") String username, @RequestParam("password") String password) {
+
+        Map<String, Object> resultMap = new HashMap<>();
+
         // 从SecurityUtils里边创建一个 subject
         Subject subject = SecurityUtils.getSubject();
         // 在认证提交前准备 token（令牌）
@@ -39,49 +45,43 @@ public class LoginController {
         try {
             subject.login(token);
         } catch (UnknownAccountException uae) {
-            mv.setViewName("admin/unauth.html");
-            mv.addObject("code","510");
-            mv.addObject("message","未知账户");
-            return mv;
+            resultMap.put("code","510");
+            resultMap.put("message","未知账户");
+            return resultMap;
             //return "未知账户";
         } catch (IncorrectCredentialsException ice) {
-            mv.setViewName("admin/unauth.html");
-            mv.addObject("code","509");
-            mv.addObject("message","密码不正确");
-            return mv;
+            resultMap.put("code","509");
+            resultMap.put("message","密码不正确");
+            return resultMap;
             //return "密码不正确";
         } catch (LockedAccountException lae) {
-            mv.setViewName("admin/unauth.html");
-            mv.addObject("code","508");
-            mv.addObject("message","账户已锁定");
-            return mv;
+            resultMap.put("code","508");
+            resultMap.put("message","账户已锁定");
+            return resultMap;
            // return "账户已锁定";
         } catch (ExcessiveAttemptsException eae) {
-            mv.setViewName("admin/unauth.html");
-            mv.addObject("code","506");
-            mv.addObject("message","用户名或密码错误次数过多");
-            return mv;
+            resultMap.put("code","506");
+            resultMap.put("message","用户名或密码错误次数过多");
+            return resultMap;
             //return "用户名或密码错误次数过多";
         } catch (AuthenticationException ae) {
-            mv.setViewName("admin/unauth.html");
-            mv.addObject("code","507");
-            mv.addObject("message","用户名或密码不正确");
-            return mv;
+            resultMap.put("code","507");
+            resultMap.put("message","用户名或密码不正确");
+            return resultMap;
             //return "用户名或密码不正确！";
         }
         if (subject.isAuthenticated()) {
-            mv.setViewName("admin/home.html");
-            mv.addObject("user",user);
-            mv.addObject("code","511");
-            mv.addObject("message","登录成功");
-            return mv;
+            String sessionId = (String)subject.getSession().getId();
+            resultMap.put("user",user);
+            resultMap.put("code","511");
+            resultMap.put("sessionId",sessionId);
+            resultMap.put("message","登录成功");
+            return resultMap;
         } else {
             token.clear();
-            mv.setViewName("admin/login.html");
-            mv.addObject("code","512");
-            mv.addObject("message","登录失败");
-            return mv;
-            //return "登录失败";
+            resultMap.put("code","512");
+            resultMap.put("message","登录失败");
+            return resultMap;
         }
     }
 

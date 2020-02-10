@@ -8,19 +8,22 @@ import com.leon.myblog.enity.Timeaxi;
 import com.leon.myblog.service.ArticleService;
 import com.leon.myblog.service.CategoryService;
 import com.leon.myblog.service.TimelineService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.pegdown.PegDownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
-@RequestMapping("/front")
+@RequestMapping("/front/")
 public class FrontController {
 
     @Autowired
@@ -35,16 +38,12 @@ public class FrontController {
 
 
 
-    @GetMapping("/homes")
-    public ModelAndView home(){
-        ModelAndView mv =new ModelAndView();
-        mv.setViewName("front/home.html");
-        return mv;
-    }
-
+    @ApiOperation("根据博文ID获取博文对应的详细数据")
+    @ApiImplicitParam(name = "id", value = "博文ID", required = true, dataType = "Integer")
     @GetMapping("/detail")
-    public ModelAndView detail(@RequestParam("id") Integer id)
+    public Map<String, Object> detail(@RequestParam("id") Integer id)
     {
+        Map<String, Object> resultMap = new HashMap<>();
         Article article=articleService.getArticleById(id);
 
         String content = article.getContent();
@@ -53,84 +52,82 @@ public class FrontController {
         String new_content=peg.markdownToHtml(content);
         article.setContent(new_content);
 
-        ModelAndView mv=new ModelAndView();
-        mv.addObject("article",article);
+        resultMap.put("article",article);
         int categoryid=articleService.getCategoryidByArticleid(id);
         Category category=categoryService.selectByID(categoryid);
-        mv.addObject("category",category);
-        mv.setViewName("front/detail.html");
-        return mv;
+
+        resultMap.put("category",category);
+
+        return resultMap;
     }
 
+
+    @ApiOperation("获取分类数据")
     @GetMapping("/category")
-    public ModelAndView category(){
+    public Map<String,Object> category(){
 
-        ModelAndView mv=new ModelAndView();
+        Map<String, Object> resultMap = new HashMap<>();
         List<Category> categories=categoryService.getall();
-        mv.addObject("category",categories);
-        mv.setViewName("front/category.html");
-        return mv;
+        resultMap.put("category",categories);
+        return resultMap;
 
     }
 
-    @GetMapping(value={"","/home"})
-    public ModelAndView home(@RequestParam(defaultValue = "1") Integer pageNum,
+    @ApiOperation("获取博文数据")
+    //@ApiImplicitParam(name = "categoryid", value = "分类ID", required = true, dataType = "int")
+    @GetMapping(value={"/articleList"})
+    public Map<String, Object> home(@RequestParam(defaultValue = "1") Integer pageNum,
                                          @RequestParam(defaultValue = "4") Integer pageSize){
 
-        //int categoryid=categoryService.getCategoryIdByCategoryname(category);
-
+        Map<String,Object> resultMap = new HashMap<>();
         //获取前五的文章
         List<Article> top5Article=articleService.getTop5Article();
         //引入分页查询，使用PageHelper分页功能在查询之前传入当前页，然后多少记录
         PageHelper.startPage(pageNum, pageSize);
-        //List<Article> articles=articleService.getAllArticleByCategoryid(categoryid);
         List<Article> articles=articleService.getAllArticle();
         //使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
         PageInfo pageInfo = new PageInfo<Article>(articles, pageSize);
-        ModelAndView mv= new ModelAndView();
         //分页详细信息
-        mv.addObject("pageInfo",pageInfo);
-        //System.out.println(pageInfo);
+        resultMap.put("pageInfo",pageInfo);
         //当前页
-        mv.addObject("pageNum", pageInfo.getPageNum());
+        resultMap.put("pageNum",pageInfo.getPageNum());
         //是否是第一页
-        mv.addObject("isFirstPage", pageInfo.isIsFirstPage());
+        resultMap.put("isFirstPage", pageInfo.isIsFirstPage());
         //是否是最后一页
-        mv.addObject("isLastPage", pageInfo.isIsLastPage());
-        mv.addObject("top5Article",top5Article);
-        mv.setViewName("front/home.html");
+        resultMap.put("isLastPage", pageInfo.isIsLastPage());
+        resultMap.put("top5Article",top5Article);
 
-        return mv;
+        return resultMap;
 
     }
 
-    @GetMapping("/categoryDetail")
-    public ModelAndView getCategoryDetail(@RequestParam(defaultValue = "1") Integer pageNum,
+    @ApiOperation("根据分类ID获取对应的分类博文数据")
+    @ApiImplicitParam(name = "categoryid", value = "分类ID", required = true, dataType = "int")
+    @GetMapping("/categoryList")
+    public Map<String, Object> getCategoryDetail(@RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "3") Integer pageSize,
-                                          @RequestParam("categoryid") Integer categoryid){
-        ModelAndView mv = new ModelAndView();
+                                          @RequestParam("categoryid") int categoryid){
 
+        Map<String, Object> resultMap = new HashMap<>();
         //引入分页查询，使用PageHelper分页功能在查询之前传入当前页，然后多少记录
         PageHelper.startPage(pageNum, pageSize);
         List<Article> articles=articleService.getAllArticleByCategoryid(categoryid);
         //使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
         PageInfo pageInfo = new PageInfo<Article>(articles, pageSize);
-        System.out.println(pageInfo.getList());
-        mv.addObject("pageInfo",pageInfo);
-        mv.setViewName("front/categoryDetail.html");
-        return mv;
+        resultMap.put("pageInfo", pageInfo);
+        return resultMap;
     }
 
+    @ApiOperation("获取时间轴内容")
+    //@ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String")
     @GetMapping("/timeline")
-    public ModelAndView getTimeline(){
+    public Map<String, Object> getTimeline(){
 
-        ModelAndView mv=new ModelAndView();
-
+        Map<String,Object> resultMap = new HashMap<>();
         List<Timeaxi> timeaxis =timelineService.getAllTimeline();
-        mv.addObject("timeaxis",timeaxis);
-        mv.setViewName("front/timeline.html");
-        return mv;
+        resultMap.put("timeaxis", timeaxis);
 
+        return resultMap;
     }
 
 }

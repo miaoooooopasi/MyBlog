@@ -1,7 +1,9 @@
 package com.leon.myblog.configs;
 
+import com.leon.myblog.filters.RestFilter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -34,6 +37,12 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         shiroFilterFactoryBean.setLoginUrl("/loginpage");
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
+
+        Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
+       // filters.put("token", new LoginAuthorizationFilter());
+        filters.put("corsFilter", new RestFilter());
+        shiroFilterFactoryBean.setFilters(filters);
+
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         filterChainDefinitionMap.put("/login","anon");
@@ -52,12 +61,13 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/actuator/**", "anon");
         filterChainDefinitionMap.put("/metrics", "anon");
         filterChainDefinitionMap.put("/front/layui/**", "anon");
+        filterChainDefinitionMap.put("/swagger-ui/**", "anon");
         filterChainDefinitionMap.put("/logout","logout");
 
         filterChainDefinitionMap.put("/admin/**", "authc");
         filterChainDefinitionMap.put("/user/**", "authc");
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截 剩余的都需要认证
-        filterChainDefinitionMap.put("/**", "authc");
+        //filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
@@ -83,7 +93,7 @@ public class ShiroConfig {
     public DefaultWebSecurityManager securityManager(){
         DefaultWebSecurityManager  defaultSecurityManager=new DefaultWebSecurityManager ();
         defaultSecurityManager.setRealm(customRealm());
-
+        defaultSecurityManager.setSessionManager(sessionManager());
         //SecurityUtils.setSecurityManager(defaultSecurityManager);
         ThreadContext.bind(defaultSecurityManager);
         return defaultSecurityManager;
@@ -125,6 +135,16 @@ public class ShiroConfig {
         bean.setStaticMethod("org.apache.shiro.SecurityUtils.setSecurityManager");
         bean.setArguments(securityManager());
         return bean;
+    }
+
+    /**
+     * 自定义sessionManager，用户的唯一标识，即Token或Authorization的认证
+     */
+    @Bean
+    public SessionManager sessionManager() {
+        MySessionManager mySessionManager;
+        mySessionManager = new MySessionManager();
+        return mySessionManager;
     }
 
 
