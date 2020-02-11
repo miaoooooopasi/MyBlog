@@ -10,12 +10,15 @@ import javax.servlet.ServletResponse;
 import java.io.Serializable;
 
 /**
+ * 自定义session管理
+ * <br/>
+ * 传统结构项目中，shiro从cookie中读取sessionId以此来维持会话，在前后端分离的项目中（也可在移动APP项目使用），
+ * 我们选择在ajax的请求头中传递sessionId，因此需要重写shiro获取sessionId的方式。
+ * 自定义MySessionManager类继承DefaultWebSessionManager类，重写getSessionId方法
  * @author ：leon
- * @date ：Created in 2020-02-10 14:57
- * @description：${description}
- * @modified By：
- * @version: $version$
+ * @date ：2020/02/11 10:52
  */
+
 public class MySessionManager extends DefaultWebSessionManager {
 
    // private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -35,7 +38,7 @@ public class MySessionManager extends DefaultWebSessionManager {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, REFERENCED_SESSION_ID_SOURCE);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
-            //logger.info("sessionId="+id);
+            System.out.println("sessionId="+id);
             return id;
         } else {
             //否则按默认规则从cookie取sessionId

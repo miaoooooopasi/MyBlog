@@ -1,6 +1,5 @@
 package com.leon.myblog.configs;
 
-import com.leon.myblog.filters.RestFilter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -9,13 +8,15 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.util.ThreadContext;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
-import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -37,12 +38,6 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         shiroFilterFactoryBean.setLoginUrl("/loginpage");
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
-
-        Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
-       // filters.put("token", new LoginAuthorizationFilter());
-        filters.put("corsFilter", new RestFilter());
-        shiroFilterFactoryBean.setFilters(filters);
-
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         filterChainDefinitionMap.put("/login","anon");
@@ -61,13 +56,13 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/actuator/**", "anon");
         filterChainDefinitionMap.put("/metrics", "anon");
         filterChainDefinitionMap.put("/front/layui/**", "anon");
-        filterChainDefinitionMap.put("/swagger-ui/**", "anon");
+        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
         filterChainDefinitionMap.put("/logout","logout");
 
         filterChainDefinitionMap.put("/admin/**", "authc");
         filterChainDefinitionMap.put("/user/**", "authc");
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截 剩余的都需要认证
-        //filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
@@ -93,12 +88,57 @@ public class ShiroConfig {
     public DefaultWebSecurityManager securityManager(){
         DefaultWebSecurityManager  defaultSecurityManager=new DefaultWebSecurityManager ();
         defaultSecurityManager.setRealm(customRealm());
+        // 自定义session管理 使用redis
         defaultSecurityManager.setSessionManager(sessionManager());
-        //SecurityUtils.setSecurityManager(defaultSecurityManager);
+        // 自定义缓存实现 使用redis
+        defaultSecurityManager.setCacheManager(cacheManager());
         ThreadContext.bind(defaultSecurityManager);
         return defaultSecurityManager;
     }
 
+    /**
+     * 配置shiro redisManager, 使用的是shiro-redis开源插件
+     * <br/>
+     * create by: leigq
+     * <br/>
+     * create time: 2019/7/3 14:33
+     *
+     * @return RedisManager
+     */
+    private RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost("127.0.0.1:6379");
+        //redisManager.setTimeout((int) timeout.toMillis());
+        //redisManager.setPassword("123456");
+        return redisManager;
+    }
+
+    /**
+     * cacheManager 缓存 redis实现, 使用的是shiro-redis开源插件
+     * <br/>
+     * create by: leigq
+     * <br/>
+     * create time: 2019/7/3 14:33
+     *
+     * @return RedisCacheManager
+     */
+    @Bean
+    public RedisCacheManager cacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
+        // 必须要设置主键名称，shiro-redis 插件用过这个缓存用户信息
+        //redisCacheManager.setPrincipalIdFieldName("username");
+        redisCacheManager.setExpire(180);
+        return redisCacheManager;
+    }
+
+
+    @Bean
+    public RedisSessionDAO redisSessionDAO(){
+        RedisSessionDAO redisSessionDAO=new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        return redisSessionDAO;
+    }
 
 
 
@@ -144,6 +184,7 @@ public class ShiroConfig {
     public SessionManager sessionManager() {
         MySessionManager mySessionManager;
         mySessionManager = new MySessionManager();
+        mySessionManager.setSessionDAO(redisSessionDAO());
         return mySessionManager;
     }
 

@@ -11,6 +11,7 @@ import com.leon.myblog.utils.QiniuUploadFileServiceImpl;
 import com.qiniu.http.Response;
 import com.qiniu.storage.model.DefaultPutRet;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -75,7 +76,10 @@ public class AdminController {
         return mv;
     }
 
+
     @GetMapping("/listArticle")
+    //@RequiresRoles("admin")
+    @RequiresPermissions("admin:listarticle")
     public Map<String, Object> getAllArticle(){
         //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         Map<String,Object> resultMap = new HashMap();
