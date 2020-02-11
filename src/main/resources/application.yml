@@ -12,6 +12,11 @@ spring:
     mode: LEGACYHTML5
     cache: false
 
+  redis:
+    timeout: 2000s
+    host: 127.0.0.1
+    port: 6379
+
   mail:
     host: smtp.qq.com
     username: 1429169422@qq.com

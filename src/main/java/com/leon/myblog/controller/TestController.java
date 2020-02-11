@@ -1,8 +1,10 @@
 package com.leon.myblog.controller;
 
 import com.leon.myblog.enity.Category;
+import com.leon.myblog.enity.User;
 import com.leon.myblog.service.CategoryService;
 import com.leon.myblog.service.SendMailService;
+import com.leon.myblog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +30,19 @@ public class TestController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/test")
     public void test(){
 
-        String to="1429169422@qq.com";
-        String subject="123";
-        String content="content";
+        User userInfo = userService.findByUserName("leon1");
+        System.out.println("1111111111111111111111111"+userInfo.getId());
+        System.out.println("2222222222222222222222222"+userService.getRoleByUserId(userInfo.getId()));
+        System.out.println("3333333333333333333333333"+userService.getRoleByRileId(1).getRolename());
+        System.out.println("4444444444444444444444444"+userService.getPermisonsByUserId(1));
+        System.out.println("5555555555555555555555555"+userService.getPermisonByPermisionId(1).getPermisionname());
 
-        sendMailService.sendSimpleMail(to, subject, content);
 
     }
 
