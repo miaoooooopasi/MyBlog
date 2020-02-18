@@ -44,10 +44,10 @@ public class CustomRealm extends AuthorizingRealm{
         //String username= (String) SecurityUtils.getSubject().getPrincipal();
         SimpleAuthorizationInfo info= new SimpleAuthorizationInfo();
         //Set<String> stringSet = new HashSet<>();
-        System.out.println(principalCollection.getPrimaryPrincipal());
+        //System.out.println(principalCollection.getPrimaryPrincipal());
         String username  = (String) principalCollection.getPrimaryPrincipal();
         User userInfo = userService.findByUserName(username);
-        System.out.println(userInfo);
+        //System.out.println(userInfo);
 
         for (Integer integer : userService.getRoleByUserId(userInfo.getId())){
             info.addRole(userService.getRoleByRileId(integer).getRolename());
@@ -74,9 +74,9 @@ public class CustomRealm extends AuthorizingRealm{
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username= (String)authenticationToken.getPrincipal();
-        System.out.println(username+"010");
+        //System.out.println(username+"010");
         User userInfo = userService.findByUserName(username);
-        System.out.println(userInfo+"123");
+        //System.out.println(userInfo+"123");
         if(userInfo == null)
         {
             return null;

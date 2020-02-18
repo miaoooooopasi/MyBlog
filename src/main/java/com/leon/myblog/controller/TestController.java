@@ -5,6 +5,7 @@ import com.leon.myblog.enity.User;
 import com.leon.myblog.service.CategoryService;
 import com.leon.myblog.service.SendMailService;
 import com.leon.myblog.service.UserService;
+import com.leon.myblog.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,9 @@ public class TestController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    RedisUtils redisUtil;
+
     @GetMapping("/test")
     public void test(){
 
@@ -48,6 +52,12 @@ public class TestController {
 
     @GetMapping("/tt")
     public List<Category> tt(){
+
+        String key="mytestkey";
+        redisUtil.set(key,50);
+        System.out.println(redisUtil.get(key));
+
+
         return  categoryService.getall();
     }
 }

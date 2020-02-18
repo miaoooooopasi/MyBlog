@@ -81,7 +81,6 @@ public class AdminController {
     //@RequiresRoles("admin")
     @RequiresPermissions("admin:listarticle")
     public Map<String, Object> getAllArticle(){
-        //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         Map<String,Object> resultMap = new HashMap();
         resultMap.put("rows",articleService.getAllArticle());
         resultMap.put("total",articleService.getAllArticle().size());
@@ -91,15 +90,13 @@ public class AdminController {
     }
 
     @GetMapping("/articleManager")
-    public ModelAndView getAllArticles(){
+    public Map<String, Object> getAllArticles(){
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
-        ModelAndView mv = new ModelAndView();
+        Map<String,Object> resultMap = new HashMap();
         User user=userService.findByUserName(currentUser);
-        mv.addObject("user",user);
-
-        mv.setViewName("admin/manageArticle.html");
-
-        return mv;
+        resultMap.put("user",user);
+        //mv.setViewName("admin/manageArticle.html");
+        return resultMap;
     }
 
 
