@@ -29,6 +29,7 @@ import java.util.Map;
  * @ version: $version$
  */
 
+@CrossOrigin(origins ={"127.0.0.1:8080","127.0.0.1:8081"} , maxAge = 3600,allowCredentials = "true")
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -121,6 +122,7 @@ public class AdminController {
 
         return resultMap;
     }
+
 
     @GetMapping("/editeArticle/{id}")
     public ModelAndView editeArticle(@PathVariable int id){

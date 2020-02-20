@@ -12,10 +12,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.pegdown.PegDownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,8 +70,8 @@ public class FrontController {
 
     }
 
+
     @ApiOperation("获取博文数据")
-    //@ApiImplicitParam(name = "categoryid", value = "分类ID", required = true, dataType = "int")
     @GetMapping(value={"/articleList"})
     public Map<String, Object> home(@RequestParam(defaultValue = "1") Integer pageNum,
                                          @RequestParam(defaultValue = "4") Integer pageSize){
@@ -96,7 +93,7 @@ public class FrontController {
         //是否是最后一页
         resultMap.put("isLastPage", pageInfo.isIsLastPage());
         resultMap.put("top5Article",top5Article);
-
+        resultMap.put("content","content");
         return resultMap;
 
     }
@@ -118,6 +115,7 @@ public class FrontController {
         return resultMap;
     }
 
+    @CrossOrigin(origins = {"127.0.0.1:8080"})
     @ApiOperation("获取时间轴内容")
     //@ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String")
     @GetMapping("/timeline")

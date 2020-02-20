@@ -1,7 +1,7 @@
 
 # Server Port and Encoding
 server:
-  port: 8080
+  port: 8090
 
 
 # Spring Datasource Settings
