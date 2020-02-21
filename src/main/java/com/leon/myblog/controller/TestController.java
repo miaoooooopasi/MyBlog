@@ -5,12 +5,14 @@ import com.leon.myblog.enity.User;
 import com.leon.myblog.service.CategoryService;
 import com.leon.myblog.service.SendMailService;
 import com.leon.myblog.service.UserService;
+import com.leon.myblog.utils.IpUtil;
 import com.leon.myblog.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -51,12 +53,14 @@ public class TestController {
     }
 
     @GetMapping("/tt")
-    public List<Category> tt(){
+    public List<Category> tt(HttpServletRequest REQ){
 
-        String key="mytestkey";
-        redisUtil.set(key,50);
+
+        String key="test";
+        redisUtil.set(key,50,60);
         System.out.println(redisUtil.get(key));
-
+        String ip= IpUtil.getIpAddr(REQ);
+        System.out.println("IP:"+ip);
 
         return  categoryService.getall();
     }
