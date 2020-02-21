@@ -3,6 +3,7 @@ package com.leon.myblog.configs;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -67,7 +68,13 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
-
+    /**
+     * 凭证匹配器（由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了）
+     * create by: leon
+     * create time: 2019/7/3 14:30
+     *
+     * @return hashedCredentialsMatcher
+     */
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher(){
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
@@ -76,14 +83,39 @@ public class ShiroConfig {
         return hashedCredentialsMatcher;
     }
 
+    /**
+     * 将自己的验证方式加入容器
+     * create by: leon
+     * create time: 2019/7/3 14:30
+     *
+     * @return customRealm
+     */
     @Bean
     public CustomRealm customRealm() {
         CustomRealm customRealm = new CustomRealm();
         customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return customRealm;
-
     }
 
+
+    /**
+     * 自定义sessionManager，用户的唯一标识，即Token或Authorization的认证
+     */
+    @Bean
+    public SessionManager sessionManager() {
+        MySessionManager mySessionManager;
+        mySessionManager = new MySessionManager();
+        mySessionManager.setSessionDAO(redisSessionDAO());
+        return mySessionManager;
+    }
+
+    /**
+     * create by: leon
+     * description: 权限管理，配置主要是Realm的管理认证
+     * create time: 2019/7/1 10:09
+     *
+     * @return SecurityManager
+     */
     @Bean
     public DefaultWebSecurityManager securityManager(){
         DefaultWebSecurityManager  defaultSecurityManager=new DefaultWebSecurityManager ();
@@ -116,7 +148,7 @@ public class ShiroConfig {
     /**
      * cacheManager 缓存 redis实现, 使用的是shiro-redis开源插件
      * <br/>
-     * create by: leigq
+     * create by: leon
      * <br/>
      * create time: 2019/7/3 14:33
      *
@@ -132,11 +164,34 @@ public class ShiroConfig {
         return redisCacheManager;
     }
 
+    /**
+     * Session ID 生成器
+     * <br/>
+     * create by: leon
+     * <br/>
+     * create time: 2019/7/3 16:08
+     *
+     * @return JavaUuidSessionIdGenerator
+     */
+    @Bean
+    public JavaUuidSessionIdGenerator sessionIdGenerator() {
+        return new JavaUuidSessionIdGenerator();
+    }
 
+
+
+    /**
+     * RedisSessionDAO shiro sessionDao层的实现 通过redis, 使用的是shiro-redis开源插件
+     * create by: leon
+     * create time: 2019/7/3 14:30
+     *
+     * @return RedisSessionDAO
+     */
     @Bean
     public RedisSessionDAO redisSessionDAO(){
         RedisSessionDAO redisSessionDAO=new RedisSessionDAO();
         redisSessionDAO.setRedisManager(redisManager());
+        redisSessionDAO.setSessionIdGenerator(sessionIdGenerator());
         return redisSessionDAO;
     }
 
@@ -177,16 +232,6 @@ public class ShiroConfig {
         return bean;
     }
 
-    /**
-     * 自定义sessionManager，用户的唯一标识，即Token或Authorization的认证
-     */
-    @Bean
-    public SessionManager sessionManager() {
-        MySessionManager mySessionManager;
-        mySessionManager = new MySessionManager();
-        mySessionManager.setSessionDAO(redisSessionDAO());
-        return mySessionManager;
-    }
 
 
 }

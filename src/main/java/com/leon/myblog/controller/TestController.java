@@ -56,12 +56,13 @@ public class TestController {
     public List<Category> tt(HttpServletRequest REQ){
 
 
-        String key="test";
-        redisUtil.set(key,50,60);
-        System.out.println(redisUtil.get(key));
+        String key="shiro:cache:com.leon.myblog.configs.CustomRealm.authorizationCache:leon1";
+        //redisUtil.set(key,50,60);
+        System.out.println("123123:"+redisUtil.get(key));
         String ip= IpUtil.getIpAddr(REQ);
         System.out.println("IP:"+ip);
 
         return  categoryService.getall();
+
     }
 }
