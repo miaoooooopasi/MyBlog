@@ -32,7 +32,8 @@ public class ArticleService {
 
     //根据ID获取文章
     public Article getArticleById(int id){
-        return articleMapper.selectByPrimaryKey(id);
+        // getArticleById   selectByPrimaryKey
+        return articleMapper.getArticleById(id);
     }
 
     public int updateArticle(Article article){
@@ -49,5 +50,9 @@ public class ArticleService {
 
     public int getCategoryidByArticleid(int id){
         return articleMapper.getCategoryidByArticleid(id);
+    }
+
+    public List<Article> getSearchResults(String keyword){
+        return articleMapper.getSearchResults(keyword);
     }
 }

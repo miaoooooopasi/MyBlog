@@ -1,5 +1,7 @@
 package com.leon.myblog.enity;
 
+import java.util.List;
+
 public class Article {
     private Integer id;
 
@@ -32,10 +34,26 @@ public class Article {
     }
 
 
+    // 多对多
+    private List<Tag> tags;
+    // 一对一分类
+    private Category category;
 
+    public List<Tag> getTags() {
+        return tags;
+    }
 
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
 
+    public Category getCategory() {
+        return category;
+    }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
 
     public Integer getId() {

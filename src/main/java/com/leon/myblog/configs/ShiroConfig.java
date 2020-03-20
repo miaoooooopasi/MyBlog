@@ -1,5 +1,8 @@
 package com.leon.myblog.configs;
 
+import com.leon.myblog.filters.shiroFilters.ShiroFormAuthenticationFilter;
+import com.leon.myblog.filters.shiroFilters.ShiroPermissionsAuthorizationFilter;
+import com.leon.myblog.filters.shiroFilters.ShiroRolesAuthorizationFilter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -18,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -37,34 +41,28 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilterFactoryBean=new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        shiroFilterFactoryBean.setLoginUrl("/loginpage");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
+
+        // 重要的地方：使用自定义的过滤器
+        LinkedHashMap<String, Filter> filterMap = new LinkedHashMap<>();
+        filterMap.put("authc", new ShiroFormAuthenticationFilter());
+        filterMap.put("roles",new ShiroRolesAuthorizationFilter());
+        filterMap.put("perms",new ShiroPermissionsAuthorizationFilter());
+        // 添加过滤器
+        shiroFilterFactoryBean.setFilters(filterMap);
+
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         filterChainDefinitionMap.put("/login","anon");
-        filterChainDefinitionMap.put("/unauth","anon");
         filterChainDefinitionMap.put("/front","anon");
-        filterChainDefinitionMap.put("/loginpage","anon");
-        filterChainDefinitionMap.put("/imgs/**", "anon");//img
-        filterChainDefinitionMap.put("/css/**", "anon");//css
-        filterChainDefinitionMap.put("/js/**", "anon");//js
-        filterChainDefinitionMap.put("/editor/**", "anon");//js
-        filterChainDefinitionMap.put("/adminStatics/**", "anon");//js
-        //filterChainDefinitionMap.put("/user/**", "anon");
         filterChainDefinitionMap.put("/front/**", "anon");
-        filterChainDefinitionMap.put("/autoconfig", "anon");
-        filterChainDefinitionMap.put("/env", "anon");
-        filterChainDefinitionMap.put("/actuator/**", "anon");
-        filterChainDefinitionMap.put("/metrics", "anon");
-        filterChainDefinitionMap.put("/front/layui/**", "anon");
-        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
         filterChainDefinitionMap.put("/logout","logout");
 
-        filterChainDefinitionMap.put("/admin/**", "authc");
+        filterChainDefinitionMap.put("/admin/**", "roles[admin]");
         filterChainDefinitionMap.put("/user/**", "authc");
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截 剩余的都需要认证
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+
         return shiroFilterFactoryBean;
     }
 

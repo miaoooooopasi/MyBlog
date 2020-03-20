@@ -11,7 +11,7 @@ import com.leon.myblog.utils.QiniuUploadFileServiceImpl;
 import com.qiniu.http.Response;
 import com.qiniu.storage.model.DefaultPutRet;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,6 +54,7 @@ public class AdminController {
 
 
     @GetMapping("/home")
+    @RequiresRoles("admin")
     public ModelAndView home(){
         // 获取当前登录用户名
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
@@ -66,6 +67,7 @@ public class AdminController {
     }
 
     @GetMapping("/addArticle")
+    @RequiresRoles("admin")
     public ModelAndView addArticle(){
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
         ModelAndView mv = new ModelAndView();
@@ -80,7 +82,7 @@ public class AdminController {
 
     @GetMapping("/listArticle")
     //@RequiresRoles("admin")
-    @RequiresPermissions("admin:listarticle")
+    //@RequiresPermissions("admin:listarticles")
     public Map<String, Object> getAllArticle(){
         Map<String,Object> resultMap = new HashMap();
         resultMap.put("rows",articleService.getAllArticle());
@@ -91,6 +93,7 @@ public class AdminController {
     }
 
     @GetMapping("/articleManager")
+    @RequiresRoles("admin")
     public Map<String, Object> getAllArticles(){
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
         Map<String,Object> resultMap = new HashMap();
@@ -102,6 +105,7 @@ public class AdminController {
 
 
     @GetMapping("/articleImageManager")
+    @RequiresRoles("admin")
     public ModelAndView getAllArticleImages(){
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
         ModelAndView mv = new ModelAndView();
@@ -114,6 +118,7 @@ public class AdminController {
     }
 
     @GetMapping("/listImageManager")
+    @RequiresRoles("admin")
     public Map<String, Object> getAllArticleImage(){
         Map<String,Object> resultMap = new HashMap();
         resultMap.put("rows",articleimageService.getAllImages());
@@ -125,6 +130,7 @@ public class AdminController {
 
 
     @GetMapping("/editeArticle/{id}")
+    @RequiresRoles("admin")
     public ModelAndView editeArticle(@PathVariable int id){
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
         ModelAndView mv = new ModelAndView();
@@ -138,6 +144,7 @@ public class AdminController {
     }
 
     @PostMapping("/updateArticle")
+    @RequiresRoles("admin")
     public int updateArticle(@RequestParam("title") String title,@RequestParam("content") String content,
                              @RequestParam("pushdate") String pushdate, @RequestParam("image") String image,
                              @RequestParam("category") String category,@RequestParam("id") int id){
@@ -156,6 +163,7 @@ public class AdminController {
     }
 
     @PostMapping("/insertArticle")
+    @RequiresRoles("admin")
     public int insertArticle(@RequestParam("title") String title,@RequestParam("content") String content,
                              @RequestParam("pushdate") String pushdate, @RequestParam("image") String image,
                              @RequestParam("category") String category){
@@ -185,6 +193,7 @@ public class AdminController {
 
 
     @PostMapping("/uploadImg")
+    @RequiresRoles("admin")
     public String uploadImg(@RequestParam("file") MultipartFile file){
 
         try {

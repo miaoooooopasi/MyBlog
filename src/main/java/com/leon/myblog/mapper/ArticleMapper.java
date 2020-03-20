@@ -1,10 +1,7 @@
 package com.leon.myblog.mapper;
 
 import com.leon.myblog.enity.Article;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -19,15 +16,17 @@ public interface ArticleMapper {
 
     int updateByPrimaryKeySelective(Article record);
 
-    int updateByPrimaryKeyWithBLOBs(Article record);
+    //int updateByPrimaryKeyWithBLOBs(Article record);
 
     int updateByPrimaryKey(Article record);
 
     @Select("SELECT * FROM article order by createtime")
-    @Results({
-            @Result(property = "articleimage",column = "imageid",
-                    one=@One(select = "com.leon.myblog.mapper.ArticleimageMapper.selectByPrimaryKey")
-            )
+    @Results(value = {
+            @Result(property = "articleimage", column = "imageid",
+                    one = @One(select = "com.leon.myblog.mapper.ArticleimageMapper.selectByPrimaryKey")
+            ),
+            @Result(property = "category", column = "categoryid",
+                    one = @One(select = "com.leon.myblog.mapper.CategoryMapper.getCategoryByCategoryid"))
     })
     List<Article> getAllArticle();
 
@@ -44,4 +43,15 @@ public interface ArticleMapper {
 
     @Select("select categoryid from article where id=#{id}")
     int getCategoryidByArticleid(int id);
+
+    @Select("select * from article where id=#{id}")
+    @Results({
+            @Result(property = "id",column = "id",id = true),
+            @Result(property = "tags" ,column = "id",
+                    many = @Many(select = "com.leon.myblog.mapper.TagMapper.getTagsById"))
+    })
+    Article getArticleById(Integer id);
+
+    @Select("select * from article where content like #{keyword};")
+    List<Article> getSearchResults(String keyword);
 }

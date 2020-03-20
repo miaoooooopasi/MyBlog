@@ -35,4 +35,7 @@ public interface CategoryMapper {
     @Select("select categoryname from category where categoryid=#{categoryid}")
     String getCategorynameByCategoryid(int categoryid);
 
+    @Select("select * from category where id=#{categoryid}")
+    Category getCategoryByCategoryid(Integer categoryid);
+
 }
