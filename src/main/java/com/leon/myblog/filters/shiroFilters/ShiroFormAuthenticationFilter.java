@@ -27,7 +27,7 @@ public class ShiroFormAuthenticationFilter extends FormAuthenticationFilter {
         PrintWriter out = resp.getWriter();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code",403);
-        jsonObject.put("msg","登录失败");
+        jsonObject.put("msg","登录异常");
         out.write( jsonObject.toString());
         out.flush();
         out.close();

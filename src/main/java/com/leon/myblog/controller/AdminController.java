@@ -8,10 +8,14 @@ import com.leon.myblog.service.ArticleimageService;
 import com.leon.myblog.service.CategoryService;
 import com.leon.myblog.service.UserService;
 import com.leon.myblog.utils.QiniuUploadFileServiceImpl;
+import com.leon.myblog.utils.result.Result;
+import com.leon.myblog.utils.result.ResultUtil;
 import com.qiniu.http.Response;
 import com.qiniu.storage.model.DefaultPutRet;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,6 +56,8 @@ public class AdminController {
     @Autowired
     private ObjectMapper mapper;
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
 
     @GetMapping("/home")
     @RequiresRoles("admin")
@@ -67,7 +73,6 @@ public class AdminController {
     }
 
     @GetMapping("/addArticle")
-    @RequiresRoles("admin")
     public ModelAndView addArticle(){
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
         ModelAndView mv = new ModelAndView();
@@ -131,35 +136,45 @@ public class AdminController {
 
     @GetMapping("/editeArticle/{id}")
     @RequiresRoles("admin")
-    public ModelAndView editeArticle(@PathVariable int id){
-        String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
-        ModelAndView mv = new ModelAndView();
-        User user=userService.findByUserName(currentUser);
-        mv.addObject("user",user);
-        mv.addObject("articleDetail",articleService.getArticleById(id));
-        mv.addObject("category",categoryService.getall());
-        mv.addObject("img",articleimageService.getAllImages());
-        mv.setViewName("admin/editeArticle.html");
-        return mv;
+    public Result<Map> editeArticle(@PathVariable int id){
+        //String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
+        //ModelAndView mv = new ModelAndView();
+        //User user=userService.findByUserName(currentUser);
+        Map<String, Object> map = new HashMap<>();
+        map.put("articleDetail",articleService.getArticleById(id));
+        return ResultUtil.success(map);
     }
 
     @PostMapping("/updateArticle")
     @RequiresRoles("admin")
-    public int updateArticle(@RequestParam("title") String title,@RequestParam("content") String content,
+    public Result<Map> updateArticle(@RequestParam("title") String title,@RequestParam("content") String content,
+                             @RequestParam("summary") String summary,
                              @RequestParam("pushdate") String pushdate, @RequestParam("image") String image,
                              @RequestParam("category") String category,@RequestParam("id") int id){
 
-        Article article=new Article();
+
+        Article article;
+        article = new Article();
         article.setTitle(title);
+        article.setSummary(summary);
         article.setContent(content);
         article.setCreatetime(pushdate);
         article.setId(id);
-        System.out.println(category+image);
+        //System.out.println(category+image);
         int categoryId = categoryService.getCategoryIdByCategoryname(category);
         article.setCategoryid(categoryId);
         int imageId=articleimageService.getImageIdByImagename(image);
         article.setImageid(imageId);
-        return articleService.updateArticle(article);
+        //articleService.updateArticle(article);
+        if (1==articleService.updateArticle(article))
+        {
+            logger.info("更新博文成功");
+            return ResultUtil.success();
+         }
+         else
+             return ResultUtil.fail("更新失败");
+
+
     }
 
     @PostMapping("/insertArticle")

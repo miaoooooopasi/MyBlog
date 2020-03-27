@@ -7,6 +7,8 @@ public class Article {
 
     private String title;
 
+    private String summary;
+
     private String createtime;
 
     private String modifytime;
@@ -92,6 +94,14 @@ public class Article {
         return clicknums;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
     public void setClicknums(Integer clicknums) {
         this.clicknums = clicknums;
     }
@@ -126,5 +136,9 @@ public class Article {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String  toString(){
+        return "Article[id:"+getId()+", title:"+getTitle()+"createtime:"+getCreatetime()+"summary:"+getSummary()+"]";
     }
 }

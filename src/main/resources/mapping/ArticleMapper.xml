@@ -4,8 +4,9 @@
   <resultMap id="BaseResultMap" type="com.leon.myblog.enity.Article">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="createtime" jdbcType="DATE" property="createtime" />
-    <result column="modifytime" jdbcType="DATE" property="modifytime" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="createtime" jdbcType="VARCHAR" property="createtime" />
+    <result column="modifytime" jdbcType="VARCHAR" property="modifytime" />
     <result column="clicknums" jdbcType="INTEGER" property="clicknums" />
     <result column="Userid" jdbcType="INTEGER" property="userid" />
     <result column="imageid" jdbcType="INTEGER" property="imageid" />
@@ -15,7 +16,7 @@
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, title, createtime, modifytime, clicknums, Userid, imageid, categoryid
+    id, title, summary, createtime, modifytime, clicknums, Userid, imageid, categoryid
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -33,14 +34,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.leon.myblog.enity.Article">
-    insert into article (id, title, createtime, 
-      modifytime, clicknums, Userid, 
-      imageid, categoryid, content
-      )
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{createtime,jdbcType=DATE}, 
-      #{modifytime,jdbcType=DATE}, #{clicknums,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
-      #{imageid,jdbcType=INTEGER}, #{categoryid,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
-      )
+    insert into article (id, title, summary, 
+      createtime, modifytime, clicknums, 
+      Userid, imageid, categoryid, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=VARCHAR}, #{modifytime,jdbcType=VARCHAR}, #{clicknums,jdbcType=INTEGER}, 
+      #{userid,jdbcType=INTEGER}, #{imageid,jdbcType=INTEGER}, #{categoryid,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.leon.myblog.enity.Article">
     insert into article
@@ -50,6 +51,9 @@
       </if>
       <if test="title != null">
         title,
+      </if>
+      <if test="summary != null">
+        summary,
       </if>
       <if test="createtime != null">
         createtime,
@@ -80,11 +84,14 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
       <if test="createtime != null">
-        #{createtime,jdbcType=DATE},
+        #{createtime,jdbcType=VARCHAR},
       </if>
       <if test="modifytime != null">
-        #{modifytime,jdbcType=DATE},
+        #{modifytime,jdbcType=VARCHAR},
       </if>
       <if test="clicknums != null">
         #{clicknums,jdbcType=INTEGER},
@@ -109,11 +116,14 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
       <if test="createtime != null">
-        createtime = #{createtime,jdbcType=DATE},
+        createtime = #{createtime,jdbcType=VARCHAR},
       </if>
       <if test="modifytime != null">
-        modifytime = #{modifytime,jdbcType=DATE},
+        modifytime = #{modifytime,jdbcType=VARCHAR},
       </if>
       <if test="clicknums != null">
         clicknums = #{clicknums,jdbcType=INTEGER},
@@ -136,8 +146,9 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.leon.myblog.enity.Article">
     update article
     set title = #{title,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=DATE},
-      modifytime = #{modifytime,jdbcType=DATE},
+      summary = #{summary,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=VARCHAR},
       clicknums = #{clicknums,jdbcType=INTEGER},
       Userid = #{userid,jdbcType=INTEGER},
       imageid = #{imageid,jdbcType=INTEGER},
@@ -148,8 +159,9 @@
   <update id="updateByPrimaryKey" parameterType="com.leon.myblog.enity.Article">
     update article
     set title = #{title,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=DATE},
-      modifytime = #{modifytime,jdbcType=DATE},
+      summary = #{summary,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      modifytime = #{modifytime,jdbcType=VARCHAR},
       clicknums = #{clicknums,jdbcType=INTEGER},
       Userid = #{userid,jdbcType=INTEGER},
       imageid = #{imageid,jdbcType=INTEGER},

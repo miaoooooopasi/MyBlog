@@ -52,7 +52,7 @@ public class CustomRealm extends AuthorizingRealm{
                 info.addStringPermission(userService.getPermisonByPermisionId(id).getPermisionname());
             }
         }
-        System.out.println(info.getObjectPermissions());
+        //System.out.println(info.getObjectPermissions());
         return info;
 
     }

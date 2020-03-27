@@ -12,6 +12,8 @@ import com.leon.myblog.utils.result.ResultUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.pegdown.PegDownProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +44,7 @@ public class FrontController {
     @Autowired
     ArticleHasTagService articleHasTagService;
 
-
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
     @ApiOperation("根据博文ID获取博文对应的详细数据")
@@ -52,7 +54,7 @@ public class FrontController {
     {
         Map<String, Object> resultMap = new HashMap<>();
         Article article=articleService.getArticleById(id);
-
+        System.out.println(articleService.getArticleById(100));
         String content = article.getContent();
 
         // 将markdown格式转为html格式
@@ -61,10 +63,11 @@ public class FrontController {
         article.setContent(new_content);
         if (article!=null)
         {
+            logger.info("前端根据ID获取博文信息内容:{}.",article.toString());
             return ResultUtil.success(article);
         }
         else
-            return ResultUtil.error(500,"erro");
+            return ResultUtil.fail("查询失败");
 
     }
 
@@ -73,13 +76,13 @@ public class FrontController {
     @GetMapping("/category")
     public Result<Category> category(){
 
-        Map<String, Object> resultMap = new HashMap<>();
+        //Map<String, Object> resultMap = new HashMap<>();
         List<Category> categories=categoryService.getall();
         if (categories!=null){
             return ResultUtil.success(categories);
         }
         else
-            return ResultUtil.error(500, "erro");
+            return ResultUtil.fail("获取分类信息失败");
 
     }
 
@@ -104,7 +107,7 @@ public class FrontController {
         }
 
         else
-            return ResultUtil.error(500,"erro");
+            return ResultUtil.fail("erro");
 
     }
 
@@ -127,7 +130,7 @@ public class FrontController {
             return ResultUtil.success(pageInfo);
         }
         else
-            return ResultUtil.error(500, "erro");
+            return ResultUtil.fail("erro");
     }
 
     @ApiOperation("获取时间轴内容")
@@ -142,7 +145,7 @@ public class FrontController {
             return ResultUtil.success(timeaxis);
         }
         else
-            return ResultUtil.error(500,"erro");
+            return ResultUtil.fail("erro");
     }
 
     @ApiOperation("获取tgas")
@@ -156,7 +159,7 @@ public class FrontController {
             return ResultUtil.success(tags);
         }
         else {
-            return ResultUtil.error(500,"erro");
+            return ResultUtil.fail("erro");
         }
 
     }
@@ -171,7 +174,7 @@ public class FrontController {
             return ResultUtil.success(articleService.getTop5Article());
         }
         else
-            return ResultUtil.error(500,"查询失败");
+            return ResultUtil.fail("查询失败");
     }
 
     @GetMapping("/SearchResult")
@@ -180,7 +183,7 @@ public class FrontController {
             return ResultUtil.success(articleService.getSearchResults("%"+keyword+"%"));
         }
         else
-            return ResultUtil.error(400,"没有查询的内容");
+            return ResultUtil.error("没有查询的内容");
     }
 
 }

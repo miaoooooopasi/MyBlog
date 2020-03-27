@@ -1,6 +1,7 @@
 package com.leon.myblog.configs;
 
 import com.leon.myblog.filters.shiroFilters.ShiroFormAuthenticationFilter;
+import com.leon.myblog.filters.shiroFilters.ShiroLogoutFilter;
 import com.leon.myblog.filters.shiroFilters.ShiroPermissionsAuthorizationFilter;
 import com.leon.myblog.filters.shiroFilters.ShiroRolesAuthorizationFilter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -47,6 +48,7 @@ public class ShiroConfig {
         filterMap.put("authc", new ShiroFormAuthenticationFilter());
         filterMap.put("roles",new ShiroRolesAuthorizationFilter());
         filterMap.put("perms",new ShiroPermissionsAuthorizationFilter());
+        filterMap.put("logout",new ShiroLogoutFilter());
         // 添加过滤器
         shiroFilterFactoryBean.setFilters(filterMap);
 
