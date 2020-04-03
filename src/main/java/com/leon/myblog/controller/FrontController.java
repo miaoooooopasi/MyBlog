@@ -11,7 +11,6 @@ import com.leon.myblog.utils.result.Result;
 import com.leon.myblog.utils.result.ResultUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.pegdown.PegDownProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,9 +57,11 @@ public class FrontController {
         String content = article.getContent();
 
         // 将markdown格式转为html格式
-        PegDownProcessor peg=new PegDownProcessor();
-        String new_content=peg.markdownToHtml(content);
-        article.setContent(new_content);
+        //PegDownProcessor peg=new PegDownProcessor();
+        //String new_content=peg.markdownToHtml(content);
+        System.out.println("content"+content);
+        //System.out.println("new_content:"+new_content);
+        article.setContent(content);
         if (article!=null)
         {
             logger.info("前端根据ID获取博文信息内容:{}.",article.toString());

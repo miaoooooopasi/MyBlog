@@ -20,7 +20,7 @@ public interface ArticleMapper {
 
     int updateByPrimaryKey(Article record);
 
-    @Select("SELECT * FROM article order by createtime")
+    @Select("SELECT * FROM article order by id desc")
     @Results(value = {
             @Result(property = "articleimage", column = "imageid",
                     one = @One(select = "com.leon.myblog.mapper.ArticleimageMapper.selectByPrimaryKey")

@@ -17,6 +17,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,7 +34,6 @@ import java.util.Map;
  * @ version: $version$
  */
 
-@CrossOrigin(origins ={"127.0.0.1:8080","127.0.0.1:8081"} , maxAge = 3600,allowCredentials = "true")
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -58,20 +58,6 @@ public class AdminController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-
-    @GetMapping("/home")
-    @RequiresRoles("admin")
-    public ModelAndView home(){
-        // 获取当前登录用户名
-        String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
-
-        ModelAndView mv = new ModelAndView();
-        User user=userService.findByUserName(currentUser);
-        mv.addObject("user",user);
-        mv.setViewName("admin/home.html");
-        return mv;
-    }
-
     @GetMapping("/addArticle")
     public ModelAndView addArticle(){
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
@@ -86,15 +72,18 @@ public class AdminController {
 
 
     @GetMapping("/listArticle")
-    //@RequiresRoles("admin")
-    //@RequiresPermissions("admin:listarticles")
-    public Map<String, Object> getAllArticle(){
+    @Transactional(rollbackFor = Exception.class)
+    public Result<Article> getAllArticle(){
         Map<String,Object> resultMap = new HashMap();
         resultMap.put("rows",articleService.getAllArticle());
         resultMap.put("total",articleService.getAllArticle().size());
         resultMap.put("totalNotFiltered",resultMap.size());
 
-        return resultMap;
+        if (articleService.getAllArticle()!=null&&resultMap.size()!=0){
+            return ResultUtil.success(resultMap);
+        }
+        else
+            return ResultUtil.fail("查询失败");
     }
 
     @GetMapping("/articleManager")
@@ -178,30 +167,33 @@ public class AdminController {
     }
 
     @PostMapping("/insertArticle")
-    @RequiresRoles("admin")
-    public int insertArticle(@RequestParam("title") String title,@RequestParam("content") String content,
-                             @RequestParam("pushdate") String pushdate, @RequestParam("image") String image,
-                             @RequestParam("category") String category){
+    @Transactional
+    public Result insertArticle(@RequestParam("title") String title,@RequestParam("content") String content,
+                             @RequestParam("modifytime") String modifytime, @RequestParam("imagename") String imagename,
+                             @RequestParam("categoryname") String categoryname,@RequestParam("summary") String summary,
+                             @RequestParam("createtime") String createtime){
 
         //PegDownProcessor  peg=new PegDownProcessor();
         //String new_content=peg.markdownToHtml(content);
 
         Article article=new Article();
         article.setTitle(title);
+        article.setSummary(summary);
         article.setContent(content);
+        article.setCreatetime(createtime);
+        article.setModifytime(modifytime);
         article.setClicknums(0);
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
-        ModelAndView mv = new ModelAndView();
         User user=userService.findByUserName(currentUser);
         article.setUserid(user.getId());
-        article.setImageid(articleimageService.getImageIdByImagename(image));
-        article.setCategoryid(categoryService.getCategoryIdByCategoryname(category));
-        int ret= articleService.insertArticle(article);
-        if(ret==1){
-            return 1;
+        article.setImageid(articleimageService.getImageIdByImagename(imagename));
+        article.setCategoryid(categoryService.getCategoryIdByCategoryname(categoryname));
+        if(articleService.insertArticle(article)==1){
+            logger.info("{}新建博文:{}",user.getUsername(),article.toString());
+            return ResultUtil.success();
         }
         else {
-            return 0;
+            return ResultUtil.fail("保存博文失败");
         }
     }
 
