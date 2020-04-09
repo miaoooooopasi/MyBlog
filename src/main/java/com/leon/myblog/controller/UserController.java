@@ -7,57 +7,81 @@ package com.leon.myblog.controller;
 
 import com.leon.myblog.enity.User;
 import com.leon.myblog.service.UserService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.leon.myblog.utils.result.Result;
+import com.leon.myblog.utils.result.ResultUtil;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/admin")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
 
-    @ApiOperation("根据用户名查询用户信息信息")
-    @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String")
-    @RequiresPermissions("1010")
-    @GetMapping("/get")
-    public User select(@RequestParam("username") String username){
-        return userService.findByUserName(username);
+    @GetMapping("/getUserInfoByUsername")
+    public Result select(@RequestParam("username") String username){
+        if (userService.findByUserName(username)!=null){
+            return ResultUtil.success(userService.findByUserName(username));
+        }
+        else
+            return ResultUtil.fail("查询失败");
     }
 
-    @ApiOperation("根据用户ID查询对应的角色")
-    @ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "int")
-    @GetMapping("/getRoleById")
-    public List<Integer> getRoleById(@RequestParam("id") int id){
-        return userService.getRoleByUserId(id);
+
+    @GetMapping("/getRoleByUserId")
+    public Result getRoleByUserId(@RequestParam("id") int id){
+        if (userService.getRoleByUserId(id).size()>0)
+        {
+            return ResultUtil.success(userService.getRoleByUserId(id));
+        }
+        else
+            return ResultUtil.fail("查询失败");
     }
 
-    @ApiOperation("根据角色ID查询对应的权限")
-    @ApiImplicitParam(name = "id", value = "角色id", required = true, dataType = "int")
-    @GetMapping("/getPermisonById")
-    public  List<Integer> getPermisonsById(@RequestParam("id") int id){
-        return userService.getPermisonsByUserId(id);
+
+    @GetMapping("/getUserPermissionByUserId")
+    public Result getPermisonsById(@RequestParam("id") int id){
+        if (userService.getPermisonsByUserId(id).size()>0)
+        {
+            return ResultUtil.success(userService.getPermisonsByUserId(id));
+        }
+        else
+            return ResultUtil.fail("查询失败");
     }
 
-    //@ApiOperation("注册用户")
-    //@ApiImplicitParam(name = "id", value = "角色id", required = true, dataType = "int")
+
     @PostMapping("/addUser")
-    public int addUser(@RequestParam("username") String username,@RequestParam("password") String password){
+    public Result addUser(@RequestParam("username") String username, @RequestParam("password") String password,
+                          @RequestParam(defaultValue = "") String email, @RequestParam(defaultValue = "") String phone,
+                          @RequestParam(defaultValue = "") String gender, @RequestParam("roleid") Integer roleid){
         User user=new User();
         String newpwd = new SimpleHash("MD5", password).toHex();
-
         user.setUsername(username);
         user.setPwd(newpwd);
-        user.setRoleid(1);
+        user.setRoleid(roleid);
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setGender(gender);
+        if (userService.insertUser(user)==1)
+        {
+            return ResultUtil.success();
+        }
+        else
+            return ResultUtil.fail("新增用户失败");
 
-        return userService.insertUser(user);
+    }
+
+    @PostMapping("/delUser")
+    public Result delUser(@RequestParam("id") Integer id){
+        if (userService.delUser(id)==1)
+        {
+            return ResultUtil.success();
+        }
+        else
+            return ResultUtil.fail("删除用户失败");
     }
 
 }

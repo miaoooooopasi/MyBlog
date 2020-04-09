@@ -53,7 +53,7 @@ public class FrontController {
     {
         Map<String, Object> resultMap = new HashMap<>();
         Article article=articleService.getArticleById(id);
-        System.out.println(articleService.getArticleById(100));
+        //System.out.println(articleService.getArticleById(100));
         String content = article.getContent();
 
         // 将markdown格式转为html格式
@@ -65,6 +65,7 @@ public class FrontController {
         if (article!=null)
         {
             logger.info("前端根据ID获取博文信息内容:{}.",article.toString());
+            articleService.upArticleClicknum(id);
             return ResultUtil.success(article);
         }
         else
@@ -91,7 +92,7 @@ public class FrontController {
     @ApiOperation("获取博文数据")
     @GetMapping(value={"/articleList"})
     public Result<List> home(@RequestParam(defaultValue = "1") Integer pageNum,
-                                         @RequestParam(defaultValue = "10") Integer pageSize){
+                                         @RequestParam(defaultValue = "4") Integer pageSize){
 
         Map<String,Object> resultMap = new HashMap<>();
         //获取前五的文章

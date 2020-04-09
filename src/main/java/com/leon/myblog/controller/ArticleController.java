@@ -3,10 +3,7 @@ package com.leon.myblog.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leon.myblog.enity.Article;
 import com.leon.myblog.enity.User;
-import com.leon.myblog.service.ArticleService;
-import com.leon.myblog.service.ArticleimageService;
-import com.leon.myblog.service.CategoryService;
-import com.leon.myblog.service.UserService;
+import com.leon.myblog.service.*;
 import com.leon.myblog.utils.QiniuUploadFileServiceImpl;
 import com.leon.myblog.utils.result.Result;
 import com.leon.myblog.utils.result.ResultUtil;
@@ -36,7 +33,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
-public class AdminController {
+public class ArticleController {
 
     @Autowired
     private UserService userService;
@@ -46,6 +43,9 @@ public class AdminController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private TagsService tagsService;
 
     @Autowired
     private ArticleimageService articleimageService;
@@ -86,18 +86,6 @@ public class AdminController {
             return ResultUtil.fail("查询失败");
     }
 
-    @GetMapping("/articleManager")
-    @RequiresRoles("admin")
-    public Map<String, Object> getAllArticles(){
-        String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
-        Map<String,Object> resultMap = new HashMap();
-        User user=userService.findByUserName(currentUser);
-        resultMap.put("user",user);
-        //mv.setViewName("admin/manageArticle.html");
-        return resultMap;
-    }
-
-
     @GetMapping("/articleImageManager")
     @RequiresRoles("admin")
     public ModelAndView getAllArticleImages(){
@@ -131,7 +119,11 @@ public class AdminController {
         //User user=userService.findByUserName(currentUser);
         Map<String, Object> map = new HashMap<>();
         map.put("articleDetail",articleService.getArticleById(id));
-        return ResultUtil.success(map);
+        if(map.size()>0){
+            return ResultUtil.success(map);
+        }
+        else
+            return ResultUtil.fail("查询失败");
     }
 
     @PostMapping("/updateArticle")
@@ -217,15 +209,6 @@ public class AdminController {
     }
 
 
-    @GetMapping("/getUploadImg")
-    public ModelAndView dss(){
-        String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
-        ModelAndView mv = new ModelAndView();
-        User user=userService.findByUserName(currentUser);
-        mv.addObject("user",user);
 
-        mv.setViewName("admin/uploadFile.html");
-        return mv;
-    }
 
 }

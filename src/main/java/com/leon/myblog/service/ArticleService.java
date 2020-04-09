@@ -55,4 +55,8 @@ public class ArticleService {
     public List<Article> getSearchResults(String keyword){
         return articleMapper.getSearchResults(keyword);
     }
+
+    public void upArticleClicknum(Integer id){
+        articleMapper.upAticleClicknum(id);
+    }
 }

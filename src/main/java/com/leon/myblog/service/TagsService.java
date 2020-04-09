@@ -24,5 +24,11 @@ public class TagsService {
         return tagMapper.getAllTags();
     }
 
+    public int insertTag(Tag tag){
+        return tagMapper.insert(tag);
+    }
 
+    public int delTag(Integer id){
+        return tagMapper.deleteByPrimaryKey(id);
+    }
 }

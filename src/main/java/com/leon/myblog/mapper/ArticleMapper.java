@@ -54,4 +54,7 @@ public interface ArticleMapper {
 
     @Select("select * from article where content like #{keyword};")
     List<Article> getSearchResults(String keyword);
+
+    @Update("update article set clicknums=clicknums+1 where id =#{id}")
+    void upAticleClicknum(Integer id);
 }

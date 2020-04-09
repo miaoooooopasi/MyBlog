@@ -1,0 +1,92 @@
+
+# Server Port and Encoding
+server:
+  port: 8090
+
+
+# Spring Datasource Settings    http://114.67.233.235:9400
+spring:
+
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    cache: false
+
+  redis:
+    timeout: 2000s
+    host: 127.0.0.1
+    port: 6379
+
+  mail:
+    host: smtp.qq.com
+    username: 1429169422@qq.com
+    password: tjsbulmayrlnjefg
+    default-encoding: UTF-8
+
+  datasource:
+    name: druidDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/myblog?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+      username: root
+      password: 123456
+      filters: stat
+      max-active: 100
+      initial-size: 1
+      max-wait: 60000
+      min-idle: 1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 50
+      max-pool-prepared-statement-per-connection-size: 20
+
+# Mybatis config
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.leon.myblog.enity
+  configuration:
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+
+
+
+shiro:
+  web:
+    enabled: true
+  loginUrl: /login
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  server:
+    port: 8090
+    servlet:
+      context-path: /
+    ssl:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+
+# 七牛云配置
+# bucket是创建的存储空间名
+# path对应存储空间的访问域名
+
+qiniu:
+  accessKey: EfHl0SLv_djWWCDD0C8YiIBB2N67ZsIuvX63Hcyt
+  secretKey: J24klO0fvcWszkpfsX2gw0D8vIU4iH6SwLFzz691
+  bucket: personalmyblog
+  path: q2n3vacfu.bkt.clouddn.com
+

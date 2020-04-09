@@ -55,4 +55,8 @@ public class UserService {
         return permisionMapper.selectByPrimaryKey(id);
     }
 
+    public int delUser(Integer id){
+        return userMapper.deleteByPrimaryKey(id);
+    }
+
 }
