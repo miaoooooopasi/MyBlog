@@ -7,6 +7,7 @@ import com.leon.myblog.enity.Category;
 import com.leon.myblog.enity.Tag;
 import com.leon.myblog.enity.Timeaxi;
 import com.leon.myblog.service.*;
+import com.leon.myblog.utils.IpUtil;
 import com.leon.myblog.utils.result.Result;
 import com.leon.myblog.utils.result.ResultUtil;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,12 @@ public class FrontController {
     @Autowired
     ArticleHasTagService articleHasTagService;
 
+    @Autowired
+    SendMailService sendMailService;
+
+    @Autowired
+    HttpServletRequest httpServletRequest;
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
@@ -59,13 +67,14 @@ public class FrontController {
         // 将markdown格式转为html格式
         //PegDownProcessor peg=new PegDownProcessor();
         //String new_content=peg.markdownToHtml(content);
-        System.out.println("content"+content);
+        //System.out.println("content"+content);
         //System.out.println("new_content:"+new_content);
         article.setContent(content);
         if (article!=null)
         {
             logger.info("前端根据ID获取博文信息内容:{}.",article.toString());
             articleService.upArticleClicknum(id);
+            sendMailService.sendSimpleMail("1429169422@qq.com","leon", IpUtil.getIpAddr(httpServletRequest)+"访问了："+article.getTitle());
             return ResultUtil.success(article);
         }
         else
