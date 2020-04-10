@@ -113,8 +113,7 @@ public class FrontController {
 
     }
 
-    @ApiOperation("根据分类ID获取对应的分类博文数据")
-    @ApiImplicitParam(name = "categoryid", value = "分类ID", required = true, dataType = "int")
+
     @GetMapping("/categoryList")
     public Result<List> getCategoryDetail(@RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "3") Integer pageSize,
@@ -177,15 +176,6 @@ public class FrontController {
         }
         else
             return ResultUtil.fail("查询失败");
-    }
-
-    @GetMapping("/SearchResult")
-    public Result<Article> getSearchResults(@RequestParam("keyword") String keyword){
-        if (articleService.getSearchResults(keyword)!=null){
-            return ResultUtil.success(articleService.getSearchResults("%"+keyword+"%"));
-        }
-        else
-            return ResultUtil.error("没有查询的内容");
     }
 
 }
