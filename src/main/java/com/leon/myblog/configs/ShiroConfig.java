@@ -57,6 +57,12 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/login","anon");
         filterChainDefinitionMap.put("/front","anon");
         filterChainDefinitionMap.put("/front/**", "anon");
+        //swagger相关资源
+        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
+        filterChainDefinitionMap.put("/v2/api-docs", "anon");
+        filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
+
         filterChainDefinitionMap.put("/logout","logout");
 
         filterChainDefinitionMap.put("/admin/**", "roles[admin]");

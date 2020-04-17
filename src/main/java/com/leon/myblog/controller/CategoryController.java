@@ -23,8 +23,6 @@ public class CategoryController {
      * author: leon
      * @return 1：成功  0：失败
      */
-    @ApiOperation("插入某一条分类信息")
-    @ApiImplicitParam(name = "id",  value = "插入ID", required = false, dataType = "Integer")
     @PostMapping("/insert")
     public int InsertCategory(@RequestParam("categoryname") String categoryname,@RequestParam("categoryimageid") Integer categoryimageid){
         Category category=new Category();

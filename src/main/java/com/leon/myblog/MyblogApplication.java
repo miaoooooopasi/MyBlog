@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableScheduling
 @MapperScan("com.leon.myblog.mapper")
-
 public class MyblogApplication {
 
     public static void main(String[] args) {
