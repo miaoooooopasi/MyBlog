@@ -2,7 +2,7 @@
 # Spring Datasource Settings    http://114.67.233.235:9400
 spring:
   profiles:
-    active: dev
+    active: prod
 
 
 

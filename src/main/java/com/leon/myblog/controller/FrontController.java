@@ -10,6 +10,7 @@ import com.leon.myblog.service.*;
 import com.leon.myblog.utils.IpUtil;
 import com.leon.myblog.utils.result.Result;
 import com.leon.myblog.utils.result.ResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@Api(description = "网站前端API接口")
 @RestController
 @RequestMapping("/front")
 public class FrontController {
@@ -55,7 +56,7 @@ public class FrontController {
 
 
     @ApiOperation("根据博文ID获取博文对应的详细数据")
-    @ApiImplicitParam(name = "id", value = "博文ID", required = true, dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "博文ID", required = true, dataType = "int")
     @GetMapping("/detail")
     public Result<Article> detail(@RequestParam("id") Integer id)
     {
