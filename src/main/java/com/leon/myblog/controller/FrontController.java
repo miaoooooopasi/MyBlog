@@ -82,11 +82,13 @@ public class FrontController {
             sendMailService.sendSimpleMail("1429169422@qq.com","leon", IpUtil.getIpAddr(httpServletRequest)+"访问了："+article.getTitle());
             //System.out.println("11111111111111111111111111111111111111");
             String ip=IpUtil.getIpAddr(httpServletRequest);
-            //String ip="110.186.68.98";
+            //String ip = "110.186.68.98";
+            System.out.println(ip);
             JsonRootBean r = restTemplate.getForObject("https://api.map.baidu.com/location/ip"+"?ip="+ip+"&ak="+"2bUq2VdcmOhcEcgsFTIZbYo53ovjTNxk", JsonRootBean.class);
-            //System.out.println(r.getAddress());
+            System.out.println(r);
             if (r!=null) {
                 Accessinformation accessinformation = new Accessinformation();
+                System.out.println(r.getContent());
                 accessinformation.setAddresssimple(r.getContent().getAddress_detail().getProvince());
                 accessinformation.setAddressdetail(r.getAddress());
                 accessinformation.setCity(r.getContent().getAddress_detail().getCity());

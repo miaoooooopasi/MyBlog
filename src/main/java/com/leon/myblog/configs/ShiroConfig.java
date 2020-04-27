@@ -147,7 +147,7 @@ public class ShiroConfig {
         RedisManager redisManager = new RedisManager();
         redisManager.setHost("114.67.233.235:6379");
         //redisManager.setTimeout((int) timeout.toMillis());
-        //redisManager.setPassword("123456");
+        redisManager.setPassword("leon#1010");
         return redisManager;
     }
 
