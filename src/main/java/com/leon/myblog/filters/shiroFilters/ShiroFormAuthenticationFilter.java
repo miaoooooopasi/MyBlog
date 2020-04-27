@@ -2,9 +2,11 @@ package com.leon.myblog.filters.shiroFilters;
 
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
@@ -32,5 +34,27 @@ public class ShiroFormAuthenticationFilter extends FormAuthenticationFilter {
         out.flush();
         out.close();
         return false;
+    }
+
+    @Override
+    public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        //Always return true if the request's method is OPTIONS
+        if (request instanceof HttpServletRequest) {
+            if (((HttpServletRequest) request).getMethod().toUpperCase().equals("OPTIONS")) {
+                return true;
+            }
+         }
+        return super.isAccessAllowed(request, response, mappedValue);
+    }
+
+    @Override
+    public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+        HttpServletRequest req = (HttpServletRequest)request;
+        HttpServletResponse res = (HttpServletResponse)response;
+        if(req.getMethod().equals(RequestMethod.OPTIONS.name())){
+            res.setStatus(200);
+            return true;
+        }
+        return super.onPreHandle(request, response, mappedValue);
     }
 }

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leon.myblog.mapper.AccessinformationMapper">
+  <resultMap id="BaseResultMap" type="com.leon.myblog.enity.Accessinformation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="addressDetail" jdbcType="VARCHAR" property="addressdetail" />
+    <result column="addressSimple" jdbcType="VARCHAR" property="addresssimple" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="cityCode" jdbcType="VARCHAR" property="citycode" />
+    <result column="pointX" jdbcType="VARCHAR" property="pointx" />
+    <result column="pointY" jdbcType="VARCHAR" property="pointy" />
+    <result column="ipaddress" jdbcType="VARCHAR" property="ipaddress" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, addressDetail, addressSimple, city, cityCode, pointX, pointY, ipaddress
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from accessinformation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from accessinformation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.leon.myblog.enity.Accessinformation">
+    insert into accessinformation (id, addressDetail, addressSimple, 
+      city, cityCode, pointX, 
+      pointY, ipaddress)
+    values (#{id,jdbcType=INTEGER}, #{addressdetail,jdbcType=VARCHAR}, #{addresssimple,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{citycode,jdbcType=VARCHAR}, #{pointx,jdbcType=VARCHAR}, 
+      #{pointy,jdbcType=VARCHAR}, #{ipaddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.leon.myblog.enity.Accessinformation">
+    insert into accessinformation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="addressdetail != null">
+        addressDetail,
+      </if>
+      <if test="addresssimple != null">
+        addressSimple,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="citycode != null">
+        cityCode,
+      </if>
+      <if test="pointx != null">
+        pointX,
+      </if>
+      <if test="pointy != null">
+        pointY,
+      </if>
+      <if test="ipaddress != null">
+        ipaddress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="addressdetail != null">
+        #{addressdetail,jdbcType=VARCHAR},
+      </if>
+      <if test="addresssimple != null">
+        #{addresssimple,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null">
+        #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="pointx != null">
+        #{pointx,jdbcType=VARCHAR},
+      </if>
+      <if test="pointy != null">
+        #{pointy,jdbcType=VARCHAR},
+      </if>
+      <if test="ipaddress != null">
+        #{ipaddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.leon.myblog.enity.Accessinformation">
+    update accessinformation
+    <set>
+      <if test="addressdetail != null">
+        addressDetail = #{addressdetail,jdbcType=VARCHAR},
+      </if>
+      <if test="addresssimple != null">
+        addressSimple = #{addresssimple,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null">
+        cityCode = #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="pointx != null">
+        pointX = #{pointx,jdbcType=VARCHAR},
+      </if>
+      <if test="pointy != null">
+        pointY = #{pointy,jdbcType=VARCHAR},
+      </if>
+      <if test="ipaddress != null">
+        ipaddress = #{ipaddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.leon.myblog.enity.Accessinformation">
+    update accessinformation
+    set addressDetail = #{addressdetail,jdbcType=VARCHAR},
+      addressSimple = #{addresssimple,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      cityCode = #{citycode,jdbcType=VARCHAR},
+      pointX = #{pointx,jdbcType=VARCHAR},
+      pointY = #{pointy,jdbcType=VARCHAR},
+      ipaddress = #{ipaddress,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

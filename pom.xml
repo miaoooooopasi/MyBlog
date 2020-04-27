@@ -86,6 +86,13 @@
             <version>1.1.9</version>
         </dependency>
 
+        <!-- cor-filter -->
+        <dependency>
+            <groupId>com.thetransactioncompany</groupId>
+            <artifactId>cors-filter</artifactId>
+            <version>2.6</version>
+        </dependency>
+
         <!-- swagger -->
         <dependency>
             <groupId>io.springfox</groupId>

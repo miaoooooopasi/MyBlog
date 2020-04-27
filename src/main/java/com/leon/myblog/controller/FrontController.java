@@ -2,10 +2,7 @@ package com.leon.myblog.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.leon.myblog.enity.Article;
-import com.leon.myblog.enity.Category;
-import com.leon.myblog.enity.Tag;
-import com.leon.myblog.enity.Timeaxi;
+import com.leon.myblog.enity.*;
 import com.leon.myblog.service.*;
 import com.leon.myblog.utils.IpUtil;
 import com.leon.myblog.utils.result.Result;
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -52,6 +50,12 @@ public class FrontController {
     @Autowired
     HttpServletRequest httpServletRequest;
 
+    @Autowired
+    RestTemplate restTemplate;
+
+    @Autowired
+    AccessinformationService accessinformationService;
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
@@ -60,7 +64,7 @@ public class FrontController {
     @GetMapping("/detail")
     public Result<Article> detail(@RequestParam("id") Integer id)
     {
-        Map<String, Object> resultMap = new HashMap<>();
+
         Article article=articleService.getArticleById(id);
         //System.out.println(articleService.getArticleById(100));
         String content = article.getContent();
@@ -76,7 +80,25 @@ public class FrontController {
             logger.info("前端根据ID获取博文信息内容:{}.",article.toString());
             articleService.upArticleClicknum(id);
             sendMailService.sendSimpleMail("1429169422@qq.com","leon", IpUtil.getIpAddr(httpServletRequest)+"访问了："+article.getTitle());
-            return ResultUtil.success(article);
+            //System.out.println("11111111111111111111111111111111111111");
+            String ip=IpUtil.getIpAddr(httpServletRequest);
+            //String ip="110.186.68.98";
+            JsonRootBean r = restTemplate.getForObject("https://api.map.baidu.com/location/ip"+"?ip="+ip+"&ak="+"2bUq2VdcmOhcEcgsFTIZbYo53ovjTNxk", JsonRootBean.class);
+            //System.out.println(r.getAddress());
+            if (r!=null) {
+                Accessinformation accessinformation = new Accessinformation();
+                accessinformation.setAddresssimple(r.getContent().getAddress_detail().getProvince());
+                accessinformation.setAddressdetail(r.getAddress());
+                accessinformation.setCity(r.getContent().getAddress_detail().getCity());
+                accessinformation.setCitycode(String.valueOf(r.getContent().getAddress_detail().getCity_code()));
+                accessinformation.setPointx(r.getContent().getPoint().getX());
+                accessinformation.setIpaddress(ip);
+                accessinformation.setPointy(r.getContent().getPoint().getY());
+                accessinformationService.insertOneAccesinformation(accessinformation);
+                return ResultUtil.success(article);
+            }
+            else
+                return ResultUtil.fail("访问客户端IP有问题");
         }
         else
             return ResultUtil.fail("查询失败");

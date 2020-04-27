@@ -7,6 +7,8 @@ server:
 # Spring Datasource Settings    http://114.67.233.235:9400
 spring:
 
+  cors:
+    legal-clients: http://127.0.0.1:8090,
 
   thymeleaf:
     prefix: classpath:/templates/

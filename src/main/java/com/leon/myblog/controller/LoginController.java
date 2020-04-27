@@ -29,7 +29,7 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> login(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public Map<String,Object> login(@RequestParam("username") String username,@RequestParam("password") String password) {
 
         Map<String, Object> resultMap = new HashMap<>();
 
