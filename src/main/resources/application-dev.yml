@@ -16,8 +16,9 @@ spring:
 
   redis:
     timeout: 2000s
-    host: 127.0.0.1
+    host: 114.67.233.235
     port: 6379
+    password: leon#1010
 
   mail:
     host: smtp.qq.com

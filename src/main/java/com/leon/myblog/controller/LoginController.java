@@ -6,9 +6,9 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,15 +21,17 @@ import java.util.Map;
  * @ version: $version$
  */
 
-@Controller
+@RestController
 public class LoginController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String,Object> login(@RequestParam("username") String username,@RequestParam("password") String password) {
+    //private ObjectMapper objectMapper = new ObjectMapper();
+
+    @PostMapping(value = "/login")
+    //@CrossOrigin(origins = "http://localhost:8080")
+    public Map<String,Object> login(@RequestParam String username, @RequestParam String password) {
 
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -38,7 +40,7 @@ public class LoginController {
         // 在认证提交前准备 token（令牌）
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 
-        ModelAndView mv = new ModelAndView();
+       System.out.println("登录用户是："+username);
         User user=userService.findByUserName(username);
 
         // 执行认证登陆
@@ -73,8 +75,8 @@ public class LoginController {
         if (subject.isAuthenticated()) {
             String sessionId = (String)subject.getSession().getId();
             resultMap.put("user",user);
-            resultMap.put("code","511");
-            resultMap.put("sessionId",sessionId);
+            resultMap.put("code",200);
+            resultMap.put("TOKEN",sessionId);
             resultMap.put("message","登录成功");
             return resultMap;
         } else {
@@ -85,12 +87,5 @@ public class LoginController {
         }
     }
 
-    @GetMapping("/loginpage")
-    public ModelAndView loginpage(){
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("admin/login.html");
-        // 母版
-        return mv;
-    }
 
 }

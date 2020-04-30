@@ -49,6 +49,12 @@
         <version>5.2.2</version>
         </dependency-->
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.6</version>
+        </dependency>
+
         <!--spring-boot-devtools 热部署 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -43,12 +43,14 @@ public class CustomRealm extends AuthorizingRealm{
         SimpleAuthorizationInfo info= new SimpleAuthorizationInfo();
         String username  = (String) principalCollection.getPrimaryPrincipal();
         User userInfo = userService.findByUserName(username);
+        System.out.println("用户ID："+userInfo.getId());
 
         for (Integer integer : userService.getRoleByUserId(userInfo.getId())){
             info.addRole(userService.getRoleByRileId(integer).getRolename());
             System.out.println("role:"+userService.getRoleByRileId(integer).getRolename());
-            for (Integer id : userService.getPermisonsByUserId(integer)){
-                System.out.println("permision:"+userService.getPermisonByPermisionId(id).getPermisionname());
+            for (int id : userService.getPermisonsByUserId(integer)){
+                System.out.println(userService.getPermisonsByUserId(integer).);
+                System.out.println("permision:"+userService.getPermisonByPermisionId(id).getPermisionname()+userService.getPermisonByPermisionId(id).getPermisionname());
                 info.addStringPermission(userService.getPermisonByPermisionId(id).getPermisionname());
             }
         }
