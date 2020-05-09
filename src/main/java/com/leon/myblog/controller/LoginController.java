@@ -40,7 +40,7 @@ public class LoginController {
         // 在认证提交前准备 token（令牌）
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 
-       System.out.println("登录用户是："+username);
+       System.out.println("登录用户是："+username+"token:"+token);
         User user=userService.findByUserName(username);
 
         // 执行认证登陆

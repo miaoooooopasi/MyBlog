@@ -47,7 +47,7 @@ public class UserService {
         return roleMapper.selectByPrimaryKey(id);
     }
 
-    public List<Integer> getPermisonsByUserId(int id) {
+    public List<Integer> getPermisonsByRoleId(int id) {
         return roleHasPermisionMapper.getPermisonsByRoleId(id);
     }
 

@@ -21,6 +21,14 @@ spring:
     host: 114.67.233.235
     port: 6379
     password: leon#1010
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+
+
 
   mail:
     host: smtp.qq.com

@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leon.myblog.enity.Article;
 import com.leon.myblog.enity.User;
 import com.leon.myblog.service.*;
-import com.leon.myblog.utils.QiniuUploadFileServiceImpl;
+import com.leon.myblog.utils.QiniuUtil.QiniuUploadFileServiceImpl;
+import com.leon.myblog.utils.date.DateUtils1;
 import com.leon.myblog.utils.result.Result;
 import com.leon.myblog.utils.result.ResultUtil;
 import com.qiniu.http.Response;
@@ -161,24 +162,25 @@ public class ArticleController {
     @PostMapping("/insertArticle")
     @Transactional
     public Result insertArticle(@RequestParam("title") String title,@RequestParam("content") String content,
-                             @RequestParam("modifytime") String modifytime, @RequestParam("imagename") String imagename,
                              @RequestParam("categoryname") String categoryname,@RequestParam("summary") String summary,
                              @RequestParam("createtime") String createtime){
 
         //PegDownProcessor  peg=new PegDownProcessor();
         //String new_content=peg.markdownToHtml(content);
+        //System.out.println("time:"+ DateUtils1.dealDateFormat(createtime));
 
         Article article=new Article();
         article.setTitle(title);
         article.setSummary(summary);
         article.setContent(content);
-        article.setCreatetime(createtime);
-        article.setModifytime(modifytime);
+        article.setCreatetime(DateUtils1.dealDateFormat(createtime));
+        //article.setModifytime(modifytime);
+        article.setImageid(4);
         article.setClicknums(0);
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
         User user=userService.findByUserName(currentUser);
         article.setUserid(user.getId());
-        article.setImageid(articleimageService.getImageIdByImagename(imagename));
+        //article.setImageid(articleimageService.getImageIdByImagename(imagename));
         article.setCategoryid(categoryService.getCategoryIdByCategoryname(categoryname));
         if(articleService.insertArticle(article)==1){
             logger.info("{}新建博文:{}",user.getUsername(),article.toString());
@@ -209,6 +211,17 @@ public class ArticleController {
     }
 
 
+    @PostMapping("/delArticleById")
+    @Transactional
+    public Result insertArticle(@RequestParam("id") int id){
 
+        if(articleService.delArticleById(id)==1){
+            //logger.info("{}新建博文:{}",user.getUsername(),article.toString());
+            return ResultUtil.success();
+        }
+        else {
+            return ResultUtil.fail("保存博文失败");
+        }
+    }
 
 }

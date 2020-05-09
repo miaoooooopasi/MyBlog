@@ -44,9 +44,9 @@ public class UserController {
 
     @GetMapping("/getUserPermissionByUserId")
     public Result getPermisonsById(@RequestParam("id") int id){
-        if (userService.getPermisonsByUserId(id).size()>0)
+        if (userService.getPermisonsByRoleId(id).size()>0)
         {
-            return ResultUtil.success(userService.getPermisonsByUserId(id));
+            return ResultUtil.success(userService.getPermisonsByRoleId(id));
         }
         else
             return ResultUtil.fail("查询失败");

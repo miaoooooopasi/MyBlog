@@ -46,7 +46,7 @@ public class TestController {
         System.out.println("1111111111111111111111111"+userInfo.getId());
         System.out.println("2222222222222222222222222"+userService.getRoleByUserId(userInfo.getId()));
         System.out.println("3333333333333333333333333"+userService.getRoleByRileId(1).getRolename());
-        System.out.println("4444444444444444444444444"+userService.getPermisonsByUserId(1));
+        System.out.println("4444444444444444444444444"+userService.getPermisonsByRoleId(1));
         System.out.println("5555555555555555555555555"+userService.getPermisonByPermisionId(1).getPermisionname());
 
 

@@ -1,20 +1,28 @@
 package com.leon.myblog.controller;
 
 import com.leon.myblog.enity.Category;
+import com.leon.myblog.service.ArticleService;
 import com.leon.myblog.service.CategoryService;
+import com.leon.myblog.utils.result.Result;
+import com.leon.myblog.utils.result.ResultUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/admin")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private ArticleService articleService;
 
     /*
      * description:  在分类表插入单条分类数据
@@ -73,6 +81,25 @@ public class CategoryController {
     public List<Category> getAllCategory(){
         return categoryService.getall();
     }
+
+    /*
+     * description: 该接口提供管理系统的home页的分类饼图
+     * version: 1.0
+     * date:   2020-02-11
+     * author: leon
+     * params:
+     * @return:
+     */
+    @GetMapping("/getCategoryForHome")
+    public Result getCategoryForHome(){
+
+        Map<String,Object> resultMap = new HashMap();
+
+        //System.out.println(articleService.getCategoryForHome());
+        resultMap.put("rows",articleService.getCategoryForHome());
+        return ResultUtil.success(resultMap);
+    }
+
 
     /*
      * description: 根据分类数据的ID修改该条分类数据信息

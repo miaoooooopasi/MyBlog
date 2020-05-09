@@ -166,7 +166,7 @@ public class ShiroConfig {
         redisCacheManager.setRedisManager(redisManager());
         // 必须要设置主键名称，shiro-redis 插件用过这个缓存用户信息
         //redisCacheManager.setPrincipalIdFieldName("username");
-        redisCacheManager.setExpire(1800*4);
+        redisCacheManager.setExpire(1800*48);
         return redisCacheManager;
     }
 

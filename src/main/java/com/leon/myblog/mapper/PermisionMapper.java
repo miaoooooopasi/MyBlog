@@ -9,6 +9,7 @@ public interface PermisionMapper {
 
     int insertSelective(Permision record);
 
+
     Permision selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Permision record);

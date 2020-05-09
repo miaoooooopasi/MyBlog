@@ -29,6 +29,7 @@ public class MySessionManager extends DefaultWebSessionManager {
         super();
     }
 
+
     @Override
     public Serializable getSessionId(ServletRequest request, ServletResponse response) {
         //前端ajax的headers中必须传入Authorization的值

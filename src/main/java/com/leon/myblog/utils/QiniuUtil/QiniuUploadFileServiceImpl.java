@@ -1,4 +1,4 @@
-package com.leon.myblog.utils;
+package com.leon.myblog.utils.QiniuUtil;
 
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;

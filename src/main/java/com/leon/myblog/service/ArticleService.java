@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ：leon
@@ -44,6 +45,8 @@ public class ArticleService {
         return articleMapper.getAllArticleByCategoryid(categoryid);
     }
 
+
+
     public List<Article> getTop5Article(){
         return articleMapper.getTop5Article();
     }
@@ -56,7 +59,15 @@ public class ArticleService {
         return articleMapper.getSearchResults(keyword);
     }
 
+    public List<Map<String,String>> getCategoryForHome(){
+        return articleMapper.getCategoryForHome();
+    }
+
     public void upArticleClicknum(Integer id){
         articleMapper.upAticleClicknum(id);
+    }
+
+    public int delArticleById(int id){
+        return articleMapper.deleteByPrimaryKey(id);
     }
 }

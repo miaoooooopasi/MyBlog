@@ -4,6 +4,7 @@ import com.leon.myblog.enity.Article;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ArticleMapper {
     int deleteByPrimaryKey(Integer id);
@@ -30,7 +31,7 @@ public interface ArticleMapper {
     })
     List<Article> getAllArticle();
 
-    @Select("SELECT * FROM article where categoryid=#{categoryid}")
+    @Select("SELECT * FROM article where categoryid=#{categoryid} order by id desc")
     @Results({
             @Result(property = "articleimage",column = "imageid",
                     one=@One(select = "com.leon.myblog.mapper.ArticleimageMapper.selectByPrimaryKey")
@@ -42,6 +43,9 @@ public interface ArticleMapper {
 
     @Select("select * from article order by clicknums limit 5")
     List<Article> getTop5Article();
+
+    @Select("select c.categoryname as 分类, count(categoryid) as 数量 from article a,category c where a.categoryid=c.id group by(categoryid)")
+    List<Map<String,String>> getCategoryForHome();
 
     @Select("select categoryid from article where id=#{id}")
     int getCategoryidByArticleid(int id);
