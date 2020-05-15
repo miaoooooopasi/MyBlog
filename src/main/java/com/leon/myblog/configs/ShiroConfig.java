@@ -137,7 +137,7 @@ public class ShiroConfig {
     /**
      * 配置shiro redisManager, 使用的是shiro-redis开源插件
      * <br/>
-     * create by: leigq
+     * create by: leon
      * <br/>
      * create time: 2019/7/3 14:33
      *
@@ -148,6 +148,7 @@ public class ShiroConfig {
         redisManager.setHost("114.67.233.235:6379");
         //redisManager.setTimeout((int) timeout.toMillis());
         redisManager.setPassword("leon#1010");
+        redisManager.setTimeout(3600*48);
         return redisManager;
     }
 
@@ -166,7 +167,8 @@ public class ShiroConfig {
         redisCacheManager.setRedisManager(redisManager());
         // 必须要设置主键名称，shiro-redis 插件用过这个缓存用户信息
         //redisCacheManager.setPrincipalIdFieldName("username");
-        redisCacheManager.setExpire(1800*48);
+        //redisCacheManager.setExpire(1800*48);
+        redisCacheManager.setExpire(86400);
         return redisCacheManager;
     }
 

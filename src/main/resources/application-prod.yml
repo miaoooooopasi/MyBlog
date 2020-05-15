@@ -99,5 +99,4 @@ qiniu:
   accessKey: EfHl0SLv_djWWCDD0C8YiIBB2N67ZsIuvX63Hcyt
   secretKey: J24klO0fvcWszkpfsX2gw0D8vIU4iH6SwLFzz691
   bucket: personalmyblog
-  path: q2n3vacfu.bkt.clouddn.com
-
+  path: img.bonjours.cn

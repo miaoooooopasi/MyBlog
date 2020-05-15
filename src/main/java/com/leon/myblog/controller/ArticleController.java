@@ -59,6 +59,8 @@ public class ArticleController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private String fileDomain = "http://img.bonjours.cn/";
+
     @GetMapping("/addArticle")
     public ModelAndView addArticle(){
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
@@ -165,7 +167,7 @@ public class ArticleController {
                              @RequestParam("categoryname") String categoryname,@RequestParam("summary") String summary,
                              @RequestParam("createtime") String createtime){
 
-        //PegDownProcessor  peg=new PegDownProcessor();
+        //PegDownProcessor peg=new PegDownProcessor();
         //String new_content=peg.markdownToHtml(content);
         //System.out.println("time:"+ DateUtils1.dealDateFormat(createtime));
 
@@ -182,6 +184,7 @@ public class ArticleController {
         article.setUserid(user.getId());
         //article.setImageid(articleimageService.getImageIdByImagename(imagename));
         article.setCategoryid(categoryService.getCategoryIdByCategoryname(categoryname));
+        System.out.println(categoryService.getCategoryIdByCategoryname(categoryname));
         if(articleService.insertArticle(article)==1){
             logger.info("{}新建博文:{}",user.getUsername(),article.toString());
             return ResultUtil.success();
@@ -194,19 +197,18 @@ public class ArticleController {
 
 
     @PostMapping("/uploadImg")
-    @RequiresRoles("admin")
-    public String uploadImg(@RequestParam("file") MultipartFile file){
-
+    //@RequiresRoles("admin")
+    public Result uploadImg(@RequestParam("file") MultipartFile file){
+        Map<String,String> map = new HashMap<>();
         try {
             Response response = qiniuUploadFileService.uploadFile(file.getInputStream());
             DefaultPutRet putRet = mapper.readValue(response.bodyString(), DefaultPutRet.class);
-            String filename = putRet.key;
-
+            String url = fileDomain+putRet.hash;
+            map.put("url",url);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return "ok";
+        return ResultUtil.success(map);
 
     }
 
