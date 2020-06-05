@@ -1,9 +1,9 @@
 package com.leon.myblog.controller;
 
 import com.leon.myblog.enity.Category;
-import com.leon.myblog.enity.User;
 import com.leon.myblog.service.CategoryService;
 import com.leon.myblog.service.SendMailService;
+import com.leon.myblog.service.TestService;
 import com.leon.myblog.service.UserService;
 import com.leon.myblog.utils.IpUtil;
 import com.leon.myblog.utils.RedisUtils;
@@ -39,15 +39,12 @@ public class TestController {
     @Autowired
     RedisUtils redisUtil;
 
+    @Autowired
+    TestService testService;
+
     @GetMapping("/test")
     public void test(){
 
-        User userInfo = userService.findByUserName("leon1");
-        System.out.println("1111111111111111111111111"+userInfo.getId());
-        System.out.println("2222222222222222222222222"+userService.getRoleByUserId(userInfo.getId()));
-        System.out.println("3333333333333333333333333"+userService.getRoleByRileId(1).getRolename());
-        System.out.println("4444444444444444444444444"+userService.getPermisonsByRoleId(1));
-        System.out.println("5555555555555555555555555"+userService.getPermisonByPermisionId(1).getPermisionname());
 
 
     }

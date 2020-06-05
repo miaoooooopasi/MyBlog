@@ -24,6 +24,7 @@ public class CategoryController {
     @Autowired
     private ArticleService articleService;
 
+
     /*
      * description:  在分类表插入单条分类数据
      * version: 1.0
@@ -49,7 +50,7 @@ public class CategoryController {
      */
     @ApiOperation("删除某一条分类信息")
     @ApiImplicitParam(name = "id", value = "删除ID", required = true, dataType = "Integer")
-    @DeleteMapping("/delete")
+    @PostMapping("/deleteCategoryById")
     public int DeleteCategoryById(@RequestParam("id") Integer id ){
         return categoryService.deleteCategory(id);
     }
@@ -80,6 +81,13 @@ public class CategoryController {
     @GetMapping("/getAllCategory")
     public List<Category> getAllCategory(){
         return categoryService.getall();
+    }
+
+
+
+    @GetMapping("/getAllCategoryImage")
+    public Result getAllCategoryImage(){
+        return ResultUtil.success(categoryService.getAllCategoryImage());
     }
 
     /*

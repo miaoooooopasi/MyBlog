@@ -57,6 +57,9 @@ public class ArticleController {
     @Autowired
     private ObjectMapper mapper;
 
+    @Autowired
+    private AccessinformationService accessinformationService;
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private String fileDomain = "http://img.bonjours.cn/";
@@ -218,12 +221,39 @@ public class ArticleController {
     public Result insertArticle(@RequestParam("id") int id){
 
         if(articleService.delArticleById(id)==1){
-            //logger.info("{}新建博文:{}",user.getUsername(),article.toString());
+            //logger.info("{}删除博文:{}",user.getUsername(),article.toString());
             return ResultUtil.success();
         }
         else {
-            return ResultUtil.fail("保存博文失败");
+            return ResultUtil.fail("删除博文失败");
         }
+    }
+
+
+    // 获取当前所i有访问量数据
+    @GetMapping("/getcurrentAllAcessTotalForHome")
+    public Result getcurrentAllAcessTotal(){
+        return ResultUtil.success(accessinformationService.getcurrentAllAcessTotal());
+    }
+
+
+
+    // 获取当前所有博文数量数据
+    @GetMapping("/getCurrentAllArticleTotal")
+    public Result getCurrentAllArticleTotal(){
+        return ResultUtil.success(articleService.getCurrentAllArticleTotal());
+    }
+
+    // 获取当年度博文的数据，根据月份
+    @GetMapping("/getCurrentYearArticlesByMonth")
+    public Result getCurrentYearArticlesByMonth(){
+        return ResultUtil.success(articleService.getCurrentYearArticlesByMonth());
+    }
+
+    //获取各个省份的历史访问数量
+    @GetMapping("/getProvinceAccessTotal")
+    public Result getProvinceAccessTotal(){
+        return ResultUtil.success(accessinformationService.getProvinceAccessTotal());
     }
 
 }

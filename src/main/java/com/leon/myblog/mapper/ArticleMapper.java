@@ -63,4 +63,10 @@ public interface ArticleMapper {
 
     @Update("update article set clicknums=clicknums+1 where id =#{id}")
     void upAticleClicknum(Integer id);
+
+    @Select("select count(*) as total from article")
+    int getCurrentAllArticleTotal();
+
+    @Select("select count(a.categoryid) as 数量,left(a.createtime,4) as 年份,substring(a.createtime,6,2) as 月份,b.categoryname as 名称 from myblog.article as a,myblog.category as b where a.categoryid = b.id group by 月份, a.categoryid,年份 having 年份 = left((now()),4)")
+    List<Map<String,String>> getCurrentYearArticlesByMonth();
 }

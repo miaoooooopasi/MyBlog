@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ：leon
@@ -29,5 +30,14 @@ public class AccessinformationService {
 
     public List<Accessinformation> getAll(){
         return accessinformationMapper.getAll();
+    }
+
+
+    public int getcurrentAllAcessTotal(){
+        return accessinformationMapper.getcurrentAllAcessTotal();
+    }
+
+    public List<Map<String,String>> getProvinceAccessTotal(){
+        return accessinformationMapper.getProvinceAccessTotal();
     }
 }

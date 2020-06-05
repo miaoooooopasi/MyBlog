@@ -4,6 +4,7 @@ import com.leon.myblog.enity.Accessinformation;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AccessinformationMapper {
     int deleteByPrimaryKey(Integer id);
@@ -20,4 +21,12 @@ public interface AccessinformationMapper {
 
     @Select("select * from accessinformation")
     List<Accessinformation> getAll();
+
+
+    @Select("select count(*) as total from accessinformation")
+    int getcurrentAllAcessTotal();
+
+
+    @Select("SELECT addressSimple as 省份, count(addressSimple) as 访问数量 FROM myblog.accessinformation group by 省份")
+    List<Map<String,String>> getProvinceAccessTotal();
 }

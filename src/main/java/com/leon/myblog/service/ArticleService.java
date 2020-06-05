@@ -70,4 +70,12 @@ public class ArticleService {
     public int delArticleById(int id){
         return articleMapper.deleteByPrimaryKey(id);
     }
+
+    public int getCurrentAllArticleTotal(){
+        return articleMapper.getCurrentAllArticleTotal();
+    }
+
+    public List getCurrentYearArticlesByMonth(){
+        return articleMapper.getCurrentYearArticlesByMonth();
+    }
 }

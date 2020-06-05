@@ -112,13 +112,16 @@ public class ShiroConfig {
         MySessionManager mySessionManager;
         mySessionManager = new MySessionManager();
         mySessionManager.setSessionDAO(redisSessionDAO());
+        mySessionManager.setGlobalSessionTimeout(1000*60*60*24);
+        //从shiro源码的AbstractValidatingSessionManager类中可知setSessionValidationInterval设置session的校验时间
+        mySessionManager.setSessionValidationInterval(1000*60*60*24);
         return mySessionManager;
     }
 
     /**
      * create by: leon
      * description: 权限管理，配置主要是Realm的管理认证
-     * create time: 2019/7/1 10:09
+     * create time: 2019/11/1 10:09
      *
      * @return SecurityManager
      */
@@ -131,6 +134,7 @@ public class ShiroConfig {
         // 自定义缓存实现 使用redis
         defaultSecurityManager.setCacheManager(cacheManager());
         ThreadContext.bind(defaultSecurityManager);
+        //defaultSecurityManager.set
         return defaultSecurityManager;
     }
 
@@ -149,6 +153,7 @@ public class ShiroConfig {
         //redisManager.setTimeout((int) timeout.toMillis());
         redisManager.setPassword("leon#1010");
         redisManager.setTimeout(3600*48);
+
         return redisManager;
     }
 
@@ -167,8 +172,8 @@ public class ShiroConfig {
         redisCacheManager.setRedisManager(redisManager());
         // 必须要设置主键名称，shiro-redis 插件用过这个缓存用户信息
         //redisCacheManager.setPrincipalIdFieldName("username");
-        //redisCacheManager.setExpire(1800*48);
-        redisCacheManager.setExpire(86400);
+        //redisCacheManager.setExpire(24*60*60*1000);
+        redisCacheManager.setExpire(24*60*60*1000);
         return redisCacheManager;
     }
 
@@ -200,6 +205,8 @@ public class ShiroConfig {
         RedisSessionDAO redisSessionDAO=new RedisSessionDAO();
         redisSessionDAO.setRedisManager(redisManager());
         redisSessionDAO.setSessionIdGenerator(sessionIdGenerator());
+        //设置sessionID过期时间为24h
+        redisSessionDAO.setExpire(24*60*60*1000);
         return redisSessionDAO;
     }
 
