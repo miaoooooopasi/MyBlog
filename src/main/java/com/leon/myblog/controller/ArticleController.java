@@ -1,15 +1,20 @@
 package com.leon.myblog.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leon.myblog.enity.Article;
+import com.leon.myblog.enity.Articleimage;
 import com.leon.myblog.enity.User;
 import com.leon.myblog.service.*;
 import com.leon.myblog.utils.QiniuUtil.QiniuUploadFileServiceImpl;
 import com.leon.myblog.utils.date.DateUtils1;
 import com.leon.myblog.utils.result.Result;
 import com.leon.myblog.utils.result.ResultUtil;
+import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.model.DefaultPutRet;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -138,8 +143,6 @@ public class ArticleController {
                              @RequestParam("summary") String summary,
                              @RequestParam("pushdate") String pushdate, @RequestParam("image") String image,
                              @RequestParam("category") String category,@RequestParam("id") int id){
-
-
         Article article;
         article = new Article();
         article.setTitle(title);
@@ -168,7 +171,7 @@ public class ArticleController {
     @Transactional
     public Result insertArticle(@RequestParam("title") String title,@RequestParam("content") String content,
                              @RequestParam("categoryname") String categoryname,@RequestParam("summary") String summary,
-                             @RequestParam("createtime") String createtime){
+                             @RequestParam("createtime") String createtime,@RequestParam("articleImage") String articleImage){
 
         //PegDownProcessor peg=new PegDownProcessor();
         //String new_content=peg.markdownToHtml(content);
@@ -180,7 +183,7 @@ public class ArticleController {
         article.setContent(content);
         article.setCreatetime(DateUtils1.dealDateFormat(createtime));
         //article.setModifytime(modifytime);
-        article.setImageid(4);
+        article.setImageid(articleimageService.getImageIdByImagename(articleImage));
         article.setClicknums(0);
         String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
         User user=userService.findByUserName(currentUser);
@@ -214,6 +217,74 @@ public class ArticleController {
         return ResultUtil.success(map);
 
     }
+
+    @PostMapping("/uploadArticleImg")
+    public Result uploadArticleImg(@RequestParam("file") MultipartFile file,@RequestParam("title") String title){
+        Map<String,String> map = new HashMap<>();
+        Articleimage articleimage=new Articleimage();
+        articleimage.setImgname(title);
+        System.out.println("123");
+        Response response = null;
+        try {
+            response = qiniuUploadFileService.uploadFile(file.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DefaultPutRet putRet = null;
+        try {
+            putRet = mapper.readValue(response.bodyString(), DefaultPutRet.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (QiniuException e) {
+            e.printStackTrace();
+        }
+        String url = fileDomain+putRet.hash;
+        articleimage.setUrl(url);
+        if(articleimageService.insertArticleImage(articleimage)==1) {
+            map.put("url", url);
+            //map.put("name","123");
+            return ResultUtil.success(map);
+        }
+        else
+            return ResultUtil.fail("上传失败");
+    }
+
+    @PostMapping("/delArticleImg")
+    public Result delArticleImg(@RequestParam("id") int id){
+        if(articleimageService.delArticleImaById(id)==1){
+            return ResultUtil.success("删除成功");
+        }
+        else
+            return ResultUtil.fail("删除失败");
+
+    }
+
+    /****
+     *
+     @PostMapping("/uploadArticleImg")
+     public Result uploadArticleImg(@RequestParam("file") MultipartFile file,@RequestParam("title") String title){
+     Map<String,String> map = new HashMap<>();
+     Articleimage articleimage=new Articleimage();
+     articleimage.setImgname(title);
+     try {
+     Response response = qiniuUploadFileService.uploadFile(file.getInputStream());
+     DefaultPutRet putRet = mapper.readValue(response.bodyString(), DefaultPutRet.class);
+     String url = fileDomain+putRet.hash;
+     articleimage.setUrl(url);
+     if(articleimageService.insertArticleImage(articleimage)==1){
+     map.put("url",url);
+     map.put("name",title);
+     }
+     else {
+     ResultUtil.fail("新增失败");
+     }
+     } catch (IOException e) {
+     e.printStackTrace();
+     }
+     return ResultUtil.success(map);
+
+     }
+     ***/
 
 
     @PostMapping("/delArticleById")
@@ -254,6 +325,29 @@ public class ArticleController {
     @GetMapping("/getProvinceAccessTotal")
     public Result getProvinceAccessTotal(){
         return ResultUtil.success(accessinformationService.getProvinceAccessTotal());
+    }
+
+
+
+    //获取所有的博文封面数量
+    @GetMapping("/getAllArticleImages")
+    public Result getAllImages(){
+        return ResultUtil.success(articleimageService.getAllImages());
+    }
+
+    @ApiOperation("根据博文ID获取博文对应的详细数据")
+    @ApiImplicitParam(name = "id", value = "博文ID", required = true, dataType = "int")
+    @GetMapping("/getArticleById")
+    public Result<Article> detail(@RequestParam("id") Integer id)
+    {
+        Article article=articleService.getArticleById(id);
+        if (article!=null)
+        {
+            logger.info("前端根据ID获取博文信息内容:{}.",article.toString());
+            return ResultUtil.success(article);
+        }
+        else
+            return ResultUtil.fail("查询失败");
     }
 
 }

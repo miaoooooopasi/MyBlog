@@ -29,4 +29,12 @@ public class ArticleimageService {
     public int getImageIdByImagename(String image){
         return articleimageMapper.getImageIdByImagename(image);
     }
+
+    public int insertArticleImage(Articleimage articleimage){
+        return articleimageMapper.insert(articleimage);
+    }
+
+    public int delArticleImaById(int id){
+        return articleimageMapper.deleteByPrimaryKey(id);
+    }
 }
