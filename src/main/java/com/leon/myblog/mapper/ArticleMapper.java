@@ -41,7 +41,7 @@ public interface ArticleMapper {
     })
     List<Article> getAllArticleByCategoryid(Integer categoryid);
 
-    @Select("select * from article order by clicknums limit 5")
+    @Select("select * from article order by clicknums desc limit 5")
     List<Article> getTop5Article();
 
     @Select("select c.categoryname as 分类, count(categoryid) as 数量 from article a,category c where a.categoryid=c.id group by(categoryid)")
