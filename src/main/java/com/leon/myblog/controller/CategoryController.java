@@ -42,17 +42,29 @@ public class CategoryController {
     }
 
     /*
-     * description:  根据categoryid删除对应的分类数据
+     * description:  根据categoryid删除对应的分类数据，删除前会判断该分类是否已存在于article表，此接口存在隐患，当a
+     * 当article表数据非常多，判断会较为缓慢，后期可做优化
      * version: 1.0
      * date: 2019-11-08
      * author: leon
-     * @return 1：成功  0：失败
+     * @return ：成功 、失败
      */
     @ApiOperation("删除某一条分类信息")
     @ApiImplicitParam(name = "id", value = "删除ID", required = true, dataType = "Integer")
     @PostMapping("/deleteCategoryById")
-    public int DeleteCategoryById(@RequestParam("id") Integer id ){
-        return categoryService.deleteCategory(id);
+    public Result DeleteCategoryById(@RequestParam("id") Integer id ){
+
+        //System.out.println(categoryService.deleteCategory(id));
+        //return categoryService.deleteCategory(id);
+
+        if(articleService.getAllArticleByCategoryid(id)==null)
+        {
+            return ResultUtil.success();
+        }
+        else {
+            return ResultUtil.fail("该分类已被博文引用，无法删除！");
+        }
+
     }
 
     /*

@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -69,19 +68,14 @@ public class ArticleController {
 
     private String fileDomain = "http://img.bonjours.cn/";
 
-    @GetMapping("/addArticle")
-    public ModelAndView addArticle(){
-        String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
-        ModelAndView mv = new ModelAndView();
-        User user=userService.findByUserName(currentUser);
-        mv.addObject("user",user);
-        mv.addObject("category",categoryService.getall());
-        mv.addObject("img",articleimageService.getAllImages());
-        mv.setViewName("admin/addArticle.html");
-        return mv;
-    }
 
-
+    /*
+     * description:  此接口用户查询article表的所有数据，后期数据多的时候必须做优化
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：成功 、失败
+     */
     @GetMapping("/listArticle")
     @Transactional(rollbackFor = Exception.class)
     public Result<Article> getAllArticle(){
@@ -97,18 +91,6 @@ public class ArticleController {
             return ResultUtil.fail("查询失败");
     }
 
-    @GetMapping("/articleImageManager")
-    @RequiresRoles("admin")
-    public ModelAndView getAllArticleImages(){
-        String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
-        ModelAndView mv = new ModelAndView();
-        User user=userService.findByUserName(currentUser);
-        mv.addObject("user",user);
-
-        mv.setViewName("admin/manageArticleImage.html");
-
-        return mv;
-    }
 
     @GetMapping("/listImageManager")
     @RequiresRoles("admin")
@@ -122,12 +104,16 @@ public class ArticleController {
     }
 
 
+    /*
+     * description:  此接口根据前端提供的articleid进行条件查询
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：对应articleid的详细信息
+     */
     @GetMapping("/editeArticle/{id}")
     @RequiresRoles("admin")
     public Result<Map> editeArticle(@PathVariable int id){
-        //String currentUser = SecurityUtils.getSubject().getPrincipal().toString();
-        //ModelAndView mv = new ModelAndView();
-        //User user=userService.findByUserName(currentUser);
         Map<String, Object> map = new HashMap<>();
         map.put("articleDetail",articleService.getArticleById(id));
         if(map.size()>0){
@@ -137,6 +123,13 @@ public class ArticleController {
             return ResultUtil.fail("查询失败");
     }
 
+    /*
+     * description:  此接口根据前端提供的articleid和修改的数据，进行指定articleid的更新
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：成功 、失败
+     */
     @PostMapping("/updateArticle")
     @RequiresRoles("admin")
     public Result<Map> updateArticle(@RequestParam("title") String title,@RequestParam("content") String content,
@@ -167,6 +160,13 @@ public class ArticleController {
 
     }
 
+    /*
+     * description:  此接口根据前端提供的数据，新增artilce
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：成功 、失败
+     */
     @PostMapping("/insertArticle")
     @Transactional
     public Result insertArticle(@RequestParam("title") String title,@RequestParam("content") String content,
@@ -202,6 +202,13 @@ public class ArticleController {
 
 
 
+    /*
+     * description:  此接口用于向七牛云上传图片并返回封装在map中对应url；此接口未做上传七牛云失败校验
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：上传七牛云成功的url
+     */
     @PostMapping("/uploadImg")
     //@RequiresRoles("admin")
     public Result uploadImg(@RequestParam("file") MultipartFile file){
@@ -218,12 +225,19 @@ public class ArticleController {
 
     }
 
+    /*
+     * description:  此接口用于上传articleimage到七牛云保存，当成功上传时，将url存入articleimage表
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：成功 、失败
+     */
     @PostMapping("/uploadArticleImg")
     public Result uploadArticleImg(@RequestParam("file") MultipartFile file,@RequestParam("title") String title){
         Map<String,String> map = new HashMap<>();
         Articleimage articleimage=new Articleimage();
         articleimage.setImgname(title);
-        System.out.println("123");
+        //System.out.println("123");
         Response response = null;
         try {
             response = qiniuUploadFileService.uploadFile(file.getInputStream());
@@ -249,6 +263,13 @@ public class ArticleController {
             return ResultUtil.fail("上传失败");
     }
 
+    /*
+     * description:  此接口根据前端传递的articleimageid删除对应的数据库信息；存在问题，未删除七牛云保存的图片文件
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：成功 、失败
+     */
     @PostMapping("/delArticleImg")
     public Result delArticleImg(@RequestParam("id") int id){
         if(articleimageService.delArticleImaById(id)==1){
@@ -301,26 +322,52 @@ public class ArticleController {
     }
 
 
-    // 获取当前所i有访问量数据
+    /*
+     * description:  此接口会计算所有的博文对应的访问数量然后累加出结果
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：成功 、失败
+     */
     @GetMapping("/getcurrentAllAcessTotalForHome")
     public Result getcurrentAllAcessTotal(){
         return ResultUtil.success(accessinformationService.getcurrentAllAcessTotal());
     }
 
 
+    /*
+     * description:  获取当前所有博文数量数据；后期做分页查询优化
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：成功 、失败
+     */
 
-    // 获取当前所有博文数量数据
     @GetMapping("/getCurrentAllArticleTotal")
     public Result getCurrentAllArticleTotal(){
         return ResultUtil.success(articleService.getCurrentAllArticleTotal());
     }
 
+    /*
+     * description:  获取当年度博文的数据，根据月份
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：成功 、失败
+     */
     // 获取当年度博文的数据，根据月份
     @GetMapping("/getCurrentYearArticlesByMonth")
     public Result getCurrentYearArticlesByMonth(){
         return ResultUtil.success(articleService.getCurrentYearArticlesByMonth());
     }
 
+    /*
+     * description:  获取各个省份的历史访问数量
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：成功 、失败
+     */
     //获取各个省份的历史访问数量
     @GetMapping("/getProvinceAccessTotal")
     public Result getProvinceAccessTotal(){
@@ -328,13 +375,25 @@ public class ArticleController {
     }
 
 
-
-    //获取所有的博文封面数量
+    /*
+     * description: 获取所有的博文封面数量
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：成功 、失败
+     */
     @GetMapping("/getAllArticleImages")
     public Result getAllImages(){
         return ResultUtil.success(articleimageService.getAllImages());
     }
 
+    /*
+     * description: 根据博文ID获取博文对应的详细数据
+     * version: 1.0
+     * date: 2019-11-08
+     * author: leon
+     * @return ：成功 、失败
+     */
     @ApiOperation("根据博文ID获取博文对应的详细数据")
     @ApiImplicitParam(name = "id", value = "博文ID", required = true, dataType = "int")
     @GetMapping("/getArticleById")

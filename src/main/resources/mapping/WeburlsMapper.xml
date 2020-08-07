@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leon.myblog.mapper.WeburlsMapper">
+  <resultMap id="BaseResultMap" type="com.leon.myblog.enity.Weburls">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="imgurl" jdbcType="VARCHAR" property="imgurl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, url, imgurl
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from weburls
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from weburls
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.leon.myblog.enity.Weburls">
+    insert into weburls (id, title, url, 
+      imgurl)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{imgurl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.leon.myblog.enity.Weburls">
+    insert into weburls
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="imgurl != null">
+        imgurl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null">
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.leon.myblog.enity.Weburls">
+    update weburls
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null">
+        imgurl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.leon.myblog.enity.Weburls">
+    update weburls
+    set title = #{title,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      imgurl = #{imgurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
