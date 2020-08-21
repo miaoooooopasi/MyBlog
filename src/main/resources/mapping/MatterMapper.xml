@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leon.myblog.mapper.MatterMapper">
+  <resultMap id="BaseResultMap" type="com.leon.myblog.enity.Matter">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="createtime" jdbcType="VARCHAR" property="createtime" />
+    <result column="stoptime" jdbcType="VARCHAR" property="stoptime" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, createtime, stoptime, level, degree
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from matter
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from matter
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.leon.myblog.enity.Matter">
+    insert into matter (id, name, createtime, 
+      stoptime, level, degree
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, 
+      #{stoptime,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.leon.myblog.enity.Matter">
+    insert into matter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="stoptime != null">
+        stoptime,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="degree != null">
+        degree,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="stoptime != null">
+        #{stoptime,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.leon.myblog.enity.Matter">
+    update matter
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="stoptime != null">
+        stoptime = #{stoptime,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        degree = #{degree,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.leon.myblog.enity.Matter">
+    update matter
+    set name = #{name,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      stoptime = #{stoptime,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
