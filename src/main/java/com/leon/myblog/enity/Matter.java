@@ -13,6 +13,10 @@ public class Matter {
 
     private String degree;
 
+    private String leveldesc;
+
+    private String degreedesc;
+
     public Integer getId() {
         return id;
     }
@@ -59,5 +63,21 @@ public class Matter {
 
     public void setDegree(String degree) {
         this.degree = degree;
+    }
+
+    public String getLeveldesc() {
+        return leveldesc;
+    }
+
+    public void setLeveldesc(String leveldesc) {
+        this.leveldesc = leveldesc;
+    }
+
+    public String getDegreedesc() {
+        return degreedesc;
+    }
+
+    public void setDegreedesc(String degreedesc) {
+        this.degreedesc = degreedesc;
     }
 }

@@ -8,9 +8,11 @@
     <result column="stoptime" jdbcType="VARCHAR" property="stoptime" />
     <result column="level" jdbcType="VARCHAR" property="level" />
     <result column="degree" jdbcType="VARCHAR" property="degree" />
+    <result column="leveldesc" jdbcType="VARCHAR" property="leveldesc" />
+    <result column="degreedesc" jdbcType="VARCHAR" property="degreedesc" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, createtime, stoptime, level, degree
+    id, name, createtime, stoptime, level, degree, leveldesc, degreedesc
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -24,11 +26,11 @@
   </delete>
   <insert id="insert" parameterType="com.leon.myblog.enity.Matter">
     insert into matter (id, name, createtime, 
-      stoptime, level, degree
-      )
+      stoptime, level, degree, 
+      leveldesc, degreedesc)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, 
-      #{stoptime,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}
-      )
+      #{stoptime,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, 
+      #{leveldesc,jdbcType=VARCHAR}, #{degreedesc,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.leon.myblog.enity.Matter">
     insert into matter
@@ -51,6 +53,12 @@
       <if test="degree != null">
         degree,
       </if>
+      <if test="leveldesc != null">
+        leveldesc,
+      </if>
+      <if test="degreedesc != null">
+        degreedesc,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -70,6 +78,12 @@
       </if>
       <if test="degree != null">
         #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="leveldesc != null">
+        #{leveldesc,jdbcType=VARCHAR},
+      </if>
+      <if test="degreedesc != null">
+        #{degreedesc,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -91,6 +105,12 @@
       <if test="degree != null">
         degree = #{degree,jdbcType=VARCHAR},
       </if>
+      <if test="leveldesc != null">
+        leveldesc = #{leveldesc,jdbcType=VARCHAR},
+      </if>
+      <if test="degreedesc != null">
+        degreedesc = #{degreedesc,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -100,7 +120,9 @@
       createtime = #{createtime,jdbcType=VARCHAR},
       stoptime = #{stoptime,jdbcType=VARCHAR},
       level = #{level,jdbcType=VARCHAR},
-      degree = #{degree,jdbcType=VARCHAR}
+      degree = #{degree,jdbcType=VARCHAR},
+      leveldesc = #{leveldesc,jdbcType=VARCHAR},
+      degreedesc = #{degreedesc,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
