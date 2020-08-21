@@ -59,9 +59,17 @@ public class CategoryController {
 
         if(articleService.getAllArticleByCategoryid(id)==null)
         {
+            categoryService.deleteCategory(id);
             return ResultUtil.success();
         }
         else {
+            try {
+                categoryService.deleteCategory(id);
+            }
+            catch (Exception E)
+            {
+                System.out.println(E);
+            }
             return ResultUtil.fail("该分类已被博文引用，无法删除！");
         }
 
@@ -132,7 +140,7 @@ public class CategoryController {
      */
     @ApiOperation("更新某一条分类信息")
     @ApiImplicitParam(name = "id", value = "更新ID", required = true, dataType = "Integer")
-    @PostMapping("update")
+    @PostMapping("/update")
     public int update(@RequestParam("categoryname") String categoryname,@RequestParam("id") Integer id){
         Category category=categoryService.selectByID(id);
         if(category!=null)
