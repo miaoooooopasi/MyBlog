@@ -1,6 +1,9 @@
 package com.leon.myblog.mapper;
 
 import com.leon.myblog.enity.Matter;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface MatterMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,7 @@ public interface MatterMapper {
     int updateByPrimaryKeySelective(Matter record);
 
     int updateByPrimaryKey(Matter record);
+
+    @Select("select * from matter")
+    List<Matter> getAllMatters();
 }
