@@ -1,6 +1,9 @@
 package com.leon.myblog.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.leon.myblog.enity.Category;
+import com.leon.myblog.enity.Categoryimage;
 import com.leon.myblog.service.ArticleService;
 import com.leon.myblog.service.CategoryService;
 import com.leon.myblog.utils.result.Result;
@@ -106,10 +109,31 @@ public class CategoryController {
 
 
     @GetMapping("/getAllCategoryImage")
+    /*
     public Result getAllCategoryImage(){
         return ResultUtil.success(categoryService.getAllCategoryImage());
     }
+    */
+    public Result<List> getAllCategoryImage(@RequestParam(defaultValue = "1") Integer pageNum,
+                                             @RequestParam(defaultValue = "3") Integer pageSize) {
 
+        Map<String, Object> resultMap = new HashMap<>();
+        //获取前五的文章
+        //List<Article> top5Article=articleService.getTop5Article();
+        //引入分页查询，使用PageHelper分页功能在查询之前传入当前页，然后多少记录
+        PageHelper.startPage(pageNum, pageSize);
+        List<Categoryimage> a = categoryService.getAllCategoryImage();
+        //使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
+        PageInfo pageInfo = new PageInfo<Categoryimage>(a, pageSize);
+        //分页详细信息
+        //resultMap.put("pageInfo",pageInfo);
+        if (pageInfo != null) {
+            return ResultUtil.success(pageInfo);
+        }
+        else {
+            return ResultUtil.fail("未查询到相关信息");
+        }
+    }
     /*
      * description: 该接口提供管理系统的home页的分类饼图
      * version: 1.0
@@ -166,5 +190,33 @@ public class CategoryController {
     public Category select(@RequestParam("id") Integer id){
         return categoryService.selectByID(id);
     }
+
+
+    /*
+     * description: 插入分类封面数据
+     * version: 1.0
+     * date:   2021-04-19
+     * author: leon
+     * params:
+
+     * @return
+     */
+    //@ApiOperation("插入一条分类封面图片")
+    //@ApiImplicitParam(name = "url", value = "url", required = true, dataType = "String")
+    @PostMapping
+    public Result<List> insertCategoryImg(@RequestParam("url") String url){
+        Categoryimage categoryimage=new Categoryimage();
+        categoryimage.setUrl(url);
+        try {
+           int ret = categoryService.insertCategoryImg(categoryimage);
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+        return ResultUtil.success("插入成功");
+    }
+
+
+
 }
 

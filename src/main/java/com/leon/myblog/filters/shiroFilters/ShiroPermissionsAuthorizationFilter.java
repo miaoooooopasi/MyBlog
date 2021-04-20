@@ -26,7 +26,7 @@ public class ShiroPermissionsAuthorizationFilter extends PermissionsAuthorizatio
         HttpServletResponse resp = (HttpServletResponse) response;
         resp.setContentType("application/json; charset=utf-8");
         PrintWriter out = resp.getWriter();
-        System.out.println("333");
+        //System.out.println("333");
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("code",407);

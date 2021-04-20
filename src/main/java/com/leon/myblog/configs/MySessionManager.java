@@ -1,13 +1,16 @@
 package com.leon.myblog.configs;
 
+import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * 自定义session管理
@@ -21,30 +24,45 @@ import java.io.Serializable;
 
 public class MySessionManager extends DefaultWebSessionManager {
 
-   // private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static final String AUTHORIZATION = "Authorization";
-    private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
-
-    public MySessionManager() {
-        super();
-    }
-
+    /**
+     * 这个是服务端要返回给客户端，
+     */
+    public final static String TOKEN_NAME = "TOKEN";
+    /**
+     * 这个是客户端请求给服务端带的header
+     */
+    public final static String AUTHORIZATION = "Authorization";
+    //public final static Logger LOG =         LoggerFactory.getLogger(MySessionManager.class);
 
     @Override
-    public Serializable getSessionId(ServletRequest request, ServletResponse response) {
-        //前端ajax的headers中必须传入Authorization的值
-        String id = WebUtils.toHttp(request).getHeader(AUTHORIZATION);
-        //如果请求头中有 Authorization 则其值为sessionId
-        if (!StringUtils.isEmpty(id)) {
-            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, REFERENCED_SESSION_ID_SOURCE);
-            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);
-            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
-            System.out.println("sessionId="+id);
-            return id;
-        } else {
-            //否则按默认规则从cookie取sessionId
-            //logger.info("sessionID为"+id);
-            return super.getSessionId(request, response);
+    public Serializable getSessionId(SessionKey key) {
+        Serializable sessionId = key.getSessionId();
+        if(sessionId == null){
+            HttpServletRequest request = WebUtils.getHttpRequest(key);
+            HttpServletResponse response = WebUtils.getHttpResponse(key);
+            sessionId = this.getSessionId(request,response);
         }
+        //HttpServletRequest request = WebUtils.getHttpRequest(key);
+        //request.setAttribute(TOKEN_NAME,sessionId.toString());
+        return sessionId;
     }
+
+    @Override
+    protected Serializable getSessionId(ServletRequest servletRequest, ServletResponse servletResponse) {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        String token = request.getHeader(AUTHORIZATION);
+        if(token == null){
+            token = UUID.randomUUID().toString();
+        }
+
+        //这段代码还没有去查看其作用，但是这是其父类中所拥有的代码，重写完后我复制了过来...开始
+        request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE,
+                ShiroHttpServletRequest.COOKIE_SESSION_ID_SOURCE);
+        request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, token);
+        request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
+        request.setAttribute(ShiroHttpServletRequest.SESSION_ID_URL_REWRITING_ENABLED, isSessionIdUrlRewritingEnabled());
+        //这段代码还没有去查看其作用，但是这是其父类中所拥有的代码，重写完后我复制了过来...结束
+        return token;
+    }
+
 }

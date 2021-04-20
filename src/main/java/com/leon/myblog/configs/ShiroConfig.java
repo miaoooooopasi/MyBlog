@@ -62,6 +62,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         filterChainDefinitionMap.put("/v2/api-docs", "anon");
         filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
+        //filterChainDefinitionMap.put("/manage/**", "anon");
 
         filterChainDefinitionMap.put("/logout","logout");
 
@@ -112,9 +113,9 @@ public class ShiroConfig {
         MySessionManager mySessionManager;
         mySessionManager = new MySessionManager();
         mySessionManager.setSessionDAO(redisSessionDAO());
-        mySessionManager.setGlobalSessionTimeout(1000*60*60*24);
+        //mySessionManager.setGlobalSessionTimeout(1000*60*60*24);
         //从shiro源码的AbstractValidatingSessionManager类中可知setSessionValidationInterval设置session的校验时间
-        mySessionManager.setSessionValidationInterval(1000*60*60*24);
+        //mySessionManager.setSessionValidationInterval(1000*60*60*24);
         return mySessionManager;
     }
 
@@ -152,7 +153,7 @@ public class ShiroConfig {
         redisManager.setHost("114.67.233.235:6379");
         //redisManager.setTimeout((int) timeout.toMillis());
         redisManager.setPassword("leon#1010");
-        redisManager.setTimeout(3600*48);
+        redisManager.setTimeout(50000);
 
         return redisManager;
     }
@@ -173,7 +174,7 @@ public class ShiroConfig {
         // 必须要设置主键名称，shiro-redis 插件用过这个缓存用户信息
         //redisCacheManager.setPrincipalIdFieldName("username");
         //redisCacheManager.setExpire(24*60*60*1000);
-        redisCacheManager.setExpire(24*60*60*1000);
+        //redisCacheManager.setExpire(24*60*60*1000);
         return redisCacheManager;
     }
 
@@ -205,8 +206,8 @@ public class ShiroConfig {
         RedisSessionDAO redisSessionDAO=new RedisSessionDAO();
         redisSessionDAO.setRedisManager(redisManager());
         redisSessionDAO.setSessionIdGenerator(sessionIdGenerator());
-        //设置sessionID过期时间为24h
-        redisSessionDAO.setExpire(24*60*60*1000);
+        //设置sessionID过期时间为1h
+        redisSessionDAO.setExpire(60*60);
         return redisSessionDAO;
     }
 

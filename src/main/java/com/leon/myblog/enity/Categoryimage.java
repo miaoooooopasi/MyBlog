@@ -5,6 +5,21 @@ public class Categoryimage {
 
     private String url;
 
+
+    /*手动添加一对一关系*/
+    private String category;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+
+
+
     public Integer getId() {
         return id;
     }

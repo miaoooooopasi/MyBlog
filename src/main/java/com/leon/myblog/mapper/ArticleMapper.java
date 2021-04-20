@@ -54,7 +54,12 @@ public interface ArticleMapper {
     @Results({
             @Result(property = "id",column = "id",id = true),
             @Result(property = "tags" ,column = "id",
-                    many = @Many(select = "com.leon.myblog.mapper.TagMapper.getTagsById"))
+                    many = @Many(select = "com.leon.myblog.mapper.TagMapper.getTagsById")),
+            @Result(property = "articleimage",column = "imageid",
+                    one=@One(select = "com.leon.myblog.mapper.ArticleimageMapper.selectByPrimaryKey")
+            ),
+            @Result(property = "category", column = "categoryid",
+                    one = @One(select = "com.leon.myblog.mapper.CategoryMapper.getCategoryByCategoryid"))
     })
     Article getArticleById(Integer id);
 

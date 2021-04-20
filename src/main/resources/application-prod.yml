@@ -7,6 +7,9 @@ server:
 # Spring Datasource Settings    http://114.67.233.235:9400
 spring:
 
+  application:
+    name: miaopasi
+
   cors:
     legal-clients: http://127.0.0.1:8090,
 
@@ -81,6 +84,14 @@ management:
     web:
       exposure:
         include: "*"
+        exclude: env,beans
+      base-path: /manage
+      cors:
+        allowed-origins: 114.67.233.235
+        allowed-methods: GET,POST
+  metrics:
+    tags:
+      application: ${spring.application.name}
   server:
     port: 8090
     servlet:
@@ -90,6 +101,15 @@ management:
   endpoint:
     health:
       show-details: always
+    httptrace:
+      enabled: true
+
+
+info:
+  app:
+    name: miaopasi
+    version: v1.0
+    description: Spring Boot Actuator
 
 # 七牛云配置
 # bucket是创建的存储空间名

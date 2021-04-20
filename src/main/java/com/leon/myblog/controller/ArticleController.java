@@ -2,6 +2,8 @@ package com.leon.myblog.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.leon.myblog.enity.Article;
 import com.leon.myblog.enity.Articleimage;
 import com.leon.myblog.enity.User;
@@ -26,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -409,4 +412,29 @@ public class ArticleController {
             return ResultUtil.fail("查询失败");
     }
 
+    @ApiOperation("分页 获取博文数据")
+    @GetMapping(value={"/articleListByPageNum"})
+    public Result<List> articleListByPageNum(@RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "5") Integer pageSize){
+
+        Map<String,Object> resultMap = new HashMap<>();
+        //获取前五的文章
+        //List<Article> top5Article=articleService.getTop5Article();
+        //引入分页查询，使用PageHelper分页功能在查询之前传入当前页，然后多少记录
+        PageHelper.startPage(pageNum, pageSize);
+        List<Article> articles=articleService.getAllArticle();
+        //使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
+        PageInfo pageInfo = new PageInfo<Article>(articles, pageSize);
+        //分页详细信息
+        //resultMap.put("pageInfo",pageInfo);
+        if (pageInfo!=null){
+            return ResultUtil.success(pageInfo);
+        }
+
+        else
+            return ResultUtil.fail("erro");
+
+    }
+    
+    
 }

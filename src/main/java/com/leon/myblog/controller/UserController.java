@@ -9,9 +9,13 @@ import com.leon.myblog.enity.User;
 import com.leon.myblog.service.UserService;
 import com.leon.myblog.utils.result.Result;
 import com.leon.myblog.utils.result.ResultUtil;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
@@ -19,6 +23,16 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+
+    @PostMapping(value = "/updatePassword")
+    public Result updatePassword(@RequestParam String pass){
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        System.out.println(SecurityUtils.getSubject().getPrincipal());
+        return ResultUtil.success(resultMap);
+    }
 
 
     @GetMapping("/getUserInfoByUsername")

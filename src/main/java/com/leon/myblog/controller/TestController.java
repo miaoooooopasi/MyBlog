@@ -1,5 +1,6 @@
 package com.leon.myblog.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.leon.myblog.enity.Category;
 import com.leon.myblog.service.CategoryService;
 import com.leon.myblog.service.SendMailService;
@@ -8,9 +9,7 @@ import com.leon.myblog.service.UserService;
 import com.leon.myblog.utils.IpUtil;
 import com.leon.myblog.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -61,5 +60,18 @@ public class TestController {
 
         return  categoryService.getall();
 
+    }
+
+    @PostMapping("/testjson")
+    public Object  testjson(@RequestBody JSONArray param){
+
+
+        for(int i=0;i<param.size();i++){
+            System.out.println(param.getJSONObject(0).getString("title"));
+            System.out.println(param.getJSONObject(0).getString("url"));
+
+        }
+
+        return "success!";
     }
 }

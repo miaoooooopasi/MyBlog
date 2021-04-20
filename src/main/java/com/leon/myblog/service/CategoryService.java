@@ -48,5 +48,8 @@ public class CategoryService {
         return categoryMapper.getCategoryIdByCategoryname(category);
     }
 
+    public int insertCategoryImg(Categoryimage categoryimage){
+        return categoryImageMapper.insert(categoryimage);
+    }
 
 }
